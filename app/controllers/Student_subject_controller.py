@@ -1,7 +1,7 @@
 import psycopg2
 from fastapi import HTTPException
 from config.db_config import get_db_connection
-from models.student_subject_model import Student_subject
+from models.Student_subject_model import Student_subject
 from fastapi.encoders import jsonable_encoder
 
 class StudentSubjectController:

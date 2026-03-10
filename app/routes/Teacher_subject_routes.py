@@ -3,7 +3,7 @@ from controllers.Teacher_subject_controller import *
 from models.Teacher_subject_model import Teacher_subject
 
 router = APIRouter()
-nuevo_Teacher_subject = Teacher_subject()
+nuevo_Teacher_subject = None
 
 @router.post("/create_Teacher_subject")
 async def create_Teacher_subject(data: Teacher_subject):

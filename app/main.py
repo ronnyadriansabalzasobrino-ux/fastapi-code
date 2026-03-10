@@ -15,7 +15,6 @@ from routes.Assists_routes import router as assists_router
 from routes.Alerts_routes import router as alerts_router
 from routes.Followups_routes import router as followups_router
 from routes.Periods_routes import router as periods_router
-
 app = FastAPI()
 
 origins = [
