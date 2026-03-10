@@ -15,11 +15,14 @@ from routes.Assists_routes import router as assists_router
 from routes.Alerts_routes import router as alerts_router
 from routes.Followups_routes import router as followups_router
 from routes.Periods_routes import router as periods_router
+
 app = FastAPI()
 
+# CORS
 origins = [
     "https://ep-square-flower-aiq3n3y4-pooler.c-4.us-east-1.aws.neon.tech",
-    "http://localhost"
+    "http://localhost",
+    "*"
 ]
 
 app.add_middleware(
@@ -30,7 +33,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# todos los routers
+
+@app.get("/")
+def home():
+    return {"message": "API funcionando correctamente"}
+
+# routers
 app.include_router(programs_router)
 app.include_router(semesters_router)
 app.include_router(students_router)
@@ -45,7 +53,7 @@ app.include_router(alerts_router)
 app.include_router(followups_router)
 app.include_router(periods_router)
 
-
+# ejecutar localmente
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
