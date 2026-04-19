@@ -3,7 +3,9 @@ connectedCallback(){
 this.innerHTML = `
 <header class="topbar">
   <h1>📊 School System </h1>
-  <button onclick="logout()" class=logout-btn">🚪Salir</button>
+  <button onclick="logout()" class="btn-logout">
+  🚪Salir
+  </button>
 </header>
 `;
 }

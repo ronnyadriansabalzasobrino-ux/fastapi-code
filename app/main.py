@@ -43,6 +43,10 @@ app.add_middleware(
 def home():
     return {"message": "API funcionando correctamente"}
 
+@app.get("/public/alerts")
+def get_alerts_public():
+    return get_alerts_public()
+
 # incluir routers
 app.include_router(programs_router)
 app.include_router(semesters_router)
