@@ -12,7 +12,9 @@ this.innerHTML = `
     <input id="mail" type="email" placeholder="Correo electrónico">
     <input id="password" type="password" placeholder="Contraseña">
 
-    <div class="roles">
+   
+    <label>Selecciona tu rol</label>
+    <div style="display:flex; gap:10px; margin-bottom:10px;">
       <button class="rolBtn" data-rol="admin">Admin</button>
       <button class="rolBtn" data-rol="docente">Docente</button>
       <button class="rolBtn" data-rol="estudiante">Estudiante</button>
@@ -31,10 +33,11 @@ this.querySelectorAll(".rolBtn").forEach(btn => {
   btn.addEventListener("click", () => {
     selectedRol = btn.dataset.rol;
 
-    this.querySelectorAll(".rolBtn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+    this.querySelectorAll(".rolBtn").forEach(b => b.style.background = "");
+    btn.style.background = "#4CAF50";
   });
 });
+
 
 this.querySelector("#loginBtn").addEventListener("click", async () => {
 
