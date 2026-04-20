@@ -3,10 +3,14 @@ const API = "https://alertas-backend.onrender.com"
 let tableInstance = null
 
 async function loadSubjects(){
+    try{
+
 const response = await fetch(API + "/subjects")
 const subjects = await response.json()
 
 const table = document.getElementById("subjectsTable")
+if(table) return
+
 table.innerHTML = ""
 
 if (tableInstance) tableInstance.destroy()
@@ -27,8 +31,10 @@ table.innerHTML += `
 })
 
 tableInstance = $('#subjectsTableDisplay').DataTable()
+}catch(error){
+    console.error("Error materias:", error)
 }
-
+}
 async function saveSubject(){
 const id = document.getElementById("subject_id").value
 
@@ -38,21 +44,19 @@ credits: document.getElementById("credits").value,
 id_program: document.getElementById("teacher_id").value
 }
 
-if(id === ""){
-await fetch(API + "/subjects",{
-method:"POST",
-headers:{ "Content-Type":"application/json" },
+const url = id === ""
+? API + "/subjects"
+: API + "/subjects/" + id
+
+const method = id === "" ? "POST" : "PUT"
+
+await fetch(url, {
+method,
+headers: {"Content-Type":"application/json"},
 body: JSON.stringify(subject)
 })
-alert("Materia creada")
-}else{
-await fetch(API + "/subjects/" + id,{
-method:"PUT",
-headers:{ "Content-Type":"application/json" },
-body: JSON.stringify(subject)
-})
-alert("Materia actualizada")
-}
+
+alert(id === "" ? "Materia creada" : "Materia actualizada")
 
 clearForm()
 loadSubjects()
@@ -86,10 +90,6 @@ window.clearForm = clearForm
 window.editSubject = editSubject
 window.deleteSubject = deleteSubject
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    loadTeachers()
-    loadSubjects()
-    loadAlerts()
-  }, 300)
+window.addEventListener("DOMContentLoaded", () => {
+setTimeout(loadSubjects, 300)
 })

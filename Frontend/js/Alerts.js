@@ -27,17 +27,11 @@ if (!Array.isArray(alerts)) {
 alertsData = alerts
 
 const table = document.getElementById("alertsTable")
-
-if(!table){
-  console.error("No existe alertsTable")
-  return
-}
+if(!table)return
 
 table.innerHTML = ""
 
-if (tableInstance) {
-    tableInstance.destroy()
-}
+if (tableInstance) tableInstance.destroy()
 
 alerts.forEach(alert => {
 
@@ -59,7 +53,7 @@ table.innerHTML += `
 tableInstance = $('#alertsTableDisplay').DataTable()
 
 }catch(error){
-console.error("Error cargando alertas:", error)
+console.error(error)
 }
 }
 
@@ -77,34 +71,23 @@ state: document.getElementById("state").value,
 id_period: parseInt(document.getElementById("id_period").value)
 }
 
-if(editingId){
+const url = editingId === null
+? API + "/create_Alerts"
+: API + "/update_Alerts/" + editingId
 
-await fetch(API + "/update_Alerts/" + editingId,{
-method:"PUT",
-headers:{
+const method = editingId === null ? "POST" : "PUT"
+
+await fetch(url, {
+method,
+headers: {
 "Content-Type":"application/json",
 "Authorization": `Bearer ${token}`
 },
 body: JSON.stringify(alert)
 })
-
 editingId = null
-
-}else{
-
-await fetch(API + "/create_Alerts",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"Authorization": `Bearer ${token}`
-},
-body: JSON.stringify(alert)
-})
-
-}
-
 clearForm()
-await loadAlerts()
+loadAlerts()
 }
 
 function editAlert(id){
@@ -175,13 +158,10 @@ html2pdf().from(container).save("reporte_alertas.pdf")
 }
 
 // FIX window.onload
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    loadTeachers()
-    loadSubjects()
-    loadAlerts()
-  }, 300)
+window.addEventListener("load", () => {
+  loadAlerts()
 })
+
 window.editAlert = editAlert
 window.deleteAlert = deleteAlert
 window.saveAlert = saveAlert

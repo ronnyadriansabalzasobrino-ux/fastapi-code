@@ -10,6 +10,8 @@ const response = await fetch(API + "/get_Teacher/")
 const teachers = await response.json()
 
 const table = document.getElementById("teachersTable")
+if(!table) return
+
 table.innerHTML = ""
 
 if (tableInstance) tableInstance.destroy()
@@ -65,21 +67,19 @@ phone: document.getElementById("phone").value,
 specialty: document.getElementById("specialty").value
 }
 
-if(id === ""){
-await fetch(API + "/create_Teacher",{
-method:"POST",
-headers:{ "Content-Type":"application/json" },
-body: JSON.stringify(teacher)
+const url = id === ""
+?  API + "/create_Teacher/"
+: API + "/update_Teacher/" + id
+
+const method = id === "" ? "POST" : "PUT"
+
+await fetch(url,{
+  method,
+  headers:{"Content-Type":"application/json"},
+  body: JSON.stringify(teacher)  
 })
-alert("Docente creado")
-}else{
-await fetch(API + "/update_Teacher/" + id,{
-method:"PUT",
-headers:{ "Content-Type":"application/json" },
-body: JSON.stringify(teacher)
-})
-alert("Docente actualizado")
-}
+
+alert(id === "" ? "Docente creado" : "Docente actualizado")
 
 clearForm()
 loadTeachers()
@@ -136,12 +136,9 @@ html2pdf().from(container).save("reporte_docentes.pdf")
 
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    loadTeachers()
-    loadSubjects()
-    loadAlerts()
-  }, 300)
+// FIX window.onload
+window.addEventListener("load", () => {
+  loadTeachers()
 })
 
 window.saveTeacher = saveTeacher
