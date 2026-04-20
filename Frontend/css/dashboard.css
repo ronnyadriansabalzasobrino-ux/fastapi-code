@@ -110,3 +110,41 @@ transition:0.3s;
 transform:translateY(-6px);
 box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
+
+/* RESPONSIVE DASHBOARD */
+@media (max-width: 1024px) {
+.cards {
+grid-template-columns: repeat(2, 1fr);
+}
+
+.sidebar {
+width: 200px;
+}
+}
+
+@media (max-width: 768px) {
+.container {
+flex-direction: column;
+}
+
+.sidebar {
+width: 100%;
+display: flex;
+justify-content: space-around;
+padding: 15px;
+}
+
+.main {
+padding: 15px;
+}
+
+.cards {
+grid-template-columns: 1fr;
+}
+
+.topbar {
+flex-direction: column;
+gap: 10px;
+text-align: center;
+}
+}

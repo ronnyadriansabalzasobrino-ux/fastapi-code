@@ -3,7 +3,9 @@ const API = "https://alertas-backend.onrender.com"
 let tableInstance = null
 
 async function loadTeachers(){
+
 try{
+
 const response = await fetch(API + "/get_Teacher/")
 const teachers = await response.json()
 
@@ -13,6 +15,7 @@ table.innerHTML = ""
 if (tableInstance) tableInstance.destroy()
 
 teachers.forEach(teacher => {
+
 table.innerHTML += `
 <tr>
 <td>${teacher.name}</td>
@@ -20,7 +23,6 @@ table.innerHTML += `
 <td>${teacher.mail}</td>
 <td>${teacher.phone}</td>
 <td>${teacher.specialty}</td>
-
 <td>
 <button onclick="editTeacher(
 ${teacher.id_teaching},
@@ -46,6 +48,7 @@ console.error("Error cargando docentes:", error)
 }
 
 async function saveTeacher(){
+
 const id = document.getElementById("teacher_id").value
 
 const teacher = {
@@ -106,9 +109,34 @@ document.getElementById("phone").value=""
 document.getElementById("specialty").value=""
 }
 
+// 🔥 REPORTE PDF
+function generatePDFTeachers(){
+
+const element = document.querySelector(".table-card")
+
+const opt = {
+  margin: 0.5,
+  filename: 'reporte_docentes.pdf',
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 2 },
+  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+};
+
+const titulo = document.createElement("h2")
+titulo.innerText = "Reporte de Docentes"
+titulo.style.textAlign = "center"
+
+element.prepend(titulo)
+
+html2pdf().set(opt).from(element).save().then(() => {
+  titulo.remove()
+})
+
+}
+
+window.onload = () => setTimeout(loadTeachers, 300)
+
 window.saveTeacher = saveTeacher
 window.clearForm = clearForm
 window.editTeacher = editTeacher
 window.deleteTeacher = deleteTeacher
-
-window.onload = () => setTimeout(loadTeachers, 300)

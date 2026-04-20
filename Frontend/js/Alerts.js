@@ -4,10 +4,6 @@ let alertsData = []
 let editingId = null
 let tableInstance = null
 
-// ============================
-// CARGAR ALERTAS
-// ============================
-
 async function loadAlerts(){
 
 try{
@@ -51,7 +47,6 @@ table.innerHTML += `
 <td>${alert.description}</td>
 <td>${alert.risk_level ?? "Sin riesgo"}</td>
 <td>${alert.state ?? "Sin estado"}</td>
-
 <td>
 <button onclick="editAlert(${alert.id_alert})">Editar</button>
 <button onclick="deleteAlert(${alert.id_alert})">Eliminar</button>
@@ -65,19 +60,13 @@ tableInstance = $('#alertsTableDisplay').DataTable()
 }catch(error){
 console.error("Error cargando alertas:", error)
 }
-
 }
-
-// ============================
-// GUARDAR / EDITAR
-// ============================
 
 async function saveAlert(){
 
 const token = localStorage.getItem("access_token")
 
 const alert = {
-
 id_student: document.getElementById("id_student").value,
 tipo_alert: document.getElementById("tipo_alert").value,
 description: document.getElementById("description").value,
@@ -85,7 +74,6 @@ generation_date: document.getElementById("generation_date").value,
 risk_level: document.getElementById("risk_level").value,
 state: document.getElementById("state").value,
 id_period: document.getElementById("id_period").value
-
 }
 
 if(editingId){
@@ -114,14 +102,9 @@ body: JSON.stringify(alert)
 
 }
 
-// 🔥 IMPORTANTE (ARREGLO DUPLICADOS)
 clearForm()
 await loadAlerts()
 }
-
-// ============================
-// EDITAR
-// ============================
 
 function editAlert(id){
 
@@ -139,10 +122,6 @@ document.getElementById("id_period").value = alert.id_period
 
 }
 
-// ============================
-// ELIMINAR
-// ============================
-
 async function deleteAlert(id){
 
 if(!confirm("¿Eliminar alerta?")) return
@@ -159,10 +138,6 @@ headers:{
 loadAlerts()
 }
 
-// ============================
-// LIMPIAR
-// ============================
-
 function clearForm(){
 
 editingId = null
@@ -174,22 +149,35 @@ document.getElementById("generation_date").value=""
 document.getElementById("risk_level").value=""
 document.getElementById("state").value=""
 document.getElementById("id_period").value=""
+}
+
+// 🔥 REPORTE PDF ALERTAS
+function generatePDFAlerts(){
+
+const element = document.querySelector(".table-card")
+
+const opt = {
+  margin: 0.5,
+  filename: 'reporte_alertas.pdf',
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 2 },
+  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+};
+
+const titulo = document.createElement("h2")
+titulo.innerText = "Reporte de Alertas"
+titulo.style.textAlign = "center"
+
+element.prepend(titulo)
+
+html2pdf().set(opt).from(element).save().then(() => {
+  titulo.remove()
+})
 
 }
 
-// ============================
-// FIX BOTONES
-// ============================
-
+window.onload = () => setTimeout(loadAlerts, 300)
 window.editAlert = editAlert
 window.deleteAlert = deleteAlert
 window.saveAlert = saveAlert
 window.clearForm = clearForm
-
-// ============================
-// LOAD
-// ============================
-
-window.onload = () => {
-  setTimeout(loadAlerts, 300)
-}

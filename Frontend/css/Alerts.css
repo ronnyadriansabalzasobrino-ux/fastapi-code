@@ -40,25 +40,10 @@ border-radius:6px;
 cursor:pointer;
 }
 
-.btn-primary{
-background:#4CAF50;
-color:white;
-}
-
-.btn-clear{
-background:#9e9e9e;
-color:white;
-}
-
-.btn-edit{
-background:#2196F3;
-color:white;
-}
-
-.btn-delete{
-background:#e53935;
-color:white;
-}
+.btn-primary{background:#4CAF50;color:white;}
+.btn-clear{background:#9e9e9e;color:white;}
+.btn-edit{background:#2196F3;color:white;}
+.btn-delete{background:#e53935;color:white;}
 
 table{
 width:100%;
@@ -73,4 +58,20 @@ text-align:left;
 
 thead{
 background:#f1f1f1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+.table-card{
+overflow-x:auto;
+}
+
+table{
+min-width:600px;
+}
+
+input{
+width:100%;
+margin:5px 0;
+}
 }

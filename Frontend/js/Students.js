@@ -1,6 +1,7 @@
 const API = "https://alertas-backend.onrender.com"
 
 async function loadStudents(){
+
 try{
 
 const response = await fetch(API + "/students")
@@ -18,7 +19,6 @@ tableBody.innerHTML += `
 <td>${student.last_name}</td>
 <td>${student.mail}</td>
 <td>${student.phone}</td>
-
 <td>
 <button class="btn-edit" onclick="editStudent(
 ${student.id_student},
@@ -49,6 +49,7 @@ console.error("Error cargando estudiantes:", error)
 }
 
 async function saveStudent(){
+
 try{
 
 const id = document.getElementById("student_id").value
@@ -114,8 +115,30 @@ document.getElementById("mail").value = ""
 document.getElementById("phone").value = ""
 }
 
-window.saveStudent = saveStudent
-window.clearForm = clearForm
+// 🔥 REPORTE PDF
+function generatePDFStudents(){
+
+const element = document.querySelector(".table-card")
+
+const opt = {
+  margin: 0.5,
+  filename: 'reporte_estudiantes.pdf',
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 2 },
+  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+};
+
+const titulo = document.createElement("h2")
+titulo.innerText = "Reporte de Estudiantes"
+titulo.style.textAlign = "center"
+
+element.prepend(titulo)
+
+html2pdf().set(opt).from(element).save().then(() => {
+  titulo.remove()
+})
+
+}
 
 document.addEventListener("DOMContentLoaded", () => {
 setTimeout(loadStudents, 300)
