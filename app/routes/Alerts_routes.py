@@ -15,13 +15,13 @@ async def create_Alerts(alert: Alerts):
     # 1. CREAR ALERTA EN BD
     result = nueva_Alerts.create_Alerts(alert)
 
-    # 2. OBTENER EMAIL DEL ESTUDIANTE DESDE EL CONTROLLER
-    student_email = nueva_Alerts.get_student_email(alert.id_student)
+    # 2. OBTENER MAIL DEL ESTUDIANTE DESDE EL CONTROLLER
+    student_mail = nueva_Alerts.get_student_email(alert.id_student)
 
     # 3. ENVIAR CORREO AUTOMÁTICO
-    if student_email:
+    if student_mail:
         await send_email(
-            destinatario=student_email,
+            destinatarios=student_mail,
             asunto="⚠️ Nueva alerta académica",
             contenido=f"""
             Hola 👋

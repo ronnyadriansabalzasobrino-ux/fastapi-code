@@ -7,7 +7,10 @@ def get_db_connection():
         user="neondb_owner",
         password="npg_b0wOEr3kIQvi",
         dbname="neondb"
+        
     )
+
+
 def create_tables():
     conn = get_db_connection()
     cursor = conn.cursor()

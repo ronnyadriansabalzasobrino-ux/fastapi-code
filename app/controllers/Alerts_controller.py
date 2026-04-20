@@ -39,8 +39,8 @@ class AlertsController:
             try:
                 subject = "🚨 Nueva alerta registrada en el sistema"
 
-                # 🔥 AGREGADO: obtener email del estudiante
-                student_email = self.get_student_email(alert.id_student)
+                # 🔥 AGREGADO: obtener mail del estudiante
+                student_mail = self.get_student_email(alert.id_student)
 
                 message = f"""
                 Se ha creado una nueva alerta:
@@ -55,14 +55,14 @@ class AlertsController:
                 """
 
                 send_email(
-                    destinatarios=student_email,
+                    destinatarios=student_mail,
                     asunto="nueva alertra academica",
                     contenido=message
 
                 )
 
-            except Exception as email_error:
-                print("Error enviando correo:", email_error)
+            except Exception as mail_error:
+                print("Error enviando correo:", mail_error)
 
             return {"resultado": "Alert creada correctamente", "id_alert": new_id}
 
@@ -78,29 +78,34 @@ class AlertsController:
     # GET STUDENT EMAIL
     # =========================
     def get_student_email(self, id_student: int):
+        conn = get_db_connection()
         try:
-            conn = None
-            cursor = None
+            if conn is None:
+                return None
 
             # 🔥 Intento 1: tabla students
             try:
+                cursor = conn.cursor()
                 cursor.execute("""
-                    SELECT email FROM users WHERE id_users = %s
+                    SELECT mail FROM users WHERE id_users = %s
                 """, (id_student,))
                 result = cursor.fetchone()
                 conn.commit() 
                 return result[0] if result else None
             
             except Exception as e:
-                print("Error obtenido email:", e)
+                print("Error obtenido mail:", e)
                 if conn:
                     conn.rollback()
 
                 return None
         finally:
+            
             cursor.close()
             conn.close()
+        
 
+       
             
 
     # =========================
