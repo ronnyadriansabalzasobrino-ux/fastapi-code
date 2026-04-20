@@ -1,5 +1,8 @@
 const API = "https://alertas-backend.onrender.com"
 
+/* =========================
+   📌 CARGAR ESTUDIANTES
+========================= */
 async function loadStudents(){
 
 try{
@@ -16,7 +19,6 @@ if(!tableBody){
 
 tableBody.innerHTML = ""
 
-// 🔥 VALIDACIÓN CLAVE
 if (!Array.isArray(students)) {
   console.error("Error en students:", students)
   return
@@ -48,7 +50,6 @@ Eliminar
 `
 })
 
-// 🔥 FIX DATATABLE
 if ($.fn.DataTable.isDataTable('#studentsTableDisplay')) {
   $('#studentsTableDisplay').DataTable().clear().destroy();
 }
@@ -60,11 +61,83 @@ console.error("Error cargando estudiantes:", error)
 }
 }
 
+
+/* =========================
+   📌 CARGAR PROGRAMAS
+========================= */
+async function loadPrograms(){
+
+try{
+
+const res = await fetch(API + "/programs")
+const programs = await res.json()
+
+const select = document.getElementById("program_id")
+
+if(!select) return
+
+select.innerHTML = `<option value="">Seleccione programa</option>`
+
+programs.forEach(p => {
+select.innerHTML += `
+<option value="${p.id_program}">
+${p.name}
+</option>
+`
+})
+
+}catch(error){
+console.error("Error programas:", error)
+}
+}
+
+
+/* =========================
+   📌 CARGAR SEMESTRES
+========================= */
+async function loadSemesters(){
+
+try{
+
+const res = await fetch(API + "/semesters")
+const semesters = await res.json()
+
+const select = document.getElementById("semester_id")
+
+if(!select) return
+
+select.innerHTML = `<option value="">Seleccione semestre</option>`
+
+semesters.forEach(s => {
+select.innerHTML += `
+<option value="${s.id_semester}">
+${s.name}
+</option>
+`
+})
+
+}catch(error){
+console.error("Error semestres:", error)
+}
+}
+
+
+/* =========================
+   📌 GUARDAR ESTUDIANTE
+========================= */
 async function saveStudent(){
 
 try{
 
 const id = document.getElementById("student_id").value
+
+const program = document.getElementById("program_id")?.value
+const semester = document.getElementById("semester_id")?.value
+
+if(!program || !semester){
+alert("Selecciona programa y semestre")
+return
+}
 
 const student = {
 name: document.getElementById("name").value,
@@ -72,8 +145,9 @@ last_name: document.getElementById("last_name").value,
 number_id: document.getElementById("number_id").value,
 mail: document.getElementById("mail").value,
 phone: document.getElementById("phone").value,
-id_program: parseInt(document.getElementById("program_id").value),
-id_semester: parseInt(document.getElementById("semester_id").value)
+
+id_program: parseInt(program),
+id_semester: parseInt(semester)
 }
 
 if(id === ""){
@@ -100,6 +174,10 @@ console.error("Error guardando estudiante:", error)
 }
 }
 
+
+/* =========================
+   📌 EDITAR
+========================= */
 function editStudent(id,name,last_name,number_id,mail,phone){
 document.getElementById("student_id").value = id
 document.getElementById("name").value = name
@@ -110,6 +188,10 @@ document.getElementById("phone").value = phone
 window.scrollTo(0,0)
 }
 
+
+/* =========================
+   📌 ELIMINAR
+========================= */
 async function deleteStudent(id){
 if(!confirm("¿Eliminar estudiante?")) return
 
@@ -118,6 +200,10 @@ alert("Estudiante eliminado")
 loadStudents()
 }
 
+
+/* =========================
+   📌 LIMPIAR FORM
+========================= */
 function clearForm(){
 document.getElementById("student_id").value = ""
 document.getElementById("name").value = ""
@@ -125,23 +211,28 @@ document.getElementById("last_name").value = ""
 document.getElementById("number_id").value = ""
 document.getElementById("mail").value = ""
 document.getElementById("phone").value = ""
+
+const p = document.getElementById("program_id")
+const s = document.getElementById("semester_id")
+
+if(p) p.value = ""
+if(s) s.value = ""
 }
 
-// 🔥 REPORTE PDF
+
+/* =========================
+   📌 PDF
+========================= */
 async function generatePDFStudents(){
 
-// 🔥 Clonar tabla limpia (SIN DataTable)
 const original = document.querySelector("#studentsTableDisplay")
 const clone = original.cloneNode(true)
 
-// ❌ eliminar controles de DataTable si existen
 clone.classList.remove("dataTable")
 
-// 🔥 eliminar columna acciones
 clone.querySelectorAll("td:last-child, th:last-child")
   .forEach(el => el.remove())
 
-// 🔥 crear contenedor limpio
 const container = document.createElement("div")
 
 const titulo = document.createElement("h2")
@@ -151,12 +242,17 @@ titulo.style.textAlign = "center"
 container.appendChild(titulo)
 container.appendChild(clone)
 
-// 🔥 generar PDF desde el CLON (no el original)
 html2pdf().from(container).save("reporte_estudiantes.pdf")
-
 }
 
 
+/* =========================
+   📌 INIT
+========================= */
 document.addEventListener("DOMContentLoaded", () => {
-setTimeout(loadStudents, 300)
+setTimeout(() => {
+loadStudents()
+loadPrograms()
+loadSemesters()
+}, 300)
 })
