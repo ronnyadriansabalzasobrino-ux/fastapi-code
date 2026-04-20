@@ -225,24 +225,26 @@ if(s) s.value = ""
 ========================= */
 async function generatePDFStudents(){
 
-const original = document.querySelector("#studentsTableDisplay")
-const clone = original.cloneNode(true)
+const element = document.querySelector(".table-card")
 
-clone.classList.remove("dataTable")
+if(!element){
+alert("No hay tabla para generar PDF")
+return
+}
 
-clone.querySelectorAll("td:last-child, th:last-child")
-  .forEach(el => el.remove())
+const opt = {
+  margin: 0.5,
+  filename: 'reporte_estudiantes.pdf',
+  image: { type: 'jpeg', quality: 0.98 },
+  html2canvas: { scale: 2, useCORS: true },
+  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+}
 
-const container = document.createElement("div")
+// 🔥 pequeño delay para asegurar render
+setTimeout(() => {
+html2pdf().set(opt).from(element).save()
+}, 300)
 
-const titulo = document.createElement("h2")
-titulo.innerText = "Reporte de Estudiantes"
-titulo.style.textAlign = "center"
-
-container.appendChild(titulo)
-container.appendChild(clone)
-
-html2pdf().from(container).save("reporte_estudiantes.pdf")
 }
 
 
