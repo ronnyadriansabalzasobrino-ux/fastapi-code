@@ -9,7 +9,7 @@ const response = await fetch(API + "/subjects")
 const subjects = await response.json()
 
 const table = document.querySelector("#subjectsTableDisplay tbody")
-if(table) return
+if(!table) return
 
 table.innerHTML = ""
 
