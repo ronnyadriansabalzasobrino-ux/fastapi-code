@@ -4,8 +4,6 @@ from fastapi import HTTPException
 from app.config.db_config import get_db_connection
 from app.models.Alerts_model import Alerts
 from fastapi.encoders import jsonable_encoder
-
-# 🔥 IMPORTANTE: servicio de correo
 from app.services.email_service import send_email
 
 
@@ -41,6 +39,9 @@ class AlertsController:
             try:
                 subject = "🚨 Nueva alerta registrada en el sistema"
 
+                # 🔥 AGREGADO: obtener email del estudiante
+                student_email = self.get_student_email(alert.id_student)
+
                 message = f"""
                 Se ha creado una nueva alerta:
 
@@ -53,9 +54,8 @@ class AlertsController:
                 🔗 ID alerta: {new_id}
                 """
 
-                # 👉 aquí pones TU correo (el del admin o docente)
                 send_email(
-                    to_email="tucorreo@gmail.com",
+                    to_email=student_email,
                     subject=subject,
                     message=message
                 )
@@ -68,6 +68,33 @@ class AlertsController:
         except psycopg2.Error as err:
             print(err)
             raise HTTPException(status_code=500, detail=str(err))
+
+
+    # =========================
+    # 🔥 AGREGADO: obtener email estudiante
+    # =========================
+    def get_student_email(self, id_student):
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                SELECT email FROM students WHERE id_student = %s
+            """, (id_student,))
+
+            row = cursor.fetchone()
+
+            cursor.close()
+            conn.close()
+
+            if row:
+                return row[0]
+            return None
+
+        except Exception as e:
+            print("Error obteniendo email:", e)
+            return None
+
 
     # =========================
     # GET ALL
@@ -100,6 +127,7 @@ class AlertsController:
             print(err)
             raise HTTPException(status_code=500, detail=str(err))
 
+
     # =========================
     # GET ONE
     # =========================
@@ -131,6 +159,7 @@ class AlertsController:
         except psycopg2.Error as err:
             print(err)
             raise HTTPException(status_code=500, detail=str(err))
+
 
     # =========================
     # UPDATE
@@ -165,6 +194,7 @@ class AlertsController:
         except psycopg2.Error as err:
             print(err)
             raise HTTPException(status_code=500, detail=str(err))
+
 
     # =========================
     # DELETE
