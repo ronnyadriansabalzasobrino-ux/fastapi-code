@@ -130,40 +130,29 @@ document.getElementById("phone").value = ""
 // 🔥 REPORTE PDF
 async function generatePDFStudents(){
 
-// 🔥 1. Cargar datos antes
-await loadStudents()
+// 🔥 Clonar tabla limpia (SIN DataTable)
+const original = document.querySelector("#studentsTableDisplay")
+const clone = original.cloneNode(true)
 
-// 🔥 2. Esperar a que renderice
-setTimeout(() => {
+// ❌ eliminar controles de DataTable si existen
+clone.classList.remove("dataTable")
 
-const element = document.querySelector(".table-card")
+// 🔥 eliminar columna acciones
+clone.querySelectorAll("td:last-child, th:last-child")
+  .forEach(el => el.remove())
 
-// 🔥 3. Ocultar columna Acciones (solo para PDF)
-const acciones = element.querySelectorAll("td:last-child, th:last-child")
-acciones.forEach(el => el.style.display = "none")
-
-const opt = {
-  margin: 0.5,
-  filename: 'reporte_estudiantes.pdf',
-  image: { type: 'jpeg', quality: 0.98 },
-  html2canvas: { scale: 2 },
-  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-};
+// 🔥 crear contenedor limpio
+const container = document.createElement("div")
 
 const titulo = document.createElement("h2")
 titulo.innerText = "Reporte de Estudiantes"
 titulo.style.textAlign = "center"
 
-element.prepend(titulo)
+container.appendChild(titulo)
+container.appendChild(clone)
 
-html2pdf().set(opt).from(element).save().then(() => {
-  titulo.remove()
-
-  // 🔥 4. Volver a mostrar Acciones después del PDF
-  acciones.forEach(el => el.style.display = "")
-})
-
-}, 600) // 👈 tiempo clave
+// 🔥 generar PDF desde el CLON (no el original)
+html2pdf().from(container).save("reporte_estudiantes.pdf")
 
 }
 

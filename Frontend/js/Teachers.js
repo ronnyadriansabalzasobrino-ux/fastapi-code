@@ -117,35 +117,22 @@ document.getElementById("specialty").value=""
 // PDF
 async function generatePDFTeachers(){
 
-await loadTeachers()
+const original = document.querySelector("#teachersTableDisplay")
+const clone = original.cloneNode(true)
 
-setTimeout(() => {
+clone.querySelectorAll("td:last-child, th:last-child")
+  .forEach(el => el.remove())
 
-const element = document.querySelector(".table-card")
-
-const acciones = element.querySelectorAll("td:last-child, th:last-child")
-acciones.forEach(el => el.style.display = "none")
-
-const opt = {
-  margin: 0.5,
-  filename: 'reporte_docentes.pdf',
-  image: { type: 'jpeg', quality: 0.98 },
-  html2canvas: { scale: 2 },
-  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-};
+const container = document.createElement("div")
 
 const titulo = document.createElement("h2")
 titulo.innerText = "Reporte de Docentes"
 titulo.style.textAlign = "center"
 
-element.prepend(titulo)
+container.appendChild(titulo)
+container.appendChild(clone)
 
-html2pdf().set(opt).from(element).save().then(() => {
-  titulo.remove()
-  acciones.forEach(el => el.style.display = "")
-})
-
-}, 600)
+html2pdf().from(container).save("reporte_docentes.pdf")
 
 }
 
