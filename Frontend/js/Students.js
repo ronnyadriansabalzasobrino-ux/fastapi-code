@@ -93,67 +93,80 @@ select.innerHTML += `<option value="${s.id_semester}">${s.name}</option>`
    GUARDAR ESTUDIANTE
 ========================= */
 async function saveStudent() {
-try {
+  try {
 
-const get = (id) => {
-const el = document.getElementById(id)
-if (!el) {
-throw new Error(`No existe el elemento #${id}`)
-}
-return el.value
-}
+    // Helper seguro para evitar null.value
+    const getValue = (id) => {
+      const el = document.getElementById(id)
+      if (!el) {
+        throw new Error(`Elemento #${id} no encontrado en el DOM`)
+      }
+      return el.value.trim()
+    }
 
-const id = get("student_id")
+    const id = getValue("student_id")
 
-const programValue = document.getElementById("program_id")?.value
-const semesterValue = document.getElementById("semester_id")?.value
+    const name = getValue("name")
+    const last_name = getValue("last_name")
+    const number_id = getValue("number_id")
+    const mail = getValue("mail")
+    const phone = getValue("phone")
 
-const student = {
-name: get("name"),
-last_name: get("last_name"),
-number_id: get("number_id"),
-mail: get("mail"),
-phone: get("phone"),
-id_program: parseInt(programValue),
-id_semester: parseInt(semesterValue)
-}
+    const program_id = document.getElementById("program_id")?.value
+    const semester_id = document.getElementById("semester_id")?.value
 
-// validación segura
-if (
-!student.name ||
-!student.last_name ||
-!student.number_id ||
-!student.mail ||
-!student.phone ||
-isNaN(student.id_program) ||
-isNaN(student.id_semester)
-) {
-alert("Completa todos los campos")
-return
-}
+    const student = {
+      name,
+      last_name,
+      number_id,
+      mail,
+      phone,
+      id_program: Number(program_id),
+      id_semester: Number(semester_id)
+    }
 
-if (id === "") {
-await fetch(API + "/students", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify(student)
-})
-alert("Estudiante creado")
-} else {
-await fetch(API + "/students/" + id, {
-method: "PUT",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify(student)
-})
-alert("Estudiante actualizado")
-}
+    // VALIDACIÓN MÁS SEGURA
+    if (
+      !name ||
+      !last_name ||
+      !number_id ||
+      !mail ||
+      !phone ||
+      !program_id ||
+      !semester_id
+    ) {
+      alert("Completa todos los campos")
+      return
+    }
 
-clearForm()
-loadStudents()
+    if (isNaN(student.id_program) || isNaN(student.id_semester)) {
+      alert("Selecciona programa y semestre válidos")
+      return
+    }
 
-} catch (error) {
-console.error("Error guardando estudiante:", error)
-}
+    // CREATE / UPDATE
+    if (id === "") {
+      await fetch(API + "/students", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(student)
+      })
+      alert("Estudiante creado")
+    } else {
+      await fetch(API + "/students/" + id, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(student)
+      })
+      alert("Estudiante actualizado")
+    }
+
+    clearForm()
+    loadStudents()
+
+  } catch (error) {
+    console.error("Error guardando estudiante:", error)
+  }
 }
 
 /* =========================
