@@ -115,9 +115,16 @@ document.getElementById("specialty").value=""
 }
 
 // PDF
-function generatePDFTeachers(){
+async function generatePDFTeachers(){
+
+await loadTeachers()
+
+setTimeout(() => {
 
 const element = document.querySelector(".table-card")
+
+const acciones = element.querySelectorAll("td:last-child, th:last-child")
+acciones.forEach(el => el.style.display = "none")
 
 const opt = {
   margin: 0.5,
@@ -135,7 +142,10 @@ element.prepend(titulo)
 
 html2pdf().set(opt).from(element).save().then(() => {
   titulo.remove()
+  acciones.forEach(el => el.style.display = "")
 })
+
+}, 600)
 
 }
 

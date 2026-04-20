@@ -128,9 +128,19 @@ document.getElementById("phone").value = ""
 }
 
 // 🔥 REPORTE PDF
-function generatePDFStudents(){
+async function generatePDFStudents(){
+
+// 🔥 1. Cargar datos antes
+await loadStudents()
+
+// 🔥 2. Esperar a que renderice
+setTimeout(() => {
 
 const element = document.querySelector(".table-card")
+
+// 🔥 3. Ocultar columna Acciones (solo para PDF)
+const acciones = element.querySelectorAll("td:last-child, th:last-child")
+acciones.forEach(el => el.style.display = "none")
 
 const opt = {
   margin: 0.5,
@@ -148,7 +158,12 @@ element.prepend(titulo)
 
 html2pdf().set(opt).from(element).save().then(() => {
   titulo.remove()
+
+  // 🔥 4. Volver a mostrar Acciones después del PDF
+  acciones.forEach(el => el.style.display = "")
 })
+
+}, 600) // 👈 tiempo clave
 
 }
 
