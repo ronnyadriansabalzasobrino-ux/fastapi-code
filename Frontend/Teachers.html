@@ -32,18 +32,25 @@
 <button onclick="saveTeacher()">Guardar</button>
 <button onclick="clearForm()">Limpiar</button>
 
+<br><br>
+
+<button onclick="generatePDFTeachers()" class="btn-primary">
+📄 Generar Reporte PDF
+</button>
+
 </div>
 
 <div class="table-card">
-
 <teachers-table></teachers-table>
-
 </div>
 
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- 🔥 LIBRERÍA PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script src="./components/teacher_table.js"></script>
 <script src="./js/Teachers.js"></script>

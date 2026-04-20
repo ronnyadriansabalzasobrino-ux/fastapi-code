@@ -7,8 +7,6 @@
 <title>Gestion de Estudiantes</title>
 
 <link rel="stylesheet" href="./css/Students.css">
-
-
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 </head>
@@ -18,8 +16,6 @@
 <div class="container">
 
 <h1>Gestion de Estudiantes</h1>
-
-<!-- FORMULARIO -->
 
 <div class="card">
 
@@ -36,28 +32,27 @@
 <button class="btn-primary" onclick="saveStudent()">Guardar</button>
 <button class="btn-clear" onclick="clearForm()">Limpiar</button>
 
+<br><br>
+
+<button onclick="generatePDFStudents()" class="btn-primary">
+📄 Generar Reporte PDF
+</button>
+
 </div>
-
-
-
 
 <div class="table-card">
-
 <students-table></students-table>
-
 </div>
 
 </div>
-
-
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
+<!-- 🔥 LIBRERÍA PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script src="./components/students_table.js"></script>
-
-
 <script src="./js/Students.js"></script>
 
 </body>

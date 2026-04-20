@@ -20,31 +20,38 @@
 
 <h2>Formulario de alerta</h2>
 <input type="hidden" id="alert_id">
-<input id="id_student">
-<input id="tipo_alert">
-<input id="description">
+<input id="id_student" placeholder="ID Estudiante">
+<input id="tipo_alert" placeholder="Tipo de alerta">
+<input id="description" placeholder="Descripción">
 <input id="generation_date" type="date">
-<input id="risk_level">
-<input id="state">
-<input id="id_period">
+<input id="risk_level" placeholder="Nivel de riesgo">
+<input id="state" placeholder="Estado">
+<input id="id_period" placeholder="ID Periodo">
 
 <br><br>
 
 <button onclick="saveAlert()">Guardar</button>
 <button onclick="clearForm()">Limpiar</button>
 
+<br><br>
+
+<button onclick="generatePDFAlerts()" class="btn-primary">
+📄 Generar Reporte PDF
+</button>
+
 </div>
 
 <div class="table-card">
-
 <alerts-table></alerts-table>
-
 </div>
 
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- 🔥 LIBRERÍA PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script src="./components/alerts_table.js"></script>
 <script src="./js/Alerts.js"></script>
