@@ -78,8 +78,8 @@ class AlertsController:
     # =========================
     def get_student_email(self, id_student: int):
         try:
-            conn = get_db_connection()
-            cursor = conn.cursor()
+            conn = None
+            cursor = None
 
             # 🔥 Intento 1: tabla students
             try:
@@ -87,24 +87,19 @@ class AlertsController:
                     SELECT email FROM users WHERE id_users = %s
                 """, (id_student,))
                 result = cursor.fetchone()
+                conn.commit() 
 
-            except psycopg2.Error:
-                # 🔥 fallback si no existe students
-                cursor.execute("""
-                    SELECT email FROM users WHERE id_user = %s
-                """, (id_student,))
-                result = cursor.fetchone()
+            except Exception as e:
+                print("Error obtenido email:", e)
+                if conn:
+                    conn.rollback()
 
+                return None
+        finally:
             cursor.close()
             conn.close()
 
-            if result:
-                return result[0]
-            return None
-
-        except Exception as e:
-            print("Error obteniendo email:", e)
-            return None
+            
 
     # =========================
     # GET ALL
