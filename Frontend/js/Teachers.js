@@ -9,17 +9,15 @@ try{
 const response = await fetch(API + "/get_Teacher/")
 const teachers = await response.json()
 
-const table = document.getElementById("teachersTable")
+const table = document.querySelector("#teachersTableDisplay tbody")
 if(!table) return
 
 table.innerHTML = ""
 
 if (tableInstance) tableInstance.destroy()
 
-if (!Array.isArray(teachers)) {
-  console.error("Error en teachers:", teachers)
-  return
-}
+if (!Array.isArray(teachers))return
+
 
 teachers.forEach(teacher => {
 
@@ -137,9 +135,8 @@ html2pdf().from(container).save("reporte_docentes.pdf")
 }
 
 // FIX window.onload
-window.addEventListener("load", () => {
-  loadTeachers()
-})
+window.addEventListener("DOMContentLoaded", loadTeachers)
+
 
 window.saveTeacher = saveTeacher
 window.clearForm = clearForm

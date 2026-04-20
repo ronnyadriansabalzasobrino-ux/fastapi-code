@@ -26,7 +26,7 @@ if (!Array.isArray(alerts)) {
 
 alertsData = alerts
 
-const table = document.getElementById("alertsTable")
+const table = document.querySelector("#alertsTableDisplay tbody")
 if(!table)return
 
 table.innerHTML = ""
@@ -158,9 +158,8 @@ html2pdf().from(container).save("reporte_alertas.pdf")
 }
 
 // FIX window.onload
-window.addEventListener("load", () => {
-  loadAlerts()
-})
+window.addEventListener("DOMContentLoaded",loadAlerts)
+
 
 window.editAlert = editAlert
 window.deleteAlert = deleteAlert

@@ -8,23 +8,25 @@ async function loadSubjects(){
 const response = await fetch(API + "/subjects")
 const subjects = await response.json()
 
-const table = document.getElementById("subjectsTable")
+const table = document.querySelector("#subjectsTableDisplay tbody")
 if(table) return
 
 table.innerHTML = ""
 
-if (tableInstance) tableInstance.destroy()
+if (tableInstance) {
+    tableInstance.destroy()
+ }
+if (!Array.isArray(subjects)) return
 
 subjects.forEach(subject => {
-table.innerHTML += `
-<tr>
-<td>${subject.name_subject}</td>
-<td>${subject.credits}</td>
-<td>${subject.id_program}</td>
-
-<td>
-<button onclick="editSubject(this, ${subject.id_subject})">Editar</button>
-<button onclick="deleteSubject(${subject.id_subject})">Eliminar</button>
+    table.innerHTML += `
+    <tr>
+    <td>${subject.name_subject}</td>
+    <td>${subject.credits}</td>
+    <td>${subject.id_program}</td>
+    <td>
+    <button onclick="editSubject(this, ${subject.id_subject})">Editar</button>
+    <button onclick="deleteSubject(${subject.id_subject})">Eliminar</button>
 </td>
 </tr>
 `
@@ -90,6 +92,4 @@ window.clearForm = clearForm
 window.editSubject = editSubject
 window.deleteSubject = deleteSubject
 
-window.addEventListener("DOMContentLoaded", () => {
-setTimeout(loadSubjects, 300)
-})
+window.addEventListener("DOMContentLoaded", loadSubjects)
