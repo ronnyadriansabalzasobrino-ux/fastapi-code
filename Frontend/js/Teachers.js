@@ -14,6 +14,11 @@ table.innerHTML = ""
 
 if (tableInstance) tableInstance.destroy()
 
+if (!Array.isArray(teachers)) {
+  console.error("Error en teachers:", teachers)
+  return
+}
+
 teachers.forEach(teacher => {
 
 table.innerHTML += `
@@ -109,7 +114,7 @@ document.getElementById("phone").value=""
 document.getElementById("specialty").value=""
 }
 
-// 🔥 REPORTE PDF
+// PDF
 function generatePDFTeachers(){
 
 const element = document.querySelector(".table-card")
@@ -134,7 +139,10 @@ html2pdf().set(opt).from(element).save().then(() => {
 
 }
 
-window.onload = () => setTimeout(loadTeachers, 300)
+// FIX window.onload
+window.addEventListener("load", () => {
+  loadTeachers()
+})
 
 window.saveTeacher = saveTeacher
 window.clearForm = clearForm

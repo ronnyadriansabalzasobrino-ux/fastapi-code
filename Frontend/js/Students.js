@@ -9,24 +9,35 @@ const students = await response.json()
 
 const tableBody = document.querySelector("#studentsTableDisplay tbody")
 
+if(!tableBody){
+  console.error("No existe studentsTableDisplay")
+  return
+}
+
 tableBody.innerHTML = ""
+
+// 🔥 VALIDACIÓN CLAVE
+if (!Array.isArray(students)) {
+  console.error("Error en students:", students)
+  return
+}
 
 students.forEach(student => {
 
 tableBody.innerHTML += `
 <tr>
-<td>${student.name}</td>
-<td>${student.last_name}</td>
-<td>${student.mail}</td>
-<td>${student.phone}</td>
+<td>${student.name ?? ""}</td>
+<td>${student.last_name ?? ""}</td>
+<td>${student.mail ?? ""}</td>
+<td>${student.phone ?? ""}</td>
 <td>
 <button class="btn-edit" onclick="editStudent(
 ${student.id_student},
-'${student.name}',
-'${student.last_name}',
-'${student.number_id}',
-'${student.mail}',
-'${student.phone}'
+'${student.name ?? ""}',
+'${student.last_name ?? ""}',
+'${student.number_id ?? ""}',
+'${student.mail ?? ""}',
+'${student.phone ?? ""}'
 )">Editar</button>
 
 <button class="btn-delete" onclick="deleteStudent(${student.id_student})">
@@ -37,8 +48,9 @@ Eliminar
 `
 })
 
+// 🔥 FIX DATATABLE
 if ($.fn.DataTable.isDataTable('#studentsTableDisplay')) {
-$('#studentsTableDisplay').DataTable().destroy();
+  $('#studentsTableDisplay').DataTable().clear().destroy();
 }
 
 $('#studentsTableDisplay').DataTable();
@@ -139,6 +151,7 @@ html2pdf().set(opt).from(element).save().then(() => {
 })
 
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
 setTimeout(loadStudents, 300)

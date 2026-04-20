@@ -9,6 +9,7 @@ async function loadAlerts(){
 try{
 
 const token = localStorage.getItem("access_token")
+console.log("TOKEN:", token)
 
 const response = await fetch(API + "/get_Alerts/", {
   headers: {
@@ -151,7 +152,7 @@ document.getElementById("state").value=""
 document.getElementById("id_period").value=""
 }
 
-// 🔥 REPORTE PDF ALERTAS
+// PDF
 function generatePDFAlerts(){
 
 const element = document.querySelector(".table-card")
@@ -176,7 +177,11 @@ html2pdf().set(opt).from(element).save().then(() => {
 
 }
 
-window.onload = () => setTimeout(loadAlerts, 300)
+// FIX window.onload
+window.addEventListener("load", () => {
+  loadAlerts()
+})
+
 window.editAlert = editAlert
 window.deleteAlert = deleteAlert
 window.saveAlert = saveAlert
