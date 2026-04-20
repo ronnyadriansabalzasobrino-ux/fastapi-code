@@ -223,14 +223,21 @@ if(s) s.value = ""
 /* =========================
    📌 PDF
 ========================= */
-function generatePDFStudents(){
+// 🔥 REPORTE PDF
+async function generatePDFStudents(){
 
+// 🔥 Clonar tabla limpia (SIN DataTable)
 const original = document.querySelector("#studentsTableDisplay")
 const clone = original.cloneNode(true)
 
-clone.querySelectorAll("td:last-child, th:last-child")
-.forEach(el => el.remove())
+// ❌ eliminar controles de DataTable si existen
+clone.classList.remove("dataTable")
 
+// 🔥 eliminar columna acciones
+clone.querySelectorAll("td:last-child, th:last-child")
+  .forEach(el => el.remove())
+
+// 🔥 crear contenedor limpio
 const container = document.createElement("div")
 
 const titulo = document.createElement("h2")
@@ -240,16 +247,12 @@ titulo.style.textAlign = "center"
 container.appendChild(titulo)
 container.appendChild(clone)
 
+// 🔥 generar PDF desde el CLON (no el original)
 html2pdf().from(container).save("reporte_estudiantes.pdf")
+
 }
 
-/* =========================
-   📌 INIT
-========================= */
+
 document.addEventListener("DOMContentLoaded", () => {
-setTimeout(() => {
-loadStudents()
-loadPrograms()
-loadSemesters()
-}, 300)
+setTimeout(loadStudents, 300)
 })
