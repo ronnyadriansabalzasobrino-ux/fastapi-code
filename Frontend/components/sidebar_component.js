@@ -11,9 +11,17 @@ this.innerHTML = `
   <div class="sidebar-menu">
 
     <button onclick="goStudents()">👨‍🎓 Estudiantes</button>
+
+
     <button onclick="goTeachers()">👨‍🏫 Docentes</button>
+
+
     <button onclick="goSubjects()">📚 Materias</button>
+
+
     <button onclick="goAlerts()">⚠️ Alertas</button>
+
+    
 
   </div>
 
