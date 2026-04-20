@@ -55,7 +55,7 @@ class AlertsController:
                 """
 
                 send_email(
-                    destinatarios=student_mail,
+                    destinatario=student_mail,
                     asunto="nueva alertra academica",
                     contenido=message
 
@@ -78,22 +78,18 @@ class AlertsController:
     # GET STUDENT EMAIL
     # =========================
     def get_student_email(self, id_student: int):
-        conn = get_db_connection()
+        conn = None
+        cursor = None 
         try:
-            if conn is None:
-                return None
-
-            # 🔥 Intento 1: tabla students
-            try:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    SELECT mail FROM users WHERE id_users = %s
+                    SELECT mail FROM users WHERE id_user = %s
                 """, (id_student,))
                 result = cursor.fetchone()
                 conn.commit() 
                 return result[0] if result else None
             
-            except Exception as e:
+        except Exception as e:
                 print("Error obtenido mail:", e)
                 if conn:
                     conn.rollback()
