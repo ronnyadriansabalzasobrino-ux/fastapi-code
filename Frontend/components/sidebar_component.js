@@ -6,24 +6,24 @@ this.innerHTML = `
 
   <div class="sidebar-logo">
     <h2>🎓 School System</h2>
-  </div>
+  <ul>
 
   <div class="sidebar-menu">
 
-    <button onclick="goStudents()">👨‍🎓 Estudiantes</button>
+    <li><button onclick="goStudents()">👨‍🎓 Estudiantes</button></li>
 
 
-    <button onclick="goTeachers()">👨‍🏫 Docentes</button>
+    <li><button onclick="goTeachers()">👨‍🏫 Docentes</button></li>
 
 
-    <button onclick="goSubjects()">📚 Materias</button>
+    <li><button onclick="goSubjects()">📚 Materias</button></li>
 
 
-    <button onclick="goAlerts()">⚠️ Alertas</button>
+    <li><button onclick="goAlerts()">⚠️ Alertas</button></li>
 
-    
 
-  </div>
+
+  </ul>
 
 </aside>
 `;
