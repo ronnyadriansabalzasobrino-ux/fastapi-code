@@ -3,28 +3,29 @@ class TeachersTable extends HTMLElement {
 connectedCallback(){
 
 this.innerHTML = `
-<h2>Lista de Docentes</h2>
+<div class="table-card">
 
-<table id="teachersTableDisplay">
+  <div class="table-header">
+    <h2>👨‍🏫 Docentes</h2>
+  </div>
 
-<thead>
-<tr>
-<th>Nombre</th>
-<th>Apellido</th>
-<th>Email</th>
-<th>Teléfono</th>
-<th>Especialidad</th>
-<th>Acciones</th>
-</tr>
-</thead>
+  <table id="teachersTableDisplay">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Especialidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-<tbody id="teachersTable"></tbody>
-
-</table>
+</div>
 `;
-
 }
-
 }
 
 customElements.define("teachers-table", TeachersTable);

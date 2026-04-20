@@ -4,17 +4,15 @@ connectedCallback() {
 
 this.innerHTML = `
 <div class="login-container">
+
   <div class="login-card">
-    <h1>Sistema de alertas</h1>
 
-    <label>Correo electrónico</label>
-    <input id="mail" type="email">
+    <h1>📌 Sistema de Alertas</h1>
 
-    <label>Contraseña</label>
-    <input id="password" type="password">
+    <input id="mail" type="email" placeholder="Correo electrónico">
+    <input id="password" type="password" placeholder="Contraseña">
 
-    <label>Selecciona tu rol</label>
-    <div style="display:flex; gap:10px; margin-bottom:10px;">
+    <div class="roles">
       <button class="rolBtn" data-rol="admin">Admin</button>
       <button class="rolBtn" data-rol="docente">Docente</button>
       <button class="rolBtn" data-rol="estudiante">Estudiante</button>
@@ -22,67 +20,44 @@ this.innerHTML = `
 
     <button id="loginBtn">Iniciar sesión</button>
 
-    <p class="register">¿No tienes una cuenta? <span>Regístrate aquí</span></p>
   </div>
+
 </div>
 `;
 
 let selectedRol = null;
 
-
 this.querySelectorAll(".rolBtn").forEach(btn => {
   btn.addEventListener("click", () => {
     selectedRol = btn.dataset.rol;
 
-   
-    this.querySelectorAll(".rolBtn").forEach(b => b.style.background = "");
-    btn.style.background = "#4CAF50";
+    this.querySelectorAll(".rolBtn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
   });
 });
 
-
 this.querySelector("#loginBtn").addEventListener("click", async () => {
 
-  if (!selectedRol) {
-    alert("Selecciona un rol");
-    return;
-  }
+  if (!selectedRol) return alert("Selecciona un rol");
 
-  const mail = document.getElementById("mail").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const mail = document.getElementById("mail").value;
+  const password = document.getElementById("password").value;
 
-  if (!mail || !password) {
-    alert("Completa los campos");
-    return;
-  }
+  const res = await fetch("https://alertas-backend.onrender.com/login", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({mail, password})
+  });
 
-  try {
-    const response = await fetch("https://alertas-backend.onrender.com/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mail, password })
-    });
+  if(!res.ok) return alert("Error login");
 
-    if (!response.ok) {
-      const err = await response.json();
-      alert(err.detail);
-      return;
-    }
+  const data = await res.json();
 
-    const data = await response.json();
+  localStorage.setItem("rol", selectedRol);
+  localStorage.setItem("access_token", data.access_token);
+  localStorage.setItem("name", data.name);
 
-    
-    localStorage.setItem("rol", selectedRol);
-    localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("id_user", data.id_user);
-    localStorage.setItem("name", data.name);
-
-    window.location.href = "dashboard.html";
-
-  } catch (error) {
-    alert("Error de conexión");
-  }
-
+  window.location.href = "dashboard.html";
 });
 
 }

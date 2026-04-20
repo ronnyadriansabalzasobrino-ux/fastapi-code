@@ -3,26 +3,27 @@ class SubjectsTable extends HTMLElement {
 connectedCallback(){
 
 this.innerHTML = `
-<h2>Lista de Materias</h2>
+<div class="table-card">
 
-<table id="subjectsTableDisplay">
+  <div class="table-header">
+    <h2>📚 Materias</h2>
+  </div>
 
-<thead>
-<tr>
-<th>Materia</th>
-<th>Créditos</th>
-<th>Programa</th>
-<th>Acciones</th>
-</tr>
-</thead>
+  <table id="subjectsTableDisplay">
+    <thead>
+      <tr>
+        <th>Materia</th>
+        <th>Créditos</th>
+        <th>Programa</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-<tbody id="subjectsTable"></tbody>
-
-</table>
+</div>
 `;
-
 }
-
 }
 
 customElements.define("subjects-table", SubjectsTable);

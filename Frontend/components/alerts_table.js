@@ -3,28 +3,29 @@ class AlertsTable extends HTMLElement {
 connectedCallback(){
 
 this.innerHTML = `
-<h2>Lista de Alertas</h2>
+<div class="table-card alert-card">
 
-<table id="alertsTableDisplay">
+  <div class="table-header">
+    <h2>⚠️ Alertas</h2>
+  </div>
 
-<thead>
-<tr>
-<th>Estudiante</th>
-<th>Tipo</th>
-<th>Descripción</th>
-<th>Riesgo</th>
-<th>Estado</th>
-<th>Acciones</th>
-</tr>
-</thead>
+  <table id="alertsTableDisplay">
+    <thead>
+      <tr>
+        <th>Estudiante</th>
+        <th>Tipo</th>
+        <th>Descripción</th>
+        <th>Riesgo</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-<tbody id="alertsTable"></tbody>
-
-</table>
+</div>
 `;
-
+}
 }
 
-}
-
-customElements.define("alerts-table", AlertsTable); 
+customElements.define("alerts-table", AlertsTable);

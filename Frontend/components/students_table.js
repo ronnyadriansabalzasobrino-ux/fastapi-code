@@ -3,24 +3,28 @@ class StudentsTable extends HTMLElement {
 connectedCallback(){
 
 this.innerHTML = `
-<h2>Lista de Estudiantes</h2>
+<div class="table-card">
 
-<table id="studentsTableDisplay" class="display">
-<thead>
-<tr>
-<th>Nombre</th>
-<th>Apellido</th>
-<th>Email</th>
-<th>Teléfono</th>
-<th>Acciones</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
+  <div class="table-header">
+    <h2>👨‍🎓 Estudiantes</h2>
+  </div>
+
+  <table id="studentsTableDisplay" class="display">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+</div>
 `;
-
 }
-
 }
 
 customElements.define("students-table", StudentsTable);
