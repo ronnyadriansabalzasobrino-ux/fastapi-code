@@ -72,8 +72,8 @@ last_name: document.getElementById("last_name").value,
 number_id: document.getElementById("number_id").value,
 mail: document.getElementById("mail").value,
 phone: document.getElementById("phone").value,
-id_program:38,
-id_semester:37
+id_program: parseInt(document.getElementById("program_id").value),
+id_semester: parseInt(document.getElementById("semester_id").value)
 }
 
 if(id === ""){

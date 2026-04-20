@@ -68,13 +68,13 @@ async function saveAlert(){
 const token = localStorage.getItem("access_token")
 
 const alert = {
-id_student: document.getElementById("id_student").value,
+id_student: parseInt(document.getElementById("id_student").value),
 tipo_alert: document.getElementById("tipo_alert").value,
 description: document.getElementById("description").value,
 generation_date: document.getElementById("generation_date").value,
 risk_level: document.getElementById("risk_level").value,
 state: document.getElementById("state").value,
-id_period: document.getElementById("id_period").value
+id_period: parseInt(document.getElementById("id_period").value)
 }
 
 if(editingId){
