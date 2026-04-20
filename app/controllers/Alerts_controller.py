@@ -55,9 +55,10 @@ class AlertsController:
                 """
 
                 send_email(
-                    to_email=student_email,
-                    subject=subject,
-                    message=message
+                    destinatarios=student_email,
+                    asunto="nueva alertra academica",
+                    contenido=message
+
                 )
 
             except Exception as email_error:
@@ -88,7 +89,8 @@ class AlertsController:
                 """, (id_student,))
                 result = cursor.fetchone()
                 conn.commit() 
-
+                return result[0] if result else None
+            
             except Exception as e:
                 print("Error obtenido email:", e)
                 if conn:
