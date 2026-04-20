@@ -73,28 +73,38 @@ class AlertsController:
     # =========================
     # 🔥 AGREGADO: obtener email estudiante
     # =========================
-    def get_student_email(self, id_student):
+    # =========================
+    # GET STUDENT EMAIL
+    # =========================
+    def get_student_email(self, id_student: int):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            cursor.execute("""
-                SELECT email FROM students WHERE id_student = %s
-            """, (id_student,))
+            # 🔥 Intento 1: tabla students
+            try:
+                cursor.execute("""
+                    SELECT email FROM users WHERE id_users = %s
+                """, (id_student,))
+                result = cursor.fetchone()
 
-            row = cursor.fetchone()
+            except psycopg2.Error:
+                # 🔥 fallback si no existe students
+                cursor.execute("""
+                    SELECT email FROM users WHERE id_user = %s
+                """, (id_student,))
+                result = cursor.fetchone()
 
             cursor.close()
             conn.close()
 
-            if row:
-                return row[0]
+            if result:
+                return result[0]
             return None
 
         except Exception as e:
             print("Error obteniendo email:", e)
             return None
-
 
     # =========================
     # GET ALL
