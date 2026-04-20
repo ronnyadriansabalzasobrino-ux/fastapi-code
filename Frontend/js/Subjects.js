@@ -86,4 +86,10 @@ window.clearForm = clearForm
 window.editSubject = editSubject
 window.deleteSubject = deleteSubject
 
-window.onload = () => setTimeout(loadSubjects, 300)
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    loadTeachers()
+    loadSubjects()
+    loadAlerts()
+  }, 300)
+})

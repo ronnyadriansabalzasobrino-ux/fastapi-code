@@ -136,9 +136,12 @@ html2pdf().from(container).save("reporte_docentes.pdf")
 
 }
 
-// FIX window.onload
-window.addEventListener("load", () => {
-  loadTeachers()
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    loadTeachers()
+    loadSubjects()
+    loadAlerts()
+  }, 300)
 })
 
 window.saveTeacher = saveTeacher

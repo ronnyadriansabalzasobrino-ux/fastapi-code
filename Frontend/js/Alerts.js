@@ -175,10 +175,13 @@ html2pdf().from(container).save("reporte_alertas.pdf")
 }
 
 // FIX window.onload
-window.addEventListener("load", () => {
-  loadAlerts()
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    loadTeachers()
+    loadSubjects()
+    loadAlerts()
+  }, 300)
 })
-
 window.editAlert = editAlert
 window.deleteAlert = deleteAlert
 window.saveAlert = saveAlert
