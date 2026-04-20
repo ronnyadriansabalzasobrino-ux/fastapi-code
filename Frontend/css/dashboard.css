@@ -18,40 +18,55 @@ display:flex;
 height:100vh;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR MEJORADO
+========================= */
 .sidebar{
-width:250px;
+width:260px;
+min-height:100vh;
 background:white;
-padding:20px;
+padding:25px;
 box-shadow:2px 0 12px rgba(0,0,0,0.08);
+
+display:flex;
+flex-direction:column;
 }
 
 .logo{
-margin-bottom:30px;
+margin-bottom:35px;
 color:#2a5298;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
+text-align:center;
 }
 
+/* MENÚ VERTICAL MÁS LIMPIO */
 .sidebar ul{
 list-style:none;
+display:flex;
+flex-direction:column;
+gap:10px;
+flex:1;
 }
 
 .sidebar li{
-padding:12px 15px;
-margin-bottom:8px;
+padding:14px 15px;
 border-radius:10px;
 cursor:pointer;
 transition:0.2s;
 font-weight:500;
+background:#f8f9fb;
 }
 
 .sidebar li:hover{
 background:#2a5298;
 color:white;
+transform:translateX(5px);
 }
 
-/* MAIN */
+/* =========================
+   MAIN
+========================= */
 .main{
 flex:1;
 padding:30px;
@@ -88,22 +103,25 @@ transition:0.2s;
 background:#1e3c72;
 }
 
-/* CARDS */
+/* =========================
+   DASHBOARD CARDS MEJORADO
+========================= */
 .cards{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(2,1fr); /* 🔥 CAMBIO IMPORTANTE */
 gap:20px;
 }
 
 .card{
 background:white;
-padding:30px;
+padding:35px;
 border-radius:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
 text-align:center;
 font-size:18px;
 font-weight:bold;
 transition:0.3s;
+cursor:pointer;
 }
 
 .card:hover{
@@ -111,14 +129,16 @@ transform:translateY(-6px);
 box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
 
-/* RESPONSIVE DASHBOARD */
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 1024px) {
 .cards {
 grid-template-columns: repeat(2, 1fr);
 }
 
 .sidebar {
-width: 200px;
+width: 220px;
 }
 }
 
@@ -130,8 +150,14 @@ flex-direction: column;
 .sidebar {
 width: 100%;
 display: flex;
+flex-direction: row;
 justify-content: space-around;
 padding: 15px;
+}
+
+.sidebar ul{
+flex-direction: row;
+gap:10px;
 }
 
 .main {

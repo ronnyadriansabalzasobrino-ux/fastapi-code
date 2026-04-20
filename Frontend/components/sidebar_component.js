@@ -8,14 +8,14 @@ this.innerHTML = `
     <h2>🎓 School System</h2>
   </div>
 
-  <nav class="sidebar-menu">
+  <div class="sidebar-menu">
 
     <button onclick="goStudents()">👨‍🎓 Estudiantes</button>
     <button onclick="goTeachers()">👨‍🏫 Docentes</button>
     <button onclick="goSubjects()">📚 Materias</button>
     <button onclick="goAlerts()">⚠️ Alertas</button>
 
-  </nav>
+  </div>
 
 </aside>
 `;
