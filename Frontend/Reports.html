@@ -10,48 +10,52 @@
 
 <body>
 
+<!-- TOP HORIZONTAL SYSTEM -->
+<div class="topbar">
+  SCHOOL SYSTEM
+</div>
+
 <div class="container">
 
-  <!-- REUTILIZAMOS TU SIDEBAR -->
-  <app-sidebar></app-sidebar>
+  <!-- SIDEBAR (IZQUIERDA) -->
+  <div class="sidebar">
+    <app-sidebar></app-sidebar>
+  </div>
 
-  <main class="main">
+  <!-- CONTENIDO PRINCIPAL (DERECHA) -->
+  <div class="main">
 
-    <!-- REUTILIZAMOS TU TOPBAR -->
     <app-topbar></app-topbar>
 
-    <!-- HEADER DEL MODULO -->
-    <div class="header">
-      📊 School System - Reports
+    <!-- SECCIÓN REPORTES -->
+    <div class="reports-section">
+
+      <h2>📊 Reports</h2>
+
+      <p class="subtitle">
+        Visualización de datos del sistema académico
+      </p>
+
     </div>
 
-    <!-- BOTÓN SOLO EN REPORTES (volver a dashboard) -->
-    <div class="actions">
-      <button onclick="goDashboard()">⬅ Volver al Dashboard</button>
-    </div>
+    <div class="powerbi-section">
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <div class="report-box">
+      <div class="powerbi-title">
+        📊 Power BI
+      </div>
 
       <iframe
-        src="https://app.powerbi.com/reportEmbed?reportId=28285965-bbed-4404-b8c0-228b8921318a"
-        allowFullScreen="true">
+        class="powerbi-frame"
+         src="https://app.powerbi.com/reportEmbed?reportId=28285965-bbed-4404-b8c0-228b8921318a&autoAuth=true&ctid=740be6bd-fd36-470e-94d9-0f0c777fadb9" frameborder="0" allowFullScreen="true"></iframe>
       </iframe>
 
     </div>
 
-  </main>
 
 </div>
 
 <script src="components/sidebar_component.js"></script>
 <script src="components/topbar_component.js"></script>
-
-<script>
-function goDashboard(){
-  window.location.href = "dashboard.html";
-}
-</script>
 
 </body>
 </html>
