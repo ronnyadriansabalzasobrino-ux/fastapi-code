@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from app.controllers.Alerts_controller import AlertsController
 from app.models.Alerts_model import Alerts
 from app.services.email_service import send_email
+from app.config.db_config import get_db_connection
 
 router = APIRouter()
 nueva_Alerts = AlertsController()
@@ -59,4 +60,40 @@ async def delete_Alerts(id_Alerts: int):
 
 @router.get("/alerts_public")
 async def alerts_public():
-    return nueva_Alerts.get_Alerts()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT 
+            a.id_alert,
+            s.name,
+            s.last_name,
+            s.mail,
+            a.tipo_alert,
+            a.description,
+            a.risk_level,
+            a.state,
+            a.generation_date
+        FROM alerts a
+        JOIN students s ON a.id_student = s.id_student
+    """)
+
+    rows = cursor.fetchall()
+
+    result = []
+    for row in rows:
+        result.append({
+            "id_alert": row[0],
+            "student": f"{row[1]} {row[2]}",
+            "email": row[3],
+            "tipo_alert": row[4],
+            "description": row[5],
+            "risk_level": row[6],
+            "state": row[7],
+            "date": str(row[8])
+        })
+
+    cursor.close()
+    conn.close()
+
+    return result         
