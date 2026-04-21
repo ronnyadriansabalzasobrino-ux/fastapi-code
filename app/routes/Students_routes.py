@@ -15,7 +15,7 @@ async def create_student(student: students):
     # 🔥 CORREO AL CREAR
     try:
         await send_email(
-            destinatario=ADMIN_EMAIL,
+            destinatario="ronnyadriansabalzasobrino@gmail.com",
             asunto="👨‍🎓 Nuevo estudiante creado",
             contenido=f"""
             <h2>Nuevo estudiante registrado</h2>
@@ -62,7 +62,7 @@ async def delete_student(id_student:int):
     try:
         if student:
             await send_email(
-                destinatario=ADMIN_EMAIL,
+                destinatario="ronnyadriansabalzasobrino@gmail.com",
                 asunto="🗑️ Estudiante eliminado",
                 contenido=f"""
                 <h2>Estudiante eliminado</h2>
