@@ -1,8 +1,6 @@
 const API = "https://alertas-backend.onrender.com"
 
-/* =========================
-   📌 CARGAR ESTUDIANTES
-========================= */
+
 async function loadstudents(){
 
 try{
@@ -61,10 +59,6 @@ console.error("Error cargando estudiantes:", error)
 }
 }
 
-
-/* =========================
-   📌 CARGAR PROGRAMAS
-========================= */
 async function loadPrograms(){
 
 try{
@@ -92,9 +86,6 @@ console.error("Error programas:", error)
 }
 
 
-/* =========================
-   📌 CARGAR SEMESTRES
-========================= */
 async function loadSemesters(){
 
 try{
@@ -122,9 +113,6 @@ console.error("Error semestres:", error)
 }
 
 
-/* =========================
-   📌 GUARDAR ESTUDIANTE
-========================= */
 async function savestudent(){
 
 try{
@@ -175,9 +163,6 @@ console.error("Error guardando estudiante:", error)
 }
 
 
-/* =========================
-   📌 EDITAR
-========================= */
 function editstudent(id,name,last_name,number_id,mail,phone){
 document.getElementById("student_id").value = id
 document.getElementById("name").value = name
@@ -189,9 +174,7 @@ window.scrollTo(0,0)
 }
 
 
-/* =========================
-   📌 ELIMINAR
-========================= */
+
 async function deletestudent(id){
 if(!confirm("¿Eliminar estudiante?")) return
 
@@ -201,9 +184,6 @@ loadStudents()
 }
 
 
-/* =========================
-   📌 LIMPIAR FORM
-========================= */
 function clearForm(){
 document.getElementById("student_id").value = ""
 document.getElementById("name").value = ""
@@ -217,39 +197,6 @@ const s = document.getElementById("semester_id")
 
 if(p) p.value = ""
 if(s) s.value = ""
-}
-
-
-/* =========================
-   📌 PDF
-========================= */
-// 🔥 REPORTE PDF
-async function generatePDFstudents(){
-
-// 🔥 Clonar tabla limpia (SIN DataTable)
-const original = document.querySelector("#studentsTableDisplay")
-const clone = original.cloneNode(true)
-
-// ❌ eliminar controles de DataTable si existen
-clone.classList.remove("dataTable")
-
-// 🔥 eliminar columna acciones
-clone.querySelectorAll("td:last-child, th:last-child")
-  .forEach(el => el.remove())
-
-// 🔥 crear contenedor limpio
-const container = document.createElement("div")
-
-const titulo = document.createElement("h2")
-titulo.innerText = "Reporte de Estudiantes"
-titulo.style.textAlign = "center"
-
-container.appendChild(titulo)
-container.appendChild(clone)
-
-// 🔥 generar PDF desde el CLON (no el original)
-html2pdf().from(container).save("reporte_estudiantes.pdf")
-
 }
 
 

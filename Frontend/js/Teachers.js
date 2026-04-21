@@ -112,28 +112,6 @@ document.getElementById("phone").value=""
 document.getElementById("specialty").value=""
 }
 
-// PDF
-async function generatePDFTeachers(){
-
-const original = document.querySelector("#teachersTableDisplay")
-const clone = original.cloneNode(true)
-
-clone.querySelectorAll("td:last-child, th:last-child")
-  .forEach(el => el.remove())
-
-const container = document.createElement("div")
-
-const titulo = document.createElement("h2")
-titulo.innerText = "Reporte de Docentes"
-titulo.style.textAlign = "center"
-
-container.appendChild(titulo)
-container.appendChild(clone)
-
-html2pdf().from(container).save("reporte_docentes.pdf")
-
-}
-
 // FIX window.onload
 window.addEventListener("DOMContentLoaded", loadTeachers)
 

@@ -135,7 +135,7 @@ document.getElementById("state").value=""
 document.getElementById("id_period").value=""
 }
 
-// FIX window.onload
+
 window.addEventListener("DOMContentLoaded",loadAlerts)
 
 
