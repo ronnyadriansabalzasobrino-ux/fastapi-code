@@ -52,7 +52,7 @@ class AlertsController:
             cursor = conn.cursor()
 
             cursor.execute("""
-                SELECT mail FROM students WHERE id_student = %s
+                SELECT mail FROM Students WHERE id_student = %s
             """, (id_student,))
 
             result = cursor.fetchone()
