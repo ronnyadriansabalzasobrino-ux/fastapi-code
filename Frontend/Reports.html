@@ -2,50 +2,49 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Reportes</title>
+<title>Reporte de Alertas</title>
 
-<link rel="stylesheet" href="css/reports.css">
+<link rel="stylesheet" href="./css/Reports.css">
 </head>
 
 <body>
 
-<!-- TOP BAR SIMPLE -->
-<div class="topbar">
-  📊 Sistema de Reportes
-</div>
-
 <div class="container">
 
-  <!-- INFO CARDS -->
-  <div class="info-row">
+  <h1>📊 Módulo de Reportes</h1>
 
-    <div class="info-card">
-      <h3>📈 Reporte General</h3>
-      <p>Visualización de datos del sistema en tiempo real</p>
-    </div>
+  <div class="card">
 
-    <div class="info-card">
-      <h3>👨‍🎓 Estudiantes</h3>
-      <p>Datos de estudiantes registrados</p>
-    </div>
+    <h2>Filtros del reporte</h2>
 
-    <div class="info-card">
-      <h3>⚠️ Alertas</h3>
-      <p>Eventos críticos del sistema</p>
-    </div>
+    <!-- 🔍 FILTROS -->
+    <select id="risk_level">
+      <option value="">Todos los riesgos</option>
+      <option value="HIGH">HIGH</option>
+      <option value="MEDIUM">MEDIUM</option>
+      <option value="LOW">LOW</option>
+    </select>
 
-  </div>
+    <select id="state">
+      <option value="">Todos los estados</option>
+      <option value="ACTIVE">ACTIVE</option>
+      <option value="CLOSED">CLOSED</option>
+    </select>
 
-  <!-- REPORTE PRINCIPAL -->
-  <div class="report-box">
+    <input id="id_program" placeholder="ID Programa">
 
-    <iframe 
-      src="https://app.powerbi.com/reportEmbed?reportId=28285965-bbed-4404-b8c0-228b8921318a">
-    </iframe>
+    <br><br>
+
+    <!-- 🔥 BOTÓN -->
+    <button onclick="generateReport()" class="btn-primary">
+      📄 Generar PDF
+    </button>
 
   </div>
 
 </div>
+
+<script src="./js/Reports.js"></script>
 
 </body>
 </html>
