@@ -1,50 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
-<title>Reporte de Alertas</title>
+<title>Reports - School System</title>
 
-<link rel="stylesheet" href="./css/Reports.css">
+<link rel="stylesheet" href="css/reports.css">
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1>📊 Módulo de Reportes</h1>
+  <!-- REUTILIZAMOS TU SIDEBAR -->
+  <app-sidebar></app-sidebar>
 
-  <div class="card">
+  <main class="main">
 
-    <h2>Filtros del reporte</h2>
+    <!-- REUTILIZAMOS TU TOPBAR -->
+    <app-topbar></app-topbar>
 
-    <!-- 🔍 FILTROS -->
-    <select id="risk_level">
-      <option value="">Todos los riesgos</option>
-      <option value="HIGH">HIGH</option>
-      <option value="MEDIUM">MEDIUM</option>
-      <option value="LOW">LOW</option>
-    </select>
+    <!-- HEADER DEL MODULO -->
+    <div class="header">
+      📊 School System - Reports
+    </div>
 
-    <select id="state">
-      <option value="">Todos los estados</option>
-      <option value="ACTIVE">ACTIVE</option>
-      <option value="CLOSED">CLOSED</option>
-    </select>
+    <!-- BOTÓN SOLO EN REPORTES (volver a dashboard) -->
+    <div class="actions">
+      <button onclick="goDashboard()">⬅ Volver al Dashboard</button>
+    </div>
 
-    <input id="id_program" placeholder="ID Programa">
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="report-box">
 
-    <br><br>
+      <iframe
+        src="https://app.powerbi.com/reportEmbed?reportId=28285965-bbed-4404-b8c0-228b8921318a"
+        allowFullScreen="true">
+      </iframe>
 
-    <!-- 🔥 BOTÓN -->
-    <button onclick="generateReport()" class="btn-primary">
-      📄 Generar PDF
-    </button>
+    </div>
 
-  </div>
+  </main>
 
 </div>
 
-<script src="./js/Reports.js"></script>
+<script src="components/sidebar_component.js"></script>
+<script src="components/topbar_component.js"></script>
+
+<script>
+function goDashboard(){
+  window.location.href = "dashboard.html";
+}
+</script>
 
 </body>
 </html>

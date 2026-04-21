@@ -2,71 +2,61 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #1e3c72;
-  color: #ffffff;
 }
 
-/* Contenedor principal */
+/* LAYOUT IGUAL A DASHBOARD */
 .container {
-  padding: 30px;
+  display: flex;
 }
 
-/* Título */
-.title {
-  text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 25px;
-}
-
-/* Caja del reporte */
-.report-box {
-  background: #ffffff;
-  border-radius: 12px;
+/* MAIN CONTENIDO */
+.main {
+  flex: 1;
   padding: 20px;
-  color: #000;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
-/* iframe (Power BI o gráficos) */
-.report-box iframe {
-  width: 100%;
-  height: 650px;
+/* HEADER DEL MODULO */
+.header {
+  text-align: center;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+/* BOTÓN ACCIÓN */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.actions button {
+  background: white;
+  color: #1e3c72;
   border: none;
-  border-radius: 10px;
-}
-
-/* Tabla de reportes (si usas datos API) */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th {
-  background: #1e3c72;
-  color: white;
-  padding: 10px;
-}
-
-td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-tr:hover {
-  background: #f2f2f2;
-}
-
-/* Botón opcional */
-.btn {
-  background: #1e3c72;
-  color: white;
   padding: 10px 15px;
   border-radius: 8px;
-  border: none;
   cursor: pointer;
+  font-weight: bold;
 }
 
-.btn:hover {
-  background: #16325c;
+.actions button:hover {
+  background: #e6e6e6;
+}
+
+/* CONTENEDOR REPORTE */
+.report-box {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* IFRAME */
+.report-box iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 10px;
 }
