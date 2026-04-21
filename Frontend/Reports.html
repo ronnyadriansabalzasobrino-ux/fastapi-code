@@ -12,7 +12,7 @@
 
 <div class="container">
 
-  <!-- SIDEBAR (IGUAL DASHBOARD) -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <app-sidebar></app-sidebar>
   </div>
@@ -20,7 +20,7 @@
   <!-- MAIN -->
   <div class="main">
 
-    <!-- TOPBAR (IGUAL DASHBOARD) -->
+    <!-- TOPBAR -->
     <app-topbar></app-topbar>
 
     <!-- TITULO -->
@@ -37,7 +37,16 @@
 
       <h3>🧾 Generar Reporte PDF</h3>
 
-      <p>Descarga un reporte del sistema en formato PDF.</p>
+      <p>Selecciona el nivel del reporte antes de generar el PDF.</p>
+
+      <select id="level">
+        <option value="">-- Selecciona nivel --</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+
+      <br><br>
 
       <button onclick="generatePDF()">
         📥 Descargar PDF
@@ -64,9 +73,17 @@
 
 <script>
 function generatePDF() {
-  alert("Generando PDF... (luego lo conectamos con backend ReportLab)");
 
-  // demo descarga
+  const level = document.getElementById("level").value;
+
+  if (!level) {
+    alert("⚠️ Debes seleccionar un nivel (Low, Medium o High)");
+    return;
+  }
+
+  alert("Generando PDF nivel: " + level);
+
+  // AQUÍ luego lo conectas con FastAPI + ReportLab
   window.open("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
 }
 </script>

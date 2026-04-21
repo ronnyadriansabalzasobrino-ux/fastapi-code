@@ -4,20 +4,19 @@ font-family: "Segoe UI", Arial, sans-serif;
 background:#3666ad;
 }
 
-/* LAYOUT IGUAL DASHBOARD */
+/* LAYOUT GENERAL */
 .container{
 display:flex;
 height:100vh;
 }
 
-/* SIDEBAR IGUAL DASHBOARD */
+/* SIDEBAR (FIJO Y LIMPIO) */
 .sidebar{
 width:260px;
 min-height:100vh;
 background:white;
 padding:25px;
 box-shadow:2px 0 12px rgba(0,0,0,0.08);
-
 display:flex;
 flex-direction:column;
 }
@@ -26,23 +25,24 @@ flex-direction:column;
 .main{
 flex:1;
 padding:30px;
+overflow-y:auto;
 }
 
-/* TITULO */
+/* TITULOS */
 .reports-title{
 font-size:22px;
 font-weight:bold;
-color:#000000;
+color:#ffffff;
 margin-bottom:5px;
 }
 
 .reports-subtitle{
 font-size:14px;
-color:#000000;
+color:#eaeaea;
 margin-bottom:20px;
 }
 
-/* CARD GENERAL (IGUAL DASHBOARD) */
+/* CARD BASE */
 .card{
 background:white;
 padding:25px;
@@ -63,6 +63,7 @@ color:#666;
 margin:8px 0 15px;
 }
 
+/* BOTÓN PDF */
 .actions-card button{
 padding:10px 15px;
 border:none;
@@ -83,4 +84,9 @@ width:100%;
 height:600px;
 border:none;
 border-radius:10px;
+}
+
+/* FIX IMPORTANTE: evita que el layout se “rompa visualmente” */
+.card:last-child{
+margin-bottom:0;
 }
