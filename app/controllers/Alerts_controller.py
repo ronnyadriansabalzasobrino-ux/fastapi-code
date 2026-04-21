@@ -4,7 +4,6 @@ from fastapi import HTTPException
 from app.config.db_config import get_db_connection
 from app.models.Alerts_model import Alerts
 from fastapi.encoders import jsonable_encoder
-from app.services.email_service import send_email
 
 
 class AlertsController:
@@ -35,35 +34,6 @@ class AlertsController:
             cursor.close()
             conn.close()
 
-            # 🔥 PASO 7: ENVIAR CORREO AUTOMÁTICO
-            try:
-                subject = "🚨 Nueva alerta registrada en el sistema"
-
-                # 🔥 AGREGADO: obtener mail del estudiante
-                student_mail = self.get_student_email(alert.id_student)
-
-                message = f"""
-                Se ha creado una nueva alerta:
-
-                🧑 Estudiante ID: {alert.id_student}
-                ⚠️ Tipo: {alert.tipo_alert}
-                📄 Descripción: {alert.description}
-                📊 Riesgo: {alert.risk_level}
-                📌 Estado: {alert.state}
-
-                🔗 ID alerta: {new_id}
-                """
-
-                send_email(
-                    destinatario=student_mail,
-                    asunto="nueva alertra academica",
-                    contenido=message
-
-                )
-
-            except Exception as mail_error:
-                print("Error enviando correo:", mail_error)
-
             return {"resultado": "Alert creada correctamente", "id_alert": new_id}
 
         except psycopg2.Error as err:
@@ -72,37 +42,32 @@ class AlertsController:
 
 
     # =========================
-    # 🔥 AGREGADO: obtener email estudiante
-    # =========================
-    # =========================
-    # GET STUDENT EMAIL
+    # ✅ OBTENER EMAIL DEL ESTUDIANTE
     # =========================
     def get_student_email(self, id_student: int):
         conn = None
-        cursor = None 
+        cursor = None
         try:
-                cursor = conn.cursor()
-                cursor.execute("""
-                    SELECT mail FROM users WHERE id_user = %s
-                """, (id_student,))
-                result = cursor.fetchone()
-                conn.commit() 
-                return result[0] if result else None
-            
+            conn = get_db_connection()
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                SELECT mail FROM students WHERE id_student = %s
+            """, (id_student,))
+
+            result = cursor.fetchone()
+            return result[0] if result else None
+
         except Exception as e:
-                print("Error obtenido mail:", e)
-                if conn:
-                    conn.rollback()
+            print("Error obtenido mail:", e)
+            return None
 
-                return None
         finally:
-            
-            cursor.close()
-            conn.close()
-        
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
 
-       
-            
 
     # =========================
     # GET ALL

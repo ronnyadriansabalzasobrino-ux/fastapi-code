@@ -1,9 +1,7 @@
 from fastapi import APIRouter
 from app.controllers.Alerts_controller import AlertsController
 from app.models.Alerts_model import Alerts
-from fastapi.encoders import jsonable_encoder
 from app.services.email_service import send_email
-
 
 router = APIRouter()
 nueva_Alerts = AlertsController()
@@ -12,16 +10,16 @@ nueva_Alerts = AlertsController()
 @router.post("/create_Alerts")
 async def create_Alerts(alert: Alerts):
 
-    # 1. CREAR ALERTA EN BD
+    # 1. CREAR ALERTA
     result = nueva_Alerts.create_Alerts(alert)
 
-    # 2. OBTENER MAIL DEL ESTUDIANTE DESDE EL CONTROLLER
+    # 2. OBTENER EMAIL
     student_mail = nueva_Alerts.get_student_email(alert.id_student)
 
-    # 3. ENVIAR CORREO AUTOMÁTICO
+    # 3. ENVIAR CORREO
     if student_mail:
         await send_email(
-            destinatarios=student_mail,
+            destinatario=student_mail,
             asunto="⚠️ Nueva alerta académica",
             contenido=f"""
             Hola 👋
@@ -59,7 +57,6 @@ async def delete_Alerts(id_Alerts: int):
     return nueva_Alerts.delete_Alerts(id_Alerts)
 
 
-# 🔥 POWER BI
 @router.get("/alerts_public")
 async def alerts_public():
     return nueva_Alerts.get_Alerts()
