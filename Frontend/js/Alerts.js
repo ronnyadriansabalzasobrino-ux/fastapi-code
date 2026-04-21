@@ -135,28 +135,6 @@ document.getElementById("state").value=""
 document.getElementById("id_period").value=""
 }
 
-// PDF
-async function generatePDFAlerts(){
-
-const original = document.querySelector("#alertsTableDisplay")
-const clone = original.cloneNode(true)
-
-clone.querySelectorAll("td:last-child, th:last-child")
-  .forEach(el => el.remove())
-
-const container = document.createElement("div")
-
-const titulo = document.createElement("h2")
-titulo.innerText = "Reporte de Alertas"
-titulo.style.textAlign = "center"
-
-container.appendChild(titulo)
-container.appendChild(clone)
-
-html2pdf().from(container).save("reporte_alertas.pdf")
-
-}
-
 // FIX window.onload
 window.addEventListener("DOMContentLoaded",loadAlerts)
 
