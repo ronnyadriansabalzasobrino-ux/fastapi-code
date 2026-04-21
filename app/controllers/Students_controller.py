@@ -1,19 +1,19 @@
 import psycopg2
 from fastapi import HTTPException
 from app.config.db_config import get_db_connection
-from app.models. Students_model import Students
+from app.models. Students_model import students
 from fastapi.encoders import jsonable_encoder
 
 
 class StudentsController:
 
-    def create_student(self, student: Students):
+    def create_student(self, student: students):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
 
             cursor.execute("""
-                INSERT INTO "Students"
+                INSERT INTO "students"
                 (name, last_name, number_id, mail, phone, id_program, id_semester)
                 VALUES (%s,%s,%s,%s,%s,%s,%s)
             """,(
@@ -46,7 +46,7 @@ class StudentsController:
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            cursor.execute('SELECT * FROM "Students"')
+            cursor.execute('SELECT * FROM "students"')
 
             result = cursor.fetchall()
 
@@ -79,7 +79,7 @@ class StudentsController:
             conn.close()
 
 
-    def update_student(self, id_student: int, student: Students):
+    def update_student(self, id_student: int, student: students):
 
         try:
 
@@ -109,7 +109,7 @@ class StudentsController:
 
             conn.commit()
 
-            return {"resultado":"Student actualizado"}
+            return {"resultado":"student actualizado"}
 
         except psycopg2.Error as err:
 
@@ -130,13 +130,13 @@ class StudentsController:
             cursor=conn.cursor()
 
             cursor.execute(
-                'DELETE FROM "Students" WHERE id_student=%s',
+                'DELETE FROM "students" WHERE id_student=%s',
                 (id_student,)
             )
 
             conn.commit()
 
-            return {"resultado":"Student eliminado"}
+            return {"resultado":"student eliminado"}
 
         except psycopg2.Error as err:
 
