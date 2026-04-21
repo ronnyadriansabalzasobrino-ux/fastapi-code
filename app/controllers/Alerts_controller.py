@@ -56,6 +56,7 @@ class AlertsController:
             """, (id_student,))
 
             result = cursor.fetchone()
+            print("MAIL ENCONTRADO:", result)
             return result[0] if result else None
 
         except Exception as e:
