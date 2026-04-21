@@ -10,39 +10,43 @@
 
 <body>
 
-<!-- TOP HORIZONTAL SYSTEM -->
-<div class="topbar">
-  SCHOOL SYSTEM
-</div>
-
 <div class="container">
 
-  <!-- SIDEBAR (IZQUIERDA) -->
+  <!-- SIDEBAR (IGUAL DASHBOARD) -->
   <div class="sidebar">
     <app-sidebar></app-sidebar>
   </div>
 
-  <!-- CONTENIDO PRINCIPAL (DERECHA) -->
+  <!-- MAIN -->
   <div class="main">
 
+    <!-- TOPBAR (IGUAL DASHBOARD) -->
     <app-topbar></app-topbar>
 
-    <!-- SECCIÓN REPORTES -->
-    <div class="reports-section">
+    <!-- TITULO -->
+    <div class="reports-title">
+      📊 Reports
+    </div>
 
-      <h2>📊 Reports</h2>
+    <div class="reports-subtitle">
+      Visualización de datos del sistema académico
+    </div>
 
-      <p class="subtitle">
-        Visualización de datos del sistema académico
-      </p>
+    <!-- PDF SECTION -->
+    <div class="card actions-card">
+
+      <h3>🧾 Generar Reporte PDF</h3>
+
+      <p>Descarga un reporte del sistema en formato PDF.</p>
+
+      <button onclick="generatePDF()">
+        📥 Descargar PDF
+      </button>
 
     </div>
 
-    <div class="powerbi-section">
-
-      <div class="powerbi-title">
-        📊 Power BI
-      </div>
+    <!-- POWER BI -->
+    <div class="card report-card">
 
       <iframe
         class="powerbi-frame"
@@ -51,11 +55,21 @@
 
     </div>
 
+  </div>
 
 </div>
 
 <script src="components/sidebar_component.js"></script>
 <script src="components/topbar_component.js"></script>
+
+<script>
+function generatePDF() {
+  alert("Generando PDF... (luego lo conectamos con backend ReportLab)");
+
+  // demo descarga
+  window.open("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
+}
+</script>
 
 </body>
 </html>
