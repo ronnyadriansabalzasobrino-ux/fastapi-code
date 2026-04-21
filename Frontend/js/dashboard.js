@@ -44,3 +44,12 @@ localStorage.clear();
 window.location.href = "Login.html"
 
 }
+
+
+// IR A REPORTES
+
+function goReports(){
+
+window.location.href = "Reports.html"
+
+}

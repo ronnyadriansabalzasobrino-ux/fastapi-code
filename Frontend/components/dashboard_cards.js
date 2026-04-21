@@ -16,7 +16,8 @@ if (rol === "admin") {
     {text:"Estudiantes", action:"goStudents()", icon:"👨‍🎓"},
     {text:"Docentes", action:"goTeachers()", icon:"👨‍🏫"},
     {text:"Materias", action:"goSubjects()", icon:"📚"},
-    {text:"Alertas", action:"goAlerts()", icon:"⚠️"}
+    {text:"Alertas", action:"goAlerts()", icon:"⚠️"},
+    {text:"Reportes", action:"goReports()", icon:"📈"}
   ];
 }
 
