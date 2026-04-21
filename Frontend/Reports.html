@@ -41,27 +41,44 @@
 
         <p>Selecciona el nivel del reporte antes de generar el PDF.</p>
 
-        <label>Nivel de riesgo</label>
+        <label>📊 Módulo de Reportes</label>
 
-        <select id="level">
-          <option value="">-- Selecciona nivel --</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reporte de Alertas</title>
 
-        <br><br>
+<link rel="stylesheet" href="./css/Reports.css">
+</head>
 
-        <button onclick="generatePDF()">
-          📥 Descargar PDF
-        </button>
+    <!-- 🔍 FILTROS -->
+    <select id="risk_level">
+      <option value="">Todos los riesgos</option>
+      <option value="HIGH">HIGH</option>
+      <option value="MEDIUM">MEDIUM</option>
+      <option value="LOW">LOW</option>
+    </select>
 
-      </div>
+    <select id="state">
+      <option value="">Todos los estados</option>
+      <option value="ACTIVE">ACTIVE</option>
+      <option value="CLOSED">CLOSED</option>
+    </select>
 
-    </div>
+    <input id="id_program" placeholder="ID Programa">
+
+    <br><br>
+
+    <!-- 🔥 BOTÓN -->
+    <button onclick="generateReport()" class="btn-primary">
+      📄 Generar PDF
+    </button>
 
   </div>
 
+</div>
+<script src="./js/Reports.js"></script>
 </div>
 
 <script src="components/sidebar_component.js"></script>
