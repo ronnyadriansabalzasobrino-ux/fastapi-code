@@ -224,7 +224,7 @@ if(s) s.value = ""
    📌 PDF
 ========================= */
 // 🔥 REPORTE PDF
-async function generatePDFstudents(){
+async function generatePDFStudents(){
 
 // 🔥 Clonar tabla limpia (SIN DataTable)
 const original = document.querySelector("#studentsTableDisplay")
