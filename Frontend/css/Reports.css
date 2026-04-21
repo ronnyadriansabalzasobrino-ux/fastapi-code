@@ -1,69 +1,33 @@
-body{
-margin:0;
-font-family: "Segoe UI", Arial, sans-serif;
-background:#3666ad;
+/* HEADER WRAPPER */
+.reports-header{
+margin-bottom:20px;
 }
 
-/* LAYOUT GENERAL */
-.container{
-display:flex;
-height:100vh;
-}
-
-/* SIDEBAR (FIJO Y LIMPIO) */
-.sidebar{
-width:260px;
-min-height:100vh;
-background:white;
-padding:25px;
-box-shadow:2px 0 12px rgba(0,0,0,0.08);
+/* CONTENT */
+.reports-content{
 display:flex;
 flex-direction:column;
+gap:20px;
 }
 
-/* MAIN */
-.main{
-flex:1;
-padding:30px;
-overflow-y:auto;
-}
-
-/* TITULOS */
-.reports-title{
-font-size:22px;
-font-weight:bold;
-color:#ffffff;
+/* LABELS */
+.actions-card label{
+font-size:13px;
+color:#444;
+display:block;
 margin-bottom:5px;
 }
 
-.reports-subtitle{
-font-size:14px;
-color:#eaeaea;
-margin-bottom:20px;
+/* SELECT MEJORADO */
+.actions-card select{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+outline:none;
 }
 
-/* CARD BASE */
-.card{
-background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-margin-bottom:20px;
-}
-
-/* PDF SECTION */
-.actions-card h3{
-margin:0;
-color:#2a5298;
-}
-
-.actions-card p{
-font-size:13px;
-color:#666;
-margin:8px 0 15px;
-}
-
-/* BOTÓN PDF */
+/* BOTÓN MÁS PRO */
 .actions-card button{
 padding:10px 15px;
 border:none;
@@ -72,14 +36,11 @@ background:#2a5298;
 color:white;
 cursor:pointer;
 transition:0.2s;
+width:100%;
+font-weight:bold;
 }
 
 .actions-card button:hover{
 background:#1e3c72;
-}
-
-
-/* FIX IMPORTANTE: evita que el layout se “rompa visualmente” */
-.card:last-child{
-margin-bottom:0;
+transform:scale(1.02);
 }
