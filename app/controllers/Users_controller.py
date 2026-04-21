@@ -164,10 +164,13 @@ class UserController:
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            cursor.execute("DELETE FROM Users WHERE id_user=%s", (id_user,))
+            cursor.execute("DELETE FROM users WHERE id_user=%s", (id_user,))
             conn.commit()
 
             return {"resultado": "User eliminado"}
-
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500, detail=str(e))
         finally:
-            conn.close()
+            if conn:
+                conn.close()

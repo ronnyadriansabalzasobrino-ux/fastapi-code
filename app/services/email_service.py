@@ -1,6 +1,6 @@
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
-
 conf = ConnectionConfig(
+    ADMIN_EMAIL="ronnyadriansabalzasobrino@gmail.com",
     MAIL_USERNAME="ronnyadriansabalzasobrino@gmail.com",
     MAIL_PASSWORD="lwjk jylo rhsw jzqo",
     MAIL_FROM="ronnyadriansabalzasobrino@gmail.com",
@@ -11,11 +11,11 @@ conf = ConnectionConfig(
     USE_CREDENTIALS=True
 )
 
-async def send_email(destinatario: str, asunto: str, contenido: str):
+async def send_email(ADMIN_EMAIL: str, asunto: str, contenido: str):
 
     message = MessageSchema(
         subject=asunto,
-        recipients=[destinatario],
+        recipients=[ADMIN_EMAIL],  # Enviar a tu propio correo para pruebas
         body=contenido,
         subtype="html"
     )
