@@ -21,6 +21,7 @@ from app.routes.Assists_routes import router as assists_router
 from app.routes.Alerts_routes import router as alerts_router
 from app.routes.Followups_routes import router as followups_router
 from app.routes.Periods_routes import router as periods_router
+from app.routes.reports_routes import router as reports_router
 
 # CORS
 origins = [
@@ -61,6 +62,7 @@ app.include_router(assists_router)
 app.include_router(alerts_router)
 app.include_router(followups_router)
 app.include_router(periods_router)
+app.include_router(reports_router)
 
 # crear tablas si no existen
 from app.config.db_config import create_tables
