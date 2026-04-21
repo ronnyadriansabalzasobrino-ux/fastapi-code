@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #1e3c72;
+  color: #ffffff;
+}
+
+/* Contenedor principal */
+.container {
+  padding: 30px;
+}
+
+/* Título */
+.title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+/* Caja del reporte */
+.report-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  color: #000;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* iframe (Power BI o gráficos) */
+.report-box iframe {
+  width: 100%;
+  height: 650px;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Tabla de reportes (si usas datos API) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th {
+  background: #1e3c72;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background: #f2f2f2;
+}
+
+/* Botón opcional */
+.btn {
+  background: #1e3c72;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #16325c;
+}
