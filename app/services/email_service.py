@@ -11,11 +11,11 @@ conf = ConnectionConfig(
 )
 ADMIN_EMAIL="ronnyadriansabalzasobrino@gmail.com"
 
-async def send_email(ADMIN_EMAIL: str, asunto: str, contenido: str):
+async def send_email(destinatario: str, asunto: str, contenido: str):
 
     message = MessageSchema(
         subject=asunto,
-        recipients=[ADMIN_EMAIL],  # Enviar a tu propio correo para pruebas
+        recipients=[destinatario],
         body=contenido,
         subtype="html"
     )
