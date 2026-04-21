@@ -31,73 +31,50 @@
       </div>
     </div>
 
-    <!-- CONTENT WRAPPER -->
-    <div class="reports-content">
+    <!-- CARD -->
+    <div class="card actions-card">
 
-      <!-- CARD -->
-      <div class="card actions-card">
+      <h3>🧾 Generar Reporte PDF</h3>
 
-        <h3>🧾 Generar Reporte PDF</h3>
+      <p>Selecciona filtros antes de generar el PDF.</p>
 
-        <p>Selecciona el nivel del reporte antes de generar el PDF.</p>
+      <label>📊 Nivel de riesgo</label>
 
-        <label>📊 Módulo de Reportes</label>
+      <select id="risk_level">
+        <option value="">Todos los riesgos</option>
+        <option value="HIGH">HIGH</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="LOW">LOW</option>
+      </select>
 
-        <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Reporte de Alertas</title>
+      <br><br>
 
-<link rel="stylesheet" href="./css/Reports.css">
-</head>
+      <select id="state">
+        <option value="">Todos los estados</option>
+        <option value="ACTIVE">ACTIVE</option>
+        <option value="CLOSED">CLOSED</option>
+      </select>
 
-    <!-- 🔍 FILTROS -->
-    <select id="risk_level">
-      <option value="">Todos los riesgos</option>
-      <option value="HIGH">HIGH</option>
-      <option value="MEDIUM">MEDIUM</option>
-      <option value="LOW">LOW</option>
-    </select>
+      <br><br>
 
-    <select id="state">
-      <option value="">Todos los estados</option>
-      <option value="ACTIVE">ACTIVE</option>
-      <option value="CLOSED">CLOSED</option>
-    </select>
+      <input id="id_program" placeholder="ID Programa">
 
-    <input id="id_program" placeholder="ID Programa">
+      <br><br>
 
-    <br><br>
+      <button onclick="generateReport()">
+        📄 Generar PDF
+      </button>
 
-    <!-- 🔥 BOTÓN -->
-    <button onclick="generateReport()" class="btn-primary">
-      📄 Generar PDF
-    </button>
+    </div>
 
   </div>
 
 </div>
-<script src="./js/Reports.js"></script>
-</div>
 
+<!-- SCRIPTS -->
 <script src="components/sidebar_component.js"></script>
 <script src="components/topbar_component.js"></script>
-
-<script>
-function generatePDF() {
-
-  const level = document.getElementById("level").value;
-
-  if (!level) {
-    alert("⚠️ Debes seleccionar un nivel (Low, Medium o High)");
-    return;
-  }
-
-  // luego conectamos a backend
-  window.open("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
-}
-</script>
+<script src="./js/Reports.js"></script>
 
 </body>
 </html>
