@@ -1,4 +1,4 @@
-class StudentsTable extends HTMLElement {
+class studentsTable extends HTMLElement {
 
 connectedCallback(){
 
@@ -27,4 +27,4 @@ this.innerHTML = `
 }
 }
 
-customElements.define("students-table", StudentsTable);
+customElements.define("students-table", studentsTable);

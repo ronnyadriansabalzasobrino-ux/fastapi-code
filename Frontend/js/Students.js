@@ -3,7 +3,7 @@ const API = "https://alertas-backend.onrender.com"
 /* =========================
    📌 CARGAR ESTUDIANTES
 ========================= */
-async function loadStudents(){
+async function loadstudents(){
 
 try{
 
@@ -42,7 +42,7 @@ ${student.id_student},
 '${student.phone ?? ""}'
 )">Editar</button>
 
-<button class="btn-delete" onclick="deleteStudent(${student.id_student})">
+<button class="btn-delete" onclick="deletestudent(${student.id_student})">
 Eliminar
 </button>
 </td>
@@ -254,5 +254,5 @@ html2pdf().from(container).save("reporte_estudiantes.pdf")
 
 
 document.addEventListener("DOMContentLoaded", () => {
-setTimeout(loadStudents, 300)
+setTimeout(loadstudents, 300)
 })
