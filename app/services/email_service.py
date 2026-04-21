@@ -1,6 +1,5 @@
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 conf = ConnectionConfig(
-    ADMIN_EMAIL="ronnyadriansabalzasobrino@gmail.com",
     MAIL_USERNAME="ronnyadriansabalzasobrino@gmail.com",
     MAIL_PASSWORD="lwjk jylo rhsw jzqo",
     MAIL_FROM="ronnyadriansabalzasobrino@gmail.com",
@@ -10,6 +9,7 @@ conf = ConnectionConfig(
     MAIL_SSL_TLS=False,
     USE_CREDENTIALS=True
 )
+ADMIN_EMAIL="ronnyadriansabalzasobrino@gmail.com"
 
 async def send_email(ADMIN_EMAIL: str, asunto: str, contenido: str):
 
