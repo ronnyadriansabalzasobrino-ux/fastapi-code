@@ -33,7 +33,7 @@ tableBody.innerHTML += `
 <td>${student.mail ?? ""}</td>
 <td>${student.phone ?? ""}</td>
 <td>
-<button class="btn-edit" onclick="editStudent(
+<button class="btn-edit" onclick="editstudent(
 ${student.id_student},
 '${student.name ?? ""}',
 '${student.last_name ?? ""}',
@@ -125,7 +125,7 @@ console.error("Error semestres:", error)
 /* =========================
    📌 GUARDAR ESTUDIANTE
 ========================= */
-async function saveStudent(){
+async function savestudent(){
 
 try{
 
@@ -178,7 +178,7 @@ console.error("Error guardando estudiante:", error)
 /* =========================
    📌 EDITAR
 ========================= */
-function editStudent(id,name,last_name,number_id,mail,phone){
+function editstudent(id,name,last_name,number_id,mail,phone){
 document.getElementById("student_id").value = id
 document.getElementById("name").value = name
 document.getElementById("last_name").value = last_name
@@ -192,7 +192,7 @@ window.scrollTo(0,0)
 /* =========================
    📌 ELIMINAR
 ========================= */
-async function deleteStudent(id){
+async function deletestudent(id){
 if(!confirm("¿Eliminar estudiante?")) return
 
 await fetch(API + "/students/" + id,{ method:"DELETE" })
