@@ -1,11 +1,6 @@
 import psycopg2
 
 def get_db_connection():
-    try:
-        conn = psycopg2.connect()
-    except Exception as e:
-        print("Error al conectar a la base de datos:", e)
-        return None
     return psycopg2.connect(
         host="ep-raspy-resonance-aiqjiigd-pooler.c-4.us-east-1.aws.neon.tech",
         port="5432",
@@ -14,8 +9,6 @@ def get_db_connection():
         dbname="neondb"
         
     )
-    
-
 
 
 def create_tables():
