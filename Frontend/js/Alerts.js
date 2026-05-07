@@ -62,13 +62,13 @@ async function saveAlert(){
 const token = localStorage.getItem("access_token")
 
 const alert = {
-id_student: parseInt(document.getElementById("id_student").value),
+id_student: parseInt(document.getElementById("student").value),
 tipo_alert: document.getElementById("tipo_alert").value,
 description: document.getElementById("description").value,
 generation_date: document.getElementById("generation_date").value,
 risk_level: document.getElementById("risk_level").value,
 state: document.getElementById("state").value,
-id_period: parseInt(document.getElementById("id_period").value)
+id_period: parseInt(document.getElementById("period").value)
 }
 
 const url = editingId === null
@@ -96,13 +96,13 @@ const alert = alertsData.find(a => a.id_alert === id)
 
 editingId = id
 
-document.getElementById("id_student").value = alert.id_student
+document.getElementById("student").value = alert.id_student
 document.getElementById("tipo_alert").value = alert.tipo_alert
 document.getElementById("description").value = alert.description
 document.getElementById("generation_date").value = alert.generation_date
 document.getElementById("risk_level").value = alert.risk_level
 document.getElementById("state").value = alert.state
-document.getElementById("id_period").value = alert.id_period
+document.getElementById("period").value = alert.id_period
 
 }
 
@@ -126,13 +126,13 @@ function clearForm(){
 
 editingId = null
 
-document.getElementById("id_student").value=""
+document.getElementById("student").value=""
 document.getElementById("tipo_alert").value=""
 document.getElementById("description").value=""
 document.getElementById("generation_date").value=""
 document.getElementById("risk_level").value=""
 document.getElementById("state").value=""
-document.getElementById("id_period").value=""
+document.getElementById("period").value=""
 }
 
 

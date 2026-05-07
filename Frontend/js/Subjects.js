@@ -23,7 +23,7 @@ subjects.forEach(subject => {
     <tr>
     <td>${subject.name_subject}</td>
     <td>${subject.credits}</td>
-    <td>${subject.id_program}</td>
+    <td>${subject.program}</td>
     <td>
     <button onclick="editSubject(this, ${subject.id_subject})">Editar</button>
     <button onclick="deleteSubject(${subject.id_subject})">Eliminar</button>
@@ -38,12 +38,12 @@ tableInstance = $('#subjectsTableDisplay').DataTable()
 }
 }
 async function saveSubject(){
-const id = document.getElementById("subject_id").value
+const id = document.getElementById("subject").value
 
 const subject = {
 name_subject: document.getElementById("name").value,
 credits: document.getElementById("credits").value,
-id_program: document.getElementById("teacher_id").value
+id_program: document.getElementById("teacher").value
 }
 
 const url = id === ""
@@ -67,10 +67,10 @@ loadSubjects()
 function editSubject(btn, id){
 const row = btn.closest("tr")
 
-document.getElementById("subject_id").value = id
+document.getElementById("subject").value = id
 document.getElementById("name").value = row.children[0].innerText
 document.getElementById("credits").value = row.children[1].innerText
-document.getElementById("teacher_id").value = row.children[2].innerText
+document.getElementById("teacher").value = row.children[2].innerText
 }
 
 async function deleteSubject(id){
@@ -81,10 +81,10 @@ loadSubjects()
 }
 
 function clearForm(){
-document.getElementById("subject_id").value=""
+document.getElementById("subject").value=""
 document.getElementById("name").value=""
 document.getElementById("credits").value=""
-document.getElementById("teacher_id").value=""
+document.getElementById("teacher").value=""
 }
 
 window.saveSubject = saveSubject
