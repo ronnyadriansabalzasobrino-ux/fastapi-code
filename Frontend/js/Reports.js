@@ -1,174 +1,227 @@
 const API = "https://alertas-backend.onrender.com"
 
-async function generateReport(){
+let reportsData = []
+let table = null
 
-  const risk =
-  document.getElementById("risk_level").value
+/* =========================
+   LOAD REPORTS
+========================= */
+async function loadReports(){
 
-  const state =
-  document.getElementById("state").value
+try{
 
-  const program =
-  document.getElementById("id_program").value
+const response = await fetch(API + "/reports/data")
+const data = await response.json()
 
-  const response = await fetch(
+reportsData = data
 
-    `${API}/reports/data?risk_level=${risk}&state=${state}&id_program=${program}`
+renderCards(data)
+renderPrograms(data)
+renderTable(data)
 
-  )
-
-  const data = await response.json()
-
-  if(data.length === 0){
-
-    alert("No hay datos para generar reporte")
-    return
-
-  }
-
-  const { jsPDF } = window.jspdf
-
-  const doc = new jsPDF("landscape")
-
-  // COLORES
-  const azulOscuro = [25, 35, 126]
-  const azulClaro = [227, 242, 253]
-  const azulMedio = [25, 118, 210]
-
-  // HEADER
-  doc.setFillColor(...azulOscuro)
-  doc.rect(0,0,300,25,"F")
-
-  doc.setTextColor(255,255,255)
-
-  doc.setFontSize(20)
-
-  doc.text(
-    "SISTEMA DE ALERTAS ACADÉMICAS",
-    148,
-    10,
-    {align:"center"}
-  )
-
-  doc.setFontSize(11)
-
-  doc.text(
-    "Proyecto S.A.P.E.R",
-    148,
-    18,
-    {align:"center"}
-  )
-
-  // FECHA
-  doc.setTextColor(0,0,0)
-
-  doc.setFontSize(10)
-
-  const fecha = new Date().toLocaleDateString()
-
-  doc.text(
-    `Fecha generación: ${fecha}`,
-    14,
-    35
-  )
-
-  doc.text(
-    `Total registros: ${data.length}`,
-    14,
-    42
-  )
-
-  // TABLA
-  const rows = data.map(item => [
-
-    item.id_student,
-
-    item.name + " " + item.last_name,
-
-    item.id_program,
-
-    item.tipo_alert,
-
-    item.risk_level,
-
-    item.state
-
-  ])
-
-  doc.autoTable({
-
-    startY: 55,
-
-    head:[[
-      "ID",
-      "Estudiante",
-      "Programa",
-      "Tipo alerta",
-      "Riesgo",
-      "Estado"
-    ]],
-
-    body: rows,
-
-    theme:"grid",
-
-    headStyles:{
-
-      fillColor: azulMedio,
-      textColor:[255,255,255],
-      fontStyle:"bold"
-
-    },
-
-    alternateRowStyles:{
-
-      fillColor: azulClaro
-
-    },
-
-    styles:{
-
-      fontSize:9
-
-    }
-
-  })
-
-  // FOOTER
-  const totalPages =
-  doc.internal.getNumberOfPages()
-
-  for(let i=1;i<=totalPages;i++){
-
-    doc.setPage(i)
-
-    doc.setFillColor(...azulOscuro)
-
-    doc.rect(
-      0,
-      200,
-      300,
-      10,
-      "F"
-    )
-
-    doc.setTextColor(255,255,255)
-
-    doc.setFontSize(8)
-
-    doc.text(
-
-      `Proyecto S.A.P.E.R - Página ${i} de ${totalPages}`,
-
-      148,
-
-      205,
-
-      {align:"center"}
-
-    )
-
-  }
-
-  doc.save("reporte_alertas.pdf")
+}catch(error){
+console.error(error)
 }
+
+}
+
+/* =========================
+   CARDS
+========================= */
+function renderCards(data){
+
+document.getElementById("totalAlerts").innerText = data.length
+
+document.getElementById("highAlerts").innerText =
+data.filter(x => x.risk_level === "high").length
+
+document.getElementById("mediumAlerts").innerText =
+data.filter(x => x.risk_level === "medium").length
+
+document.getElementById("lowAlerts").innerText =
+data.filter(x => x.risk_level === "low").length
+
+}
+
+/* =========================
+   PROGRAM FILTER
+========================= */
+function renderPrograms(data){
+
+const select = document.getElementById("programFilter")
+
+const programs = [...new Set(data.map(x => x.program))]
+
+programs.forEach(program => {
+
+select.innerHTML += `
+<option value="${program}">
+${program}
+</option>
+`
+
+})
+
+}
+
+/* =========================
+   TABLE
+========================= */
+function renderTable(data){
+
+const tbody = document.querySelector("#reportsTable tbody")
+
+tbody.innerHTML = ""
+
+data.forEach(item => {
+
+tbody.innerHTML += `
+<tr>
+<td>${item.student}</td>
+<td>${item.document}</td>
+<td>${item.program}</td>
+<td>${item.risk_level}</td>
+<td>${item.state}</td>
+<td>${item.tipo_alert}</td>
+<td>${item.generation_date}</td>
+</tr>
+`
+
+})
+
+if(table) table.destroy()
+
+table = $("#reportsTable").DataTable()
+
+}
+
+/* =========================
+   FILTERS
+========================= */
+document.getElementById("riskFilter")
+.addEventListener("change",applyFilters)
+
+document.getElementById("stateFilter")
+.addEventListener("change",applyFilters)
+
+document.getElementById("programFilter")
+.addEventListener("change",applyFilters)
+
+document.getElementById("searchStudent")
+.addEventListener("keyup",applyFilters)
+
+function applyFilters(){
+
+const risk =
+document.getElementById("riskFilter").value
+
+const state =
+document.getElementById("stateFilter").value
+
+const program =
+document.getElementById("programFilter").value
+
+const search =
+document.getElementById("searchStudent").value.toLowerCase()
+
+let filtered = reportsData.filter(item => {
+
+return (
+(!risk || item.risk_level === risk) &&
+(!state || item.state === state) &&
+(!program || item.program === program) &&
+(
+item.student.toLowerCase().includes(search)
+)
+)
+
+})
+
+renderCards(filtered)
+renderTable(filtered)
+
+}
+
+/* =========================
+   PDF
+========================= */
+async function generatePDF(){
+
+const { jsPDF } = window.jspdf
+
+const doc = new jsPDF("landscape")
+
+doc.setFillColor(25,118,210)
+doc.rect(0,0,300,25,"F")
+
+doc.setTextColor(255,255,255)
+doc.setFontSize(18)
+
+doc.text(
+"SISTEMA DE ALERTAS ACADÉMICAS S.A.P.E.R",
+105,
+15
+)
+
+doc.setTextColor(0,0,0)
+
+doc.setFontSize(11)
+
+doc.text(
+"Reporte de estudiantes en riesgo",
+14,
+35
+)
+
+const rows = []
+
+document.querySelectorAll("#reportsTable tbody tr")
+.forEach(tr => {
+
+const cols = tr.querySelectorAll("td")
+
+rows.push([
+cols[0].innerText,
+cols[1].innerText,
+cols[2].innerText,
+cols[3].innerText,
+cols[4].innerText,
+cols[5].innerText,
+cols[6].innerText
+])
+
+})
+
+doc.autoTable({
+
+startY:45,
+
+head:[[
+"Estudiante",
+"Documento",
+"Programa",
+"Riesgo",
+"Estado",
+"Tipo",
+"Fecha"
+]],
+
+body:rows,
+
+theme:"grid",
+
+headStyles:{
+fillColor:[25,118,210]
+},
+
+alternateRowStyles:{
+fillColor:[227,242,253]
+}
+
+})
+
+doc.save("Reporte_SAPER.pdf")
+
+}
+
+window.addEventListener("DOMContentLoaded",loadReports)

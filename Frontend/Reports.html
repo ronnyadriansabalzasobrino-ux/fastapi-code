@@ -2,12 +2,18 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
-
 <title>Reports - School System</title>
 
 <link rel="stylesheet" href="css/Reports.css">
+
+<!-- DataTable -->
+<link rel="stylesheet"
+href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 </head>
 
@@ -15,116 +21,126 @@
 
 <div class="container">
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <app-sidebar></app-sidebar>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-
-    <!-- TOPBAR -->
-    <app-topbar></app-topbar>
-
-    <!-- HEADER -->
-    <div class="reports-header">
-
-      <div class="reports-title">
-        📊 Reports
-      </div>
-
-      <div class="reports-subtitle">
-        Sistema de alertas académicas S.A.P.E.R
-      </div>
-
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <app-sidebar></app-sidebar>
     </div>
 
-    <!-- CARD -->
-    <div class="card actions-card">
+    <!-- MAIN -->
+    <div class="main">
 
-      <h3>🧾 Generar Reporte PDF</h3>
+        <!-- TOPBAR -->
+        <app-topbar></app-topbar>
 
-      <p>
-        Selecciona filtros antes de generar el PDF.
-      </p>
+        <!-- HEADER -->
+        <div class="reports-header">
 
-      <!-- RISK -->
-      <label>Nivel de riesgo</label>
+            <div>
+                <h1>📊 Reports Dashboard</h1>
+                <p>
+                    Sistema de alertas académicas S.A.P.E.R
+                </p>
+            </div>
 
-      <select id="risk_level">
+            <button class="pdf-btn" onclick="generatePDF()">
+                📄 Descargar PDF
+            </button>
 
-        <option value="">
-          Todos los riesgos
-        </option>
+        </div>
 
-        <option value="HIGH">
-          HIGH
-        </option>
+        <!-- STATS -->
+        <div class="stats-grid">
 
-        <option value="MEDIUM">
-          MEDIUM
-        </option>
+            <div class="stat-card">
+                <h3 id="totalAlerts">0</h3>
+                <span>Total Alertas</span>
+            </div>
 
-        <option value="LOW">
-          LOW
-        </option>
+            <div class="stat-card high">
+                <h3 id="highAlerts">0</h3>
+                <span>HIGH</span>
+            </div>
 
-      </select>
+            <div class="stat-card medium">
+                <h3 id="mediumAlerts">0</h3>
+                <span>MEDIUM</span>
+            </div>
 
-      <br><br>
+            <div class="stat-card low">
+                <h3 id="lowAlerts">0</h3>
+                <span>LOW</span>
+            </div>
 
-      <!-- STATE -->
-      <label>Estado alerta</label>
+        </div>
 
-      <select id="state">
+        <!-- FILTERS -->
+        <div class="filters-card">
 
-        <option value="">
-          Todos los estados
-        </option>
+            <h3>🔍 Filtros</h3>
 
-        <option value="ACTIVE">
-          ACTIVE
-        </option>
+            <div class="filters-grid">
 
-        <option value="CLOSED">
-          CLOSED
-        </option>
+                <select id="riskFilter">
+                    <option value="">Todos los riesgos</option>
+                    <option value="high">HIGH</option>
+                    <option value="medium">MEDIUM</option>
+                    <option value="low">LOW</option>
+                </select>
 
-      </select>
+                <select id="stateFilter">
+                    <option value="">Todos los estados</option>
+                    <option value="active">ACTIVE</option>
+                    <option value="closed">CLOSED</option>
+                </select>
 
-      <br><br>
+                <select id="programFilter">
+                    <option value="">Todos los programas</option>
+                </select>
 
-      <!-- PROGRAM -->
-      <label>ID programa</label>
+                <input
+                    type="text"
+                    id="searchStudent"
+                    placeholder="Buscar estudiante..."
+                >
 
-      <input
-        id="id_program"
-        placeholder="Ej: 1"
-      >
+            </div>
 
-      <br><br>
+        </div>
 
-      <!-- BOTON -->
-      <button onclick="generateReport()">
-        📄 Descargar Reporte
-      </button>
+        <!-- TABLE -->
+        <div class="table-card">
+
+            <table id="reportsTable" class="display">
+
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Documento</th>
+                        <th>Programa</th>
+                        <th>Riesgo</th>
+                        <th>Estado</th>
+                        <th>Tipo alerta</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+
+            </table>
+
+        </div>
 
     </div>
-
-  </div>
 
 </div>
 
-<!-- COMPONENTS -->
 <script src="components/sidebar_component.js"></script>
 <script src="components/topbar_component.js"></script>
 
-<!-- JSPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.31/dist/jspdf.plugin.autotable.min.js"></script>
 
-<!-- JS -->
 <script src="./js/Reports.js"></script>
 
 </body>

@@ -1,51 +1,44 @@
 import psycopg2
-from app.config.db_config import get_db_connection
+
 from fastapi import HTTPException
+
+from app.config.db_config import get_db_connection
+
+from fastapi.encoders import jsonable_encoder
 
 
 class ReportsController:
 
-    # 🔥 DATOS PARA EL FRONTEND
-    def get_report_data(self, risk_level, state, id_program):
+    def get_reports_data(self):
 
         try:
 
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            query = """
+            cursor.execute("""
+
                 SELECT
-                    s.id_student,
                     s.name,
                     s.last_name,
-                    s.id_program,
-                    a.tipo_alert,
+                    s.number_id,
+                    p.name_program,
                     a.risk_level,
-                    a.state
+                    a.state,
+                    a.tipo_alert,
+                    a.generation_date
 
                 FROM alerts a
 
-                JOIN students s
+                INNER JOIN students s
                 ON a.id_student = s.id_student
 
-                WHERE 1=1
-            """
+                LEFT JOIN programs p
+                ON s.id_program = p.id_program
 
-            params = []
+                ORDER BY a.id_alert DESC
 
-            if risk_level:
-                query += " AND a.risk_level = %s"
-                params.append(risk_level)
-
-            if state:
-                query += " AND a.state = %s"
-                params.append(state)
-
-            if id_program:
-                query += " AND s.id_program = %s"
-                params.append(id_program)
-
-            cursor.execute(query, tuple(params))
+            """)
 
             result = cursor.fetchall()
 
@@ -55,23 +48,38 @@ class ReportsController:
 
                 payload.append({
 
-                    "id_student": row[0],
-                    "name": row[1],
-                    "last_name": row[2],
-                    "id_program": row[3],
-                    "tipo_alert": row[4],
-                    "risk_level": row[5],
-                    "state": row[6]
+                    "student":
+                    f"{row[0]} {row[1]}",
+
+                    "document":
+                    row[2],
+
+                    "program":
+                    row[3],
+
+                    "risk_level":
+                    row[4],
+
+                    "state":
+                    row[5],
+
+                    "tipo_alert":
+                    row[6],
+
+                    "generation_date":
+                    str(row[7])
 
                 })
 
-            return payload
-
-        except Exception as e:
-
-            print(e)
-            raise HTTPException(status_code=500, detail=str(e))
-
-        finally:
-
+            cursor.close()
             conn.close()
+
+            return jsonable_encoder(payload)
+
+        except psycopg2.Error as err:
+            print(err)
+
+            raise HTTPException(
+                status_code=500,
+                detail=str(err)
+            )
