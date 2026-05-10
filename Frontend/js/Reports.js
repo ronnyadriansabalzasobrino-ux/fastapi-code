@@ -1,6 +1,7 @@
 const API = "https://alertas-backend.onrender.com"
 
 let reportsData = []
+let filteredData = []
 let table = null
 
 /* =========================
@@ -14,9 +15,10 @@ const response = await fetch(API + "/reports/data")
 const data = await response.json()
 
 reportsData = data
+filteredData = data
 
-renderCards(data)
 renderPrograms(data)
+renderCards(data)
 renderTable(data)
 
 }catch(error){
@@ -30,7 +32,8 @@ console.error(error)
 ========================= */
 function renderCards(data){
 
-document.getElementById("totalAlerts").innerText = data.length
+document.getElementById("totalAlerts").innerText =
+data.length
 
 document.getElementById("highAlerts").innerText =
 data.filter(x => x.risk_level === "high").length
@@ -49,6 +52,12 @@ data.filter(x => x.risk_level === "low").length
 function renderPrograms(data){
 
 const select = document.getElementById("programFilter")
+
+select.innerHTML = `
+<option value="">
+Todos los programas
+</option>
+`
 
 const programs = [...new Set(data.map(x => x.program))]
 
@@ -69,7 +78,8 @@ ${program}
 ========================= */
 function renderTable(data){
 
-const tbody = document.querySelector("#reportsTable tbody")
+const tbody =
+document.querySelector("#reportsTable tbody")
 
 tbody.innerHTML = ""
 
@@ -89,15 +99,24 @@ tbody.innerHTML += `
 
 })
 
-if(table) table.destroy()
+if(table){
+table.destroy()
+}
 
-table = $("#reportsTable").DataTable()
+table = $("#reportsTable").DataTable({
+
+pageLength:5,
+responsive:true,
+destroy:true
+
+})
 
 }
 
 /* =========================
    FILTERS
 ========================= */
+
 document.getElementById("riskFilter")
 .addEventListener("change",applyFilters)
 
@@ -122,23 +141,30 @@ const program =
 document.getElementById("programFilter").value
 
 const search =
-document.getElementById("searchStudent").value.toLowerCase()
+document.getElementById("searchStudent")
+.value
+.toLowerCase()
 
-let filtered = reportsData.filter(item => {
+filteredData = reportsData.filter(item => {
 
 return (
+
 (!risk || item.risk_level === risk) &&
+
 (!state || item.state === state) &&
+
 (!program || item.program === program) &&
+
 (
 item.student.toLowerCase().includes(search)
 )
+
 )
 
 })
 
-renderCards(filtered)
-renderTable(filtered)
+renderCards(filteredData)
+renderTable(filteredData)
 
 }
 
@@ -151,50 +177,66 @@ const { jsPDF } = window.jspdf
 
 const doc = new jsPDF("landscape")
 
+/* HEADER */
+
 doc.setFillColor(25,118,210)
+
 doc.rect(0,0,300,25,"F")
 
 doc.setTextColor(255,255,255)
+
 doc.setFontSize(18)
 
 doc.text(
 "SISTEMA DE ALERTAS ACADÉMICAS S.A.P.E.R",
-105,
+75,
 15
 )
+
+/* SUBTITLE */
 
 doc.setTextColor(0,0,0)
 
 doc.setFontSize(11)
 
 doc.text(
-"Reporte de estudiantes en riesgo",
+"Reporte generado con filtros aplicados",
 14,
 35
 )
 
-const rows = []
+/* FILTERS INFO */
 
-document.querySelectorAll("#reportsTable tbody tr")
-.forEach(tr => {
+const risk =
+document.getElementById("riskFilter").value || "Todos"
 
-const cols = tr.querySelectorAll("td")
+const state =
+document.getElementById("stateFilter").value || "Todos"
 
-rows.push([
-cols[0].innerText,
-cols[1].innerText,
-cols[2].innerText,
-cols[3].innerText,
-cols[4].innerText,
-cols[5].innerText,
-cols[6].innerText
+const program =
+document.getElementById("programFilter").value || "Todos"
+
+doc.text(`Riesgo: ${risk}`,14,43)
+doc.text(`Estado: ${state}`,70,43)
+doc.text(`Programa: ${program}`,130,43)
+
+/* TABLE */
+
+const rows = filteredData.map(item => [
+
+item.student,
+item.document,
+item.program,
+item.risk_level,
+item.state,
+item.tipo_alert,
+item.generation_date
+
 ])
-
-})
 
 doc.autoTable({
 
-startY:45,
+startY:50,
 
 head:[[
 "Estudiante",
@@ -224,4 +266,11 @@ doc.save("Reporte_SAPER.pdf")
 
 }
 
-window.addEventListener("DOMContentLoaded",loadReports)
+/* =========================
+   INIT
+========================= */
+
+window.addEventListener(
+"DOMContentLoaded",
+loadReports
+)
