@@ -1,31 +1,45 @@
 body{
 margin:0;
 font-family:"Segoe UI",sans-serif;
-background:linear-gradient(135deg,#00b4db,#0083b0);
+background:#3666ad;
 }
 
 /* LAYOUT */
+
 .container{
 display:flex;
 min-height:100vh;
 }
 
-/* SIDEBAR */
-.sidebar{
-width:260px;
-background:white;
-box-shadow:2px 0 15px rgba(0,0,0,0.1);
-z-index:10;
-}
-
-/* MAIN */
 .main{
 flex:1;
 padding:30px;
 overflow:auto;
 }
 
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:white;
+box-shadow:2px 0 15px rgba(0,0,0,0.1);
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+padding:15px 20px;
+background:white;
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
 /* HEADER */
+
 .reports-header{
 display:flex;
 justify-content:space-between;
@@ -45,6 +59,7 @@ opacity:0.9;
 }
 
 /* PDF BUTTON */
+
 .pdf-btn{
 background:#1e3c72;
 color:white;
@@ -62,6 +77,7 @@ background:#16325c;
 }
 
 /* STATS */
+
 .stats-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
@@ -101,6 +117,7 @@ color:#388e3c;
 }
 
 /* FILTERS */
+
 .filters-card{
 background:white;
 padding:25px;
@@ -130,6 +147,7 @@ font-size:14px;
 }
 
 /* TABLE */
+
 .table-card{
 background:white;
 padding:25px;
@@ -137,7 +155,6 @@ border-radius:18px;
 box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* DATATABLE */
 table.dataTable{
 width:100% !important;
 }
@@ -145,17 +162,4 @@ width:100% !important;
 table.dataTable thead{
 background:#1976d2;
 color:white;
-}
-
-/* RESPONSIVE */
-@media(max-width:1000px){
-
-.stats-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.filters-grid{
-grid-template-columns:1fr;
-}
-
 }

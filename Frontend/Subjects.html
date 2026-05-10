@@ -6,7 +6,9 @@
 <title>Gestión de Materias</title>
 
 <link rel="stylesheet" href="./css/Subjects.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<link rel="stylesheet"
+href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 </head>
 
@@ -14,37 +16,59 @@
 
 <div class="container">
 
-<h1>Gestión de Materias</h1>
+  <app-sidebar></app-sidebar>
 
-<div class="card">
+  <main class="main">
 
-<h2>Formulario de materia</h2>
+    <app-topbar></app-topbar>
 
-<input type="hidden" id="subject_id">
+    <h1>Gestión de Materias</h1>
 
-<input id="name" placeholder="Nombre materia">
-<input type="number" id="credits" placeholder="Créditos">
-<input type="number" id="teacher_id" placeholder="ID Programa">
+    <div class="card">
 
-<br><br>
+      <h2>Formulario de materia</h2>
 
-<button onclick="saveSubject()">Guardar</button>
-<button onclick="clearForm()">Limpiar</button>
+      <input type="hidden" id="subject_id">
 
-</div>
+      <input id="name" placeholder="Nombre materia">
 
-<div class="table-card">
+      <input type="number"
+      id="credits"
+      placeholder="Créditos">
 
-<subjects-table></subjects-table>
+      <input type="number"
+      id="teacher_id"
+      placeholder="ID Programa">
 
-</div>
+      <br><br>
+
+      <button class="btn-primary" onclick="saveSubject()">
+        Guardar
+      </button>
+
+      <button class="btn-clear" onclick="clearForm()">
+        Limpiar
+      </button>
+
+    </div>
+
+    <div class="table-card">
+      <subjects-table></subjects-table>
+    </div>
+
+  </main>
 
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
+<script src="./components/sidebar_component.js"></script>
+<script src="./components/topbar_component.js"></script>
+
 <script src="./components/subjects_table.js"></script>
+
 <script src="./js/Subjects.js"></script>
 
 </body>

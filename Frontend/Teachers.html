@@ -6,7 +6,9 @@
 <title>Gestión de Docentes</title>
 
 <link rel="stylesheet" href="./css/Teachers.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<link rel="stylesheet"
+href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 </head>
 
@@ -14,40 +16,56 @@
 
 <div class="container">
 
-<h1>Gestión de Docentes</h1>
+  <app-sidebar></app-sidebar>
 
-<div class="card">
+  <main class="main">
 
-<h2>Formulario de docente</h2>
-<input type="hidden" id="teacher_id">
-<input id="name" placeholder="Nombre">
-<input id="last_name" placeholder="Apellido">
-<input id="number_id" placeholder="Número ID">
-<input id="mail" placeholder="Correo">
-<input id="phone" placeholder="Teléfono">
-<input id="specialty" placeholder="Especialidad">
+    <app-topbar></app-topbar>
 
-<br><br>
+    <h1>Gestión de Docentes</h1>
 
-<button onclick="saveTeacher()">Guardar</button>
-<button onclick="clearForm()">Limpiar</button>
+    <div class="card">
 
-<br><br>
+      <h2>Formulario de docente</h2>
 
+      <input type="hidden" id="teacher_id">
 
-</div>
+      <input id="name" placeholder="Nombre">
+      <input id="last_name" placeholder="Apellido">
+      <input id="number_id" placeholder="Número ID">
+      <input id="mail" placeholder="Correo">
+      <input id="phone" placeholder="Teléfono">
+      <input id="specialty" placeholder="Especialidad">
 
-<div class="table-card">
-<teachers-table></teachers-table>
-</div>
+      <br><br>
+
+      <button class="btn-primary" onclick="saveTeacher()">
+        Guardar
+      </button>
+
+      <button class="btn-clear" onclick="clearForm()">
+        Limpiar
+      </button>
+
+    </div>
+
+    <div class="table-card">
+      <teachers-table></teachers-table>
+    </div>
+
+  </main>
 
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
+<script src="./components/sidebar_component.js"></script>
+<script src="./components/topbar_component.js"></script>
 
 <script src="./components/teacher_table.js"></script>
+
 <script src="./js/Teachers.js"></script>
 
 </body>

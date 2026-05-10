@@ -6,7 +6,9 @@
 <title>Gestión de Alertas</title>
 
 <link rel="stylesheet" href="./css/Alerts.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<link rel="stylesheet"
+href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 </head>
 
@@ -14,40 +16,63 @@
 
 <div class="container">
 
-<h1>Gestión de Alertas</h1>
+  <app-sidebar></app-sidebar>
 
-<div class="card">
+  <main class="main">
 
-<h2>Formulario de alerta</h2>
-<input type="hidden" id="alert_id">
-<input id="id_student" placeholder="ID Estudiante">
-<input id="tipo_alert" placeholder="Tipo de alerta">
-<input id="description" placeholder="Descripción">
-<input id="generation_date" type="date">
-<input id="risk_level" placeholder="Nivel de riesgo">
-<input id="state" placeholder="Estado">
-<input id="id_period" placeholder="ID Periodo">
+    <app-topbar></app-topbar>
 
-<br><br>
+    <h1>Gestión de Alertas</h1>
 
-<button onclick="saveAlert()">Guardar</button>
-<button onclick="clearForm()">Limpiar</button>
+    <div class="card">
 
-<br><br>
+      <h2>Formulario de alerta</h2>
 
-</div>
+      <input type="hidden" id="alert_id">
 
-<div class="table-card">
-<alerts-table></alerts-table>
-</div>
+      <input id="id_student" placeholder="ID Estudiante">
+
+      <input id="tipo_alert" placeholder="Tipo de alerta">
+
+      <input id="description" placeholder="Descripción">
+
+      <input id="generation_date" type="date">
+
+      <input id="risk_level" placeholder="Nivel de riesgo">
+
+      <input id="state" placeholder="Estado">
+
+      <input id="id_period" placeholder="ID Periodo">
+
+      <br><br>
+
+      <button class="btn-primary" onclick="saveAlert()">
+        Guardar
+      </button>
+
+      <button class="btn-clear" onclick="clearForm()">
+        Limpiar
+      </button>
+
+    </div>
+
+    <div class="table-card">
+      <alerts-table></alerts-table>
+    </div>
+
+  </main>
 
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
+<script src="./components/sidebar_component.js"></script>
+<script src="./components/topbar_component.js"></script>
 
 <script src="./components/alerts_table.js"></script>
+
 <script src="./js/Alerts.js"></script>
 
 </body>
