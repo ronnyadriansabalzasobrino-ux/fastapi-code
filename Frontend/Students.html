@@ -15,40 +15,58 @@
 
 <div class="container">
 
-<h1>Gestion de Estudiantes</h1>
+  <app-sidebar></app-sidebar>
 
-<div class="card">
+  <main class="main">
 
-<h2>Formulario de estudiante</h2>
-<input type="hidden" id="student_id">
-<input id="name" placeholder="Nombre">
-<input id="last_name" placeholder="Apellido">
-<input id="number_id" placeholder="Número ID">
-<input id="mail" placeholder="Correo">
-<input id="phone" placeholder="Teléfono">
-<input id="program_id" placeholder="ID del programa">
-<input id="semester_id" placeholder="ID del semestre">
-<br><br>
+    <app-topbar></app-topbar>
 
-<button class="btn-primary" onclick="savestudent()">Guardar</button>
-<button class="btn-clear" onclick="clearForm()">Limpiar</button>
+    <h1>Gestion de Estudiantes</h1>
 
-<br><br>
+    <div class="card">
 
-</div>
+      <h2>Formulario de estudiante</h2>
 
-<div class="table-card">
-<students-table></students-table>
-</div>
+      <input type="hidden" id="student_id">
+
+      <input id="name" placeholder="Nombre">
+      <input id="last_name" placeholder="Apellido">
+      <input id="number_id" placeholder="Número ID">
+      <input id="mail" placeholder="Correo">
+      <input id="phone" placeholder="Teléfono">
+      <input id="program_id" placeholder="ID del programa">
+      <input id="semester_id" placeholder="ID del semestre">
+
+      <br><br>
+
+      <button class="btn-primary" onclick="savestudent()">
+        Guardar
+      </button>
+
+      <button class="btn-clear" onclick="clearForm()">
+        Limpiar
+      </button>
+
+      <br><br>
+
+    </div>
+
+    <div class="table-card">
+      <students-table></students-table>
+    </div>
+
+  </main>
 
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-
+<script src="./components/sidebar_component.js"></script>
+<script src="./components/topbar_component.js"></script>
 
 <script src="./components/students_table.js"></script>
+
 <script src="./js/Students.js"></script>
 
 </body>

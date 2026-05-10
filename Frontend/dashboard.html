@@ -9,48 +9,46 @@
 
 <style>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background:#1e3c72;
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#1e3c72;
 }
 
-
-.container {
-  display: flex;
+.container{
+display:flex;
+min-height:100vh;
 }
 
-
-.main {
-  flex: 1;
-  padding: 20px;
+.main{
+flex:1;
+padding:20px;
+overflow:auto;
 }
 
-
-.powerbi-title {
-  text-align: center;
-  margin: 30px 0 10px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ffffff;
+.powerbi-title{
+text-align:center;
+margin:30px 0 10px;
+font-size:22px;
+font-weight:bold;
+color:#ffffff;
 }
 
-
-.powerbi-section {
-  background:#1e3c72;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  margin-top: 20px;
+.powerbi-section{
+background:#1e3c72;
+padding:20px;
+border-radius:12px;
+margin-top:20px;
 }
 
-
-.powerbi-frame {
-  width: 100%;
-  height: 600px;
-  border: none;
-  border-radius: 10px;
+.powerbi-frame{
+width:100%;
+height:700px;
+border:none;
+border-radius:12px;
+background:white;
 }
+
 </style>
 
 </head>
@@ -61,14 +59,10 @@ body {
 
   <app-sidebar></app-sidebar>
 
-  <!-- MAIN -->
   <main class="main">
 
     <app-topbar></app-topbar>
 
-    <dashboard-cards></dashboard-cards>
-
-    
     <div class="powerbi-section">
 
       <div class="powerbi-title">
@@ -77,7 +71,9 @@ body {
 
       <iframe
         class="powerbi-frame"
-         src="https://app.powerbi.com/reportEmbed?reportId=28285965-bbed-4404-b8c0-228b8921318a&autoAuth=true&ctid=740be6bd-fd36-470e-94d9-0f0c777fadb9" frameborder="0" allowFullScreen="true"></iframe>
+        src="https://app.powerbi.com/reportEmbed?reportId=28285965-bbed-4404-b8c0-228b8921318a&autoAuth=true&ctid=740be6bd-fd36-470e-94d9-0f0c777fadb9"
+        frameborder="0"
+        allowFullScreen="true">
       </iframe>
 
     </div>
@@ -88,8 +84,6 @@ body {
 
 <script src="components/sidebar_component.js"></script>
 <script src="components/topbar_component.js"></script>
-<script src="components/card_component.js"></script>
-<script src="components/dashboard_cards.js"></script>
 
 <script src="js/dashboard.js"></script>
 

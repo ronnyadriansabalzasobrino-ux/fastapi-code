@@ -1,33 +1,78 @@
 class Sidebar extends HTMLElement {
+
 connectedCallback(){
 
 this.innerHTML = `
+
 <aside class="sidebar">
 
   <div class="sidebar-logo">
     <h2>🎓 School System</h2>
-  <ul>
+  </div>
 
-  <div class="sidebar-menu">
+  <ul class="sidebar-menu">
 
-    <li><button onclick="goStudents()">👨‍🎓 Estudiantes</button></li>
+    <li onclick="goDashboard()">
+      🏠 Inicio
+    </li>
 
+    <li onclick="goStudents()">
+      👨‍🎓 Estudiantes
+    </li>
 
-    <li><button onclick="goTeachers()">👨‍🏫 Docentes</button></li>
+    <li onclick="goTeachers()">
+      👨‍🏫 Docentes
+    </li>
 
+    <li onclick="goSubjects()">
+      📚 Materias
+    </li>
 
-    <li><button onclick="goSubjects()">📚 Materias</button></li>
+    <li onclick="goAlerts()">
+      ⚠️ Alertas
+    </li>
 
-
-    <li><button onclick="goAlerts()">⚠️ Alertas</button></li>
-
-
+    <li onclick="goReports()">
+      📊 Reportes
+    </li>
 
   </ul>
 
 </aside>
+
 `;
+
 }
+
 }
 
 customElements.define("app-sidebar", Sidebar);
+
+
+/* =========================
+   NAVEGACION
+========================= */
+
+function goDashboard(){
+window.location.href = "dashboard.html"
+}
+
+function goStudents(){
+window.location.href = "Students.html"
+}
+
+function goTeachers(){
+window.location.href = "Teachers.html"
+}
+
+function goSubjects(){
+window.location.href = "Subjects.html"
+}
+
+function goAlerts(){
+window.location.href = "Alerts.html"
+}
+
+function goReports(){
+window.location.href = "Reports.html"
+}
