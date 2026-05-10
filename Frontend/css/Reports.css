@@ -17,14 +17,6 @@ padding:30px;
 overflow:auto;
 }
 
-/* SIDEBAR */
-
-.sidebar{
-width:260px;
-background:white;
-box-shadow:2px 0 15px rgba(0,0,0,0.1);
-}
-
 /* TOPBAR */
 
 .topbar{
@@ -162,4 +154,18 @@ width:100% !important;
 table.dataTable thead{
 background:#1976d2;
 color:white;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+.stats-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.filters-grid{
+grid-template-columns:1fr;
+}
+
 }
