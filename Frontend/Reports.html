@@ -2,10 +2,13 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
+
 <title>Reports - School System</title>
 
 <link rel="stylesheet" href="css/Reports.css">
+
 </head>
 
 <body>
@@ -25,10 +28,15 @@
 
     <!-- HEADER -->
     <div class="reports-header">
-      <div class="reports-title">📊 Reports</div>
-      <div class="reports-subtitle">
-        Visualización de datos del sistema académico
+
+      <div class="reports-title">
+        📊 Reports
       </div>
+
+      <div class="reports-subtitle">
+        Sistema de alertas académicas S.A.P.E.R
+      </div>
+
     </div>
 
     <!-- CARD -->
@@ -36,33 +44,69 @@
 
       <h3>🧾 Generar Reporte PDF</h3>
 
-      <p>Selecciona filtros antes de generar el PDF.</p>
+      <p>
+        Selecciona filtros antes de generar el PDF.
+      </p>
 
-      <label>📊 Nivel de riesgo</label>
+      <!-- RISK -->
+      <label>Nivel de riesgo</label>
 
       <select id="risk_level">
-        <option value="">Todos los riesgos</option>
-        <option value="HIGH">HIGH</option>
-        <option value="MEDIUM">MEDIUM</option>
-        <option value="LOW">LOW</option>
+
+        <option value="">
+          Todos los riesgos
+        </option>
+
+        <option value="HIGH">
+          HIGH
+        </option>
+
+        <option value="MEDIUM">
+          MEDIUM
+        </option>
+
+        <option value="LOW">
+          LOW
+        </option>
+
       </select>
 
       <br><br>
+
+      <!-- STATE -->
+      <label>Estado alerta</label>
 
       <select id="state">
-        <option value="">Todos los estados</option>
-        <option value="ACTIVE">ACTIVE</option>
-        <option value="CLOSED">CLOSED</option>
+
+        <option value="">
+          Todos los estados
+        </option>
+
+        <option value="ACTIVE">
+          ACTIVE
+        </option>
+
+        <option value="CLOSED">
+          CLOSED
+        </option>
+
       </select>
 
       <br><br>
 
-      <input id="id_program" placeholder="ID Programa">
+      <!-- PROGRAM -->
+      <label>ID programa</label>
+
+      <input
+        id="id_program"
+        placeholder="Ej: 1"
+      >
 
       <br><br>
 
+      <!-- BOTON -->
       <button onclick="generateReport()">
-        📄 Generar PDF
+        📄 Descargar Reporte
       </button>
 
     </div>
@@ -71,9 +115,16 @@
 
 </div>
 
-<!-- SCRIPTS -->
+<!-- COMPONENTS -->
 <script src="components/sidebar_component.js"></script>
 <script src="components/topbar_component.js"></script>
+
+<!-- JSPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+<!-- JS -->
 <script src="./js/Reports.js"></script>
 
 </body>
