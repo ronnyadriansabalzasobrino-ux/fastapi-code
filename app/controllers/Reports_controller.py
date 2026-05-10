@@ -1,25 +1,33 @@
 import psycopg2
 from app.config.db_config import get_db_connection
 from fastapi import HTTPException
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-import io
-from fastapi.responses import StreamingResponse
 
 
 class ReportsController:
 
-    def generate_pdf_report(self, risk_level, state, id_program):
+    # 🔥 DATOS PARA EL FRONTEND
+    def get_report_data(self, risk_level, state, id_program):
 
         try:
+
             conn = get_db_connection()
             cursor = conn.cursor()
 
             query = """
-                SELECT s.name, s.last_name, a.tipo_alert, a.risk_level, a.state
+                SELECT
+                    s.id_student,
+                    s.name,
+                    s.last_name,
+                    s.id_program,
+                    a.tipo_alert,
+                    a.risk_level,
+                    a.state
+
                 FROM alerts a
-                JOIN students s ON a.id_student = s.id_student
+
+                JOIN students s
+                ON a.id_student = s.id_student
+
                 WHERE 1=1
             """
 
@@ -38,40 +46,32 @@ class ReportsController:
                 params.append(id_program)
 
             cursor.execute(query, tuple(params))
-            data = cursor.fetchall()
 
-            buffer = io.BytesIO()
-            pdf = SimpleDocTemplate(buffer)
+            result = cursor.fetchall()
 
-            elements = []
+            payload = []
 
-            styles = getSampleStyleSheet()
-            title = Paragraph("REPORTE DE ALERTAS", styles["Title"])
-            elements.append(title)
-            elements.append(Spacer(1, 12))
+            for row in result:
 
-            table_data = [["Nombre", "Apellido", "Tipo", "Riesgo", "Estado"]]
+                payload.append({
 
-            for row in data:
-                table_data.append(list(row))
+                    "id_student": row[0],
+                    "name": row[1],
+                    "last_name": row[2],
+                    "id_program": row[3],
+                    "tipo_alert": row[4],
+                    "risk_level": row[5],
+                    "state": row[6]
 
-            table = Table(table_data)
+                })
 
-            table.setStyle(TableStyle([
-                ("BACKGROUND", (0,0), (-1,0), colors.grey),
-                ("TEXTCOLOR", (0,0), (-1,0), colors.whitesmoke),
-                ("GRID", (0,0), (-1,-1), 0.5, colors.black),
-                ("BACKGROUND", (0,1), (-1,-1), colors.beige),
-            ]))
-
-            elements.append(table)
-
-            pdf.build(elements)
-
-            buffer.seek(0)
-
-            return StreamingResponse(buffer, media_type="application/pdf")
+            return payload
 
         except Exception as e:
+
             print(e)
             raise HTTPException(status_code=500, detail=str(e))
+
+        finally:
+
+            conn.close()
