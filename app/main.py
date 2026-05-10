@@ -2,12 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 
-# crear app
+# 🔥 CREAR APP
 app = FastAPI(title="Mi API con JWT")
 
 bearer_scheme = HTTPBearer()
 
-# importar routers
+# 🔥 IMPORTAR ROUTERS
 from app.routes.Programs_routes import router as programs_router
 from app.routes.Semesters_routes import router as semesters_router
 from app.routes.Students_routes import router as students_router
@@ -23,32 +23,43 @@ from app.routes.Followups_routes import router as followups_router
 from app.routes.Periods_routes import router as periods_router
 from app.routes.reports_routes import router as reports_router
 
-# CORS
+# 🔥 CORS
 origins = [
-    "https://alertas-backend.onrender.com",
-    "http://localhost:5000",
+
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+
+    "https://fastapi-code.vercel.app",
+
+    "https://fastapi-code-6c5123yc7-ronnyadriansabalzasobrino-uxs-projects.vercel.app"
+
 ]
 
 app.add_middleware(
+
     CORSMiddleware,
-    allow_origins=[
-    "https://fastapi-code.vercel.app"
-    ],
-    allow_credentials=False,
+
+    allow_origins=origins,
+
+    allow_credentials=True,
+
     allow_methods=["*"],
-    allow_headers=["*"],
+
+    allow_headers=["*"]
+
 )
 
-# ruta base
+# 🔥 RUTA BASE
 @app.get("/")
 def home():
-    return {"message": "API funcionando correctamente"}
 
-@app.get("/public/alerts")
-def get_alerts_public():
-    return get_alerts_public()
+    return {
 
-# incluir routers
+        "message": "API funcionando correctamente"
+
+    }
+
+# 🔥 INCLUIR ROUTERS
 app.include_router(programs_router)
 app.include_router(semesters_router)
 app.include_router(students_router)
@@ -64,11 +75,19 @@ app.include_router(followups_router)
 app.include_router(periods_router)
 app.include_router(reports_router)
 
-# crear tablas si no existen
+# 🔥 CREAR TABLAS
 from app.config.db_config import create_tables
+
 create_tables()
 
-# ejecutar servidor
+# 🔥 EJECUTAR SERVIDOR
 if __name__ == "__main__":
+
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=10000, reload=True)
+
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=10000,
+        reload=True
+    )
