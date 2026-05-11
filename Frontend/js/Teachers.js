@@ -33,7 +33,7 @@ table.innerHTML += `
 ${teacher.id_teaching},
 '${teacher.name}',
 '${teacher.last_name}',
-'${teacher.number}',
+'${teacher.number_id}',
 '${teacher.mail}',
 '${teacher.phone}',
 '${teacher.specialty}'
@@ -54,7 +54,7 @@ console.error("Error cargando docentes:", error)
 
 async function saveTeacher(){
 
-const id = document.getElementById("teacher").value
+const id = document.getElementById("teacher_id").value
 
 const teacher = {
 name: document.getElementById("name").value,
@@ -84,10 +84,10 @@ loadTeachers()
 }
 
 function editTeacher(id,name,last_name,number,mail,phone,specialty){
-document.getElementById("teacher").value = id
+document.getElementById("teacher_id").value = id
 document.getElementById("name").value = name
 document.getElementById("last_name").value = last_name
-document.getElementById("number").value = number
+document.getElementById("number_id").value = number
 document.getElementById("mail").value = mail
 document.getElementById("phone").value = phone
 document.getElementById("specialty").value = specialty
@@ -103,10 +103,10 @@ loadTeachers()
 }
 
 function clearForm(){
-document.getElementById("teacher").value=""
+document.getElementById("teacher_id").value=""
 document.getElementById("name").value=""
 document.getElementById("last_name").value=""
-document.getElementById("number").value=""
+document.getElementById("number_id").value=""
 document.getElementById("mail").value=""
 document.getElementById("phone").value=""
 document.getElementById("specialty").value=""

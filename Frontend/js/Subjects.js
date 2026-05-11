@@ -38,12 +38,12 @@ tableInstance = $('#subjectsTableDisplay').DataTable()
 }
 }
 async function saveSubject(){
-const id = document.getElementById("subject").value
+const id = document.getElementById("subject_id").value
 
 const subject = {
 name_subject: document.getElementById("name").value,
 credits: document.getElementById("credits").value,
-id_program: document.getElementById("teacher").value
+id_program: document.getElementById("teacher_id").value
 }
 
 const url = id === ""
@@ -67,10 +67,10 @@ loadSubjects()
 function editSubject(btn, id){
 const row = btn.closest("tr")
 
-document.getElementById("subject").value = id
+document.getElementById("subject_id").value = id
 document.getElementById("name").value = row.children[0].innerText
 document.getElementById("credits").value = row.children[1].innerText
-document.getElementById("teacher").value = row.children[2].innerText
+document.getElementById("teacher_id").value = row.children[2].innerText
 }
 
 async function deleteSubject(id){
@@ -81,10 +81,10 @@ loadSubjects()
 }
 
 function clearForm(){
-document.getElementById("subject").value=""
+document.getElementById("subject_id").value=""
 document.getElementById("name").value=""
 document.getElementById("credits").value=""
-document.getElementById("teacher").value=""
+document.getElementById("teacher_id").value=""
 }
 
 window.saveSubject = saveSubject

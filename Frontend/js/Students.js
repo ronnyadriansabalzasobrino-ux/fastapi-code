@@ -66,7 +66,7 @@ try{
 const res = await fetch(API + "/programs")
 const programs = await res.json()
 
-const select = document.getElementById("program_id")
+const select = document.getElementById("id_program")
 
 if(!select) return
 
@@ -93,7 +93,7 @@ try{
 const res = await fetch(API + "/semesters")
 const semesters = await res.json()
 
-const select = document.getElementById("semester_id")
+const select = document.getElementById("id_semester")
 
 if(!select) return
 
@@ -119,8 +119,8 @@ try{
 
 const id = document.getElementById("student_id").value
 
-const program = document.getElementById("program")?.value
-const semester = document.getElementById("semester")?.value
+const program = document.getElementById("id_program")?.value
+const semester = document.getElementById("id_semester")?.value
 
 if(!program || !semester){
 alert("Selecciona programa y semestre")
@@ -155,7 +155,7 @@ alert("Estudiante actualizado")
 }
 
 clearForm()
-loadStudents()
+loadstudents()
 
 }catch(error){
 console.error("Error guardando estudiante:", error)
@@ -180,7 +180,7 @@ if(!confirm("¿Eliminar estudiante?")) return
 
 await fetch(API + "/students/" + id,{ method:"DELETE" })
 alert("Estudiante eliminado")
-loadStudents()
+loadstudents()
 }
 
 
@@ -192,8 +192,8 @@ document.getElementById("number_id").value = ""
 document.getElementById("mail").value = ""
 document.getElementById("phone").value = ""
 
-const p = document.getElementById("program")
-const s = document.getElementById("semester")
+const p = document.getElementById("id_program")
+const s = document.getElementById("id_semester")
 
 if(p) p.value = ""
 if(s) s.value = ""
