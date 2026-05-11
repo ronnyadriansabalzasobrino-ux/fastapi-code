@@ -25,8 +25,15 @@ subjects.forEach(subject => {
     <td>${subject.credits}</td>
     <td>${subject.program ?? ""}</td>
     <td>
-    <button onclick="editSubject(this, ${subject.id_subject})">Editar</button>
-    <button onclick="deleteSubject(${subject.id_subject})">Eliminar</button>
+    <button class="btn-edit"
+onclick="editSubject(this, ${subject.id_subject})">
+Editar
+</button>
+
+<button class="btn-delete"
+onclick="deleteSubject(${subject.id_subject})">
+Eliminar
+</button>
 </td>
 </tr>
 `

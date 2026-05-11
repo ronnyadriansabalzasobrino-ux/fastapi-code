@@ -43,8 +43,15 @@ table.innerHTML += `
 <td>${alert.risk_level ?? "Sin riesgo"}</td>
 <td>${alert.state ?? "Sin estado"}</td>
 <td>
-<button onclick="editAlert(${alert.id_alert})">Editar</button>
-<button onclick="deleteAlert(${alert.id_alert})">Eliminar</button>
+<button class="btn-edit"
+onclick="editAlert(${alert.id_alert})">
+Editar
+</button>
+
+<button class="btn-delete"
+onclick="deleteAlert(${alert.id_alert})">
+Eliminar
+</button>
 </td>
 </tr>
 `

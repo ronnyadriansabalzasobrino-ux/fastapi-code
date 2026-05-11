@@ -29,7 +29,8 @@ table.innerHTML += `
 <td>${teacher.phone}</td>
 <td>${teacher.specialty}</td>
 <td>
-<button onclick="editTeacher(
+<button class="btn-edit"
+onclick="editTeacher(
 ${teacher.id_teaching},
 '${teacher.name}',
 '${teacher.last_name}',
@@ -39,7 +40,10 @@ ${teacher.id_teaching},
 '${teacher.specialty}'
 )">Editar</button>
 
-<button onclick="deleteTeacher(${teacher.id_teaching})">Eliminar</button>
+<button class="btn-delete"
+onclick="deleteTeacher(${teacher.id_teaching})">
+Eliminar
+</button>
 </td>
 </tr>
 `
