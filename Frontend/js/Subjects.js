@@ -23,7 +23,7 @@ subjects.forEach(subject => {
     <tr>
     <td>${subject.name_subject}</td>
     <td>${subject.credits}</td>
-    <td>${subject.program}</td>
+    <td>${subject.program ?? ""}</td>
     <td>
     <button onclick="editSubject(this, ${subject.id_subject})">Editar</button>
     <button onclick="deleteSubject(${subject.id_subject})">Eliminar</button>
@@ -65,12 +65,21 @@ loadSubjects()
 }
 
 function editSubject(btn, id){
+
 const row = btn.closest("tr")
 
 document.getElementById("subject_id").value = id
 document.getElementById("name").value = row.children[0].innerText
 document.getElementById("credits").value = row.children[1].innerText
-document.getElementById("teacher_id").value = row.children[2].innerText
+
+const program = row.children[2].innerText
+
+if(program !== "undefined"){
+document.getElementById("teacher_id").value = program
+}else{
+document.getElementById("teacher_id").value = ""
+}
+
 }
 
 async function deleteSubject(id){

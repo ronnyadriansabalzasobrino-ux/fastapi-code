@@ -37,7 +37,9 @@ ${student.id_student},
 '${student.last_name ?? ""}',
 '${student.number_id ?? ""}',
 '${student.mail ?? ""}',
-'${student.phone ?? ""}'
+'${student.phone ?? ""}',
+'${student.id_program ?? ""}',
+'${student.id_semester ?? ""}'
 )">Editar</button>
 
 <button class="btn-delete" onclick="deletestudent(${student.id_student})">
@@ -119,8 +121,8 @@ try{
 
 const id = document.getElementById("student_id").value
 
-const program = document.getElementById("id_program")?.value
-const semester = document.getElementById("id_semester")?.value
+const program = document.getElementById("program_id")?.value
+const semester = document.getElementById("semester_id")?.value
 
 if(!program || !semester){
 alert("Selecciona programa y semestre")
@@ -163,13 +165,27 @@ console.error("Error guardando estudiante:", error)
 }
 
 
-function editstudent(id,name,last_name,number,mail,phone){
+function editstudent(
+id,
+name,
+last_name,
+number,
+mail,
+phone,
+program,
+semester
+){
+
 document.getElementById("student_id").value = id
 document.getElementById("name").value = name
 document.getElementById("last_name").value = last_name
 document.getElementById("number_id").value = number
 document.getElementById("mail").value = mail
 document.getElementById("phone").value = phone
+
+document.getElementById("program_id").value = program
+document.getElementById("semester_id").value = semester
+
 window.scrollTo(0,0)
 }
 
@@ -192,8 +208,8 @@ document.getElementById("number_id").value = ""
 document.getElementById("mail").value = ""
 document.getElementById("phone").value = ""
 
-const p = document.getElementById("id_program")
-const s = document.getElementById("id_semester")
+const p = document.getElementById("program_id")
+const s = document.getElementById("semester_id")
 
 if(p) p.value = ""
 if(s) s.value = ""
