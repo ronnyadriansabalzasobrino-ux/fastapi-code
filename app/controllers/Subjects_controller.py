@@ -71,18 +71,7 @@ class SubjectsController:
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            cursor.execute("""
-                SELECT
-                    s.id_subject,
-                    s.name_subject,
-                    s.credits,
-                    s.id_program,
-                    p.name
-                FROM Subject s
-                LEFT JOIN Program p
-                ON s.id_program = p.id_program
-            """)
-
+            cursor.execute("SELECT * FROM Subject")
             result = cursor.fetchall()
 
             payload = []
@@ -92,8 +81,7 @@ class SubjectsController:
                     "id_subject": row[0],
                     "name_subject": row[1],
                     "credits": row[2],
-                    "id_program": row[3],
-                    "program": row[4]
+                    "id_program": row[3]
                 })
 
             return jsonable_encoder(payload)
@@ -104,6 +92,7 @@ class SubjectsController:
 
         finally:
             conn.close()
+
 
     def update_subject(self, id_subject: int, subject: Subjects):
         try:
