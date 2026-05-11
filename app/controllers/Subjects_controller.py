@@ -71,7 +71,18 @@ class SubjectsController:
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            cursor.execute("SELECT * FROM Subject")
+            cursor.execute("""
+                SELECT 
+                    s.id_subject,
+                    s.name_subject,
+                    s.credits,
+                    s.id_program,
+                    p.name_program
+                FROM Subject s
+                INNER JOIN programs p
+                ON s.id_program = p.id_program
+            """)
+
             result = cursor.fetchall()
 
             payload = []
@@ -81,7 +92,8 @@ class SubjectsController:
                     "id_subject": row[0],
                     "name_subject": row[1],
                     "credits": row[2],
-                    "id_program": row[3]
+                    "id_program": row[3],
+                    "program": row[4]
                 })
 
             return jsonable_encoder(payload)
