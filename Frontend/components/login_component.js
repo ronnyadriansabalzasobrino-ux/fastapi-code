@@ -59,6 +59,14 @@ this.querySelector("#loginBtn").addEventListener("click", async () => {
   localStorage.setItem("rol", selectedRol);
   localStorage.setItem("access_token", data.access_token);
   localStorage.setItem("name", data.name);
+  localStorage.setItem("mail", mail);
+
+  console.log("LOGIN STORAGE:", {
+    rol: localStorage.getItem("rol"),
+    token: localStorage.getItem("access_token"),
+    name: localStorage.getItem("name"),
+    mail: localStorage.getItem("mail")
+  });
 
   window.location.href = "dashboard.html";
 });
