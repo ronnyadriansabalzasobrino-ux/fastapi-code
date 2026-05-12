@@ -25,9 +25,9 @@ async function login() {
     const data = await response.json();
 
     localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("id_user", data.id_user);
     localStorage.setItem("rol", data.rol);
     localStorage.setItem("name", data.name);
+    localStorage.setItem("mail", mail);
 
     alert("Login correcto");
     window.location.href = "dashboard.html";

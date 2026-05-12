@@ -89,7 +89,7 @@ class ReportsController:
     # REPORTES DEL ESTUDIANTE
     # =========================
 
-    def get_student_reports(self, id_user: int):
+    def get_student_reports(self, mail: str):
 
         try:
 
@@ -117,7 +117,7 @@ class ReportsController:
 
                 ORDER BY a.id_alert DESC
 
-            """, (id_user,))
+            """, (mail,))
 
             result = cursor.fetchall()
 

@@ -1,7 +1,7 @@
 const API = "https://alertas-backend.onrender.com"
 
-const id_user =
-localStorage.getItem("id_user")
+const mail =
+localStorage.getItem("mail")
 
 let reportsData = []
 
@@ -18,7 +18,7 @@ async function loadReports(){
 try{
 
 const response = await fetch(
-API + "/reports/student/" + id_user
+API + "/reports/student/" + mail
 )
 
 const data = await response.json()

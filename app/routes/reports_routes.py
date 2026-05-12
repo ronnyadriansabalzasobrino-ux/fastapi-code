@@ -10,6 +10,6 @@ def get_reports_data():
     return reports_controller.get_reports_data()
 
 
-@router.get("/reports/student/{id_user}")
-def get_student_reports(id_user: int):
-    return reports_controller.get_student_reports(id_user)
+@router.get("/reports/student/{mail}")
+def get_student_reports(mail: str):
+    return reports_controller.get_student_reports(mail)
