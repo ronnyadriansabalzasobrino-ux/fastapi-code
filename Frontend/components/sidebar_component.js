@@ -69,8 +69,8 @@ else if(rol === "estudiante"){
 
 menu += `
 
-<li onclick="goReports()">
-  📊 Reportes
+<li onclick="goMyReports()">
+  📊 Mis Reportes
 </li>
 
 `
@@ -125,3 +125,7 @@ window.location.href = "Alerts.html"
 function goReports(){
 window.location.href = "Reports.html"
 }
+
+function goMyReports(){
+window.location.href = "MyReports.html"
+} 

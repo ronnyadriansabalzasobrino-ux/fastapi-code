@@ -83,3 +83,77 @@ class ReportsController:
                 status_code=500,
                 detail=str(err)
             )
+
+
+    # =========================
+    # REPORTES DEL ESTUDIANTE
+    # =========================
+
+    def get_student_reports(self, id_user: int):
+
+        try:
+
+            conn = get_db_connection()
+            cursor = conn.cursor()
+
+            cursor.execute("""
+
+                SELECT
+                    p.name_program,
+                    a.risk_level,
+                    a.state,
+                    a.tipo_alert,
+                    a.generation_date
+
+                FROM alerts a
+
+                INNER JOIN students s
+                ON a.id_student = s.id_student
+
+                LEFT JOIN programs p
+                ON s.id_program = p.id_program
+
+                WHERE s.id_user = %s
+
+                ORDER BY a.id_alert DESC
+
+            """, (id_user,))
+
+            result = cursor.fetchall()
+
+            payload = []
+
+            for row in result:
+
+                payload.append({
+
+                    "program":
+                    row[0],
+
+                    "risk_level":
+                    row[1],
+
+                    "state":
+                    row[2],
+
+                    "tipo_alert":
+                    row[3],
+
+                    "generation_date":
+                    str(row[4])
+
+                })
+
+            cursor.close()
+            conn.close()
+
+            return jsonable_encoder(payload)
+
+        except psycopg2.Error as err:
+
+            print(err)
+
+            raise HTTPException(
+                status_code=500,
+                detail=str(err)
+            )
