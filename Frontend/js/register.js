@@ -13,24 +13,42 @@ async function register() {
     return;
   }
 
-  const res = await fetch(API + "/register", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({
-      name,
-      last_name,
-      mail,
-      password,
-      rol
-    })
-  });
+  try {
 
-  if (!res.ok) {
-    alert("Error al registrar");
-    return;
+    const res = await fetch(API + "/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name,
+        last_name,
+        mail,
+        password,
+        rol
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.detail || "Error al registrar");
+      return;
+    }
+
+    const data = await res.json();
+
+    alert("Usuario registrado correctamente");
+
+    // opcional: auto login
+    localStorage.setItem("mail", mail);
+    localStorage.setItem("rol", rol);
+
+    window.location.href = "login.html";
+
+  } catch (error) {
+    console.error(error);
+    alert("Error conectando con el servidor");
   }
-
-  alert("Usuario registrado correctamente");
-
-  window.location.href = "login.html";
 }
+
+window.register = register;

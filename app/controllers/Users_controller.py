@@ -171,3 +171,27 @@ class UserController:
 
         finally:
             conn.close()
+
+    # REGISTRAR USUARIO
+    def register(self, user: Users):
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                          INSERT INTO Users (name, last_name, post, mail, phone, rol, password)
+                          VALUES (%s, %s, %s, %s, %s, %s, %s)
+                         """, (
+                               user.name,
+                               user.last_name,
+                               user.post,
+                               user.mail,
+                               user.phone,
+                               user.rol,
+                               user.password
+                            ))
+            conn.commit()
+            conn.close()
+            return {"resultado": "User registrado"}
+        finally:
+            conn.close()

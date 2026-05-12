@@ -36,3 +36,8 @@ async def delete_user(id_user: int):
 @router.post("/login")
 async def login(data: LoginData):
     return user_controller.login(data.mail, data.password)
+
+# Register
+@router.post("/register")
+async def register(user: Users):
+    return user_controller.create_User(user)
