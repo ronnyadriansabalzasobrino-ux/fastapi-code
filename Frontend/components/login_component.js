@@ -82,10 +82,10 @@ this.querySelector("#loginBtn").addEventListener("click", async () => {
     localStorage.setItem("access_token", data.access_token);
     localStorage.setItem("rol", selectedRol);
     localStorage.setItem("name", data.name);
-    localStorage.setItem("mail", mail);
+    sessionStorage.setItem("mail", mail);
 
     console.log("LOGIN OK:", {
-      mail: localStorage.getItem("mail"),
+      mail: sessionStorage.getItem("mail"),
       rol: localStorage.getItem("rol")
     });
 
