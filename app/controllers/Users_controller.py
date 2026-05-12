@@ -174,9 +174,15 @@ class UserController:
 
     # REGISTRAR USUARIO
     def register(self, user: Users):
+        conn= None
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
+
+            hashed_password = bcrypt.hashpw(
+                user.password.encode('utf-8'),
+                bcrypt.gensalt()
+            ).decode('utf-8')
 
             cursor.execute("""
                           INSERT INTO Users (name, last_name, post, mail, phone, rol, password)
@@ -188,10 +194,15 @@ class UserController:
                                user.mail,
                                user.phone,
                                user.rol,
-                               user.password
+                               hashed_password
                             ))
             conn.commit()
-            conn.close()
+            
             return {"resultado": "User registrado"}
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
         finally:
-            conn.close()
+            if conn:    
+                conn.close()

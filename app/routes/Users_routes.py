@@ -39,5 +39,5 @@ async def login(data: LoginData):
 
 # Register
 @router.post("/register")
-async def register(user: Users):
-    return user_controller.create_User(user)
+def register(user: Users):
+    return user_controller.register(user)
