@@ -2,6 +2,80 @@ class Sidebar extends HTMLElement {
 
 connectedCallback(){
 
+const rol = localStorage.getItem("rol")
+
+let menu = `
+
+<li onclick="goDashboard()">
+  🏠 Inicio
+</li>
+
+`
+
+// ADMIN
+if(rol === "admin"){
+
+menu += `
+
+<li onclick="goStudents()">
+  👨‍🎓 Estudiantes
+</li>
+
+<li onclick="goTeachers()">
+  👨‍🏫 Docentes
+</li>
+
+<li onclick="goSubjects()">
+  📚 Materias
+</li>
+
+<li onclick="goAlerts()">
+  ⚠️ Alertas
+</li>
+
+<li onclick="goReports()">
+  📊 Reportes
+</li>
+
+`
+}
+
+// DOCENTE
+else if(rol === "docente"){
+
+menu += `
+
+<li onclick="goStudents()">
+  👨‍🎓 Estudiantes
+</li>
+
+<li onclick="goTeachers()">
+  👨‍🏫 Docentes
+</li>
+
+<li onclick="goSubjects()">
+  📚 Materias
+</li>
+
+<li onclick="goAlerts()">
+  ⚠️ Alertas
+</li>
+
+`
+}
+
+// ESTUDIANTE
+else if(rol === "estudiante"){
+
+menu += `
+
+<li onclick="goReports()">
+  📊 Reportes
+</li>
+
+`
+}
+
 this.innerHTML = `
 
 <aside class="sidebar">
@@ -11,42 +85,17 @@ this.innerHTML = `
   </div>
 
   <ul class="sidebar-menu">
-
-    <li onclick="goDashboard()">
-      🏠 Inicio
-    </li>
-
-    <li onclick="goStudents()">
-      👨‍🎓 Estudiantes
-    </li>
-
-    <li onclick="goTeachers()">
-      👨‍🏫 Docentes
-    </li>
-
-    <li onclick="goSubjects()">
-      📚 Materias
-    </li>
-
-    <li onclick="goAlerts()">
-      ⚠️ Alertas
-    </li>
-
-    <li onclick="goReports()">
-      📊 Reportes
-    </li>
-
+    ${menu}
   </ul>
 
 </aside>
 
-`;
-
+`
 }
 
 }
 
-customElements.define("app-sidebar", Sidebar);
+customElements.define("app-sidebar", Sidebar)
 
 
 /* =========================
