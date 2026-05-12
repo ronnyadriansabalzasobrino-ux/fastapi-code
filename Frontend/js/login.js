@@ -71,6 +71,11 @@ async function login() {
       "mail",
       mail
     );
+    
+    console.log(
+      "MAIL GUARDADO:",
+      localStorage.getItem("mail")
+    )
 
     alert("Login correcto");
 
