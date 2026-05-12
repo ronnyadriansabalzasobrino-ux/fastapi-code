@@ -22,6 +22,11 @@ this.innerHTML = `
 
     <button id="loginBtn">Iniciar sesión</button>
 
+    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+    <button id="registerBtn" style="margin-top:10px;background:#2196F3;color:white;">
+    Registrarse
+    </button>
+
   </div>
 
 </div>
@@ -82,10 +87,10 @@ this.querySelector("#loginBtn").addEventListener("click", async () => {
     localStorage.setItem("access_token", data.access_token);
     localStorage.setItem("rol", selectedRol);
     localStorage.setItem("name", data.name);
-    sessionStorage.setItem("mail", mail);
+    localStorage.setItem("mail", mail);
 
     console.log("LOGIN OK:", {
-      mail: sessionStorage.getItem("mail"),
+      mail: localStorage.getItem("mail"),
       rol: localStorage.getItem("rol")
     });
 

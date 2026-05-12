@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro</title>
+<link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+
+<div class="auth-container">
+
+  <div class="auth-card">
+
+    <h1>Registro de Usuario</h1>
+
+    <input id="name" placeholder="Nombre">
+    <input id="last_name" placeholder="Apellido">
+    <input id="mail" type="email" placeholder="Correo">
+    <input id="password" type="password" placeholder="Contraseña">
+
+    <select id="rol">
+      <option value="">Selecciona rol</option>
+      <option value="admin">Admin</option>
+      <option value="docente">Docente</option>
+      <option value="estudiante">Estudiante</option>
+    </select>
+
+    <button onclick="register()">Registrarse</button>
+
+    <div class="auth-link">
+      ¿Ya tienes cuenta?
+      <a href="login.html">Inicia sesión</a>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="js/register.js"></script>
+
+</body>
+</html>
