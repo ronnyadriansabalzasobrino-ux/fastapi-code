@@ -12,8 +12,8 @@ this.innerHTML = `
     <input id="mail" type="email" placeholder="Correo electrónico">
     <input id="password" type="password" placeholder="Contraseña">
 
-   
     <label>Selecciona tu rol</label>
+
     <div style="display:flex; gap:10px; margin-bottom:10px;">
       <button class="rolBtn" data-rol="admin">Admin</button>
       <button class="rolBtn" data-rol="docente">Docente</button>
@@ -29,46 +29,75 @@ this.innerHTML = `
 
 let selectedRol = null;
 
+// seleccionar rol
 this.querySelectorAll(".rolBtn").forEach(btn => {
   btn.addEventListener("click", () => {
+
     selectedRol = btn.dataset.rol;
 
-    this.querySelectorAll(".rolBtn").forEach(b => b.style.background = "");
+    this.querySelectorAll(".rolBtn")
+      .forEach(b => b.style.background = "");
+
     btn.style.background = "#4CAF50";
   });
 });
 
-
+// login
 this.querySelector("#loginBtn").addEventListener("click", async () => {
 
-  if (!selectedRol) return alert("Selecciona un rol");
+  const mail = this.querySelector("#mail").value.trim();
+  const password = this.querySelector("#password").value.trim();
 
-  const mail = document.getElementById("mail").value;
-  const password = document.getElementById("password").value;
+  if (!mail || !password) {
+    alert("Ingresa correo y contraseña");
+    return;
+  }
 
-  const res = await fetch("https://alertas-backend.onrender.com/login", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({mail, password})
-  });
+  if (!selectedRol) {
+    alert("Selecciona un rol");
+    return;
+  }
 
-  if(!res.ok) return alert("Error login");
+  try {
 
-  const data = await res.json();
+    const res = await fetch(
+      "https://alertas-backend.onrender.com/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ mail, password })
+      }
+    );
 
-  localStorage.setItem("rol", selectedRol);
-  localStorage.setItem("access_token", data.access_token);
-  localStorage.setItem("name", data.name);
-  localStorage.setItem("mail", mail);
+    if (!res.ok) {
+      alert("Error en login");
+      return;
+    }
 
-  console.log("LOGIN STORAGE:", {
-    rol: localStorage.getItem("rol"),
-    token: localStorage.getItem("access_token"),
-    name: localStorage.getItem("name"),
-    mail: localStorage.getItem("mail")
-  });
+    const data = await res.json();
 
-  window.location.href = "dashboard.html";
+    // 🔥 STORAGE LIMPIO
+    localStorage.setItem("access_token", data.access_token);
+    localStorage.setItem("rol", selectedRol);
+    localStorage.setItem("name", data.name);
+    localStorage.setItem("mail", mail);
+
+    console.log("LOGIN OK:", {
+      mail: localStorage.getItem("mail"),
+      rol: localStorage.getItem("rol")
+    });
+
+    alert("Login correcto");
+
+    window.location.href = "dashboard.html";
+
+  } catch (err) {
+    console.error(err);
+    alert("Error conectando con el servidor");
+  }
+
 });
 
 }
