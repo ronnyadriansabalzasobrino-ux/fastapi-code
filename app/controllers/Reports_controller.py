@@ -113,7 +113,7 @@ class ReportsController:
                 LEFT JOIN programs p
                 ON s.id_program = p.id_program
 
-                WHERE s.id_user = %s
+                WHERE s.mail = %s
 
                 ORDER BY a.id_alert DESC
 
