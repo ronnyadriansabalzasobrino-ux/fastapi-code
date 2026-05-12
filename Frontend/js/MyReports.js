@@ -3,6 +3,8 @@ const API = "https://alertas-backend.onrender.com"
 const mail =
 localStorage.getItem("mail")
 
+console.log("MAIL LOGUEADO:", mail)
+
 let reportsData = []
 
 let filteredData = []
