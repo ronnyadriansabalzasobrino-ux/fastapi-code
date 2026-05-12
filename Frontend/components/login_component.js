@@ -23,9 +23,6 @@ this.innerHTML = `
     <button id="loginBtn">Iniciar sesión</button>
 
     <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
-    <button id="registerBtn" style="margin-top:10px;background:#2196F3;color:white;">
-    Registrarse
-    </button>
 
   </div>
 
