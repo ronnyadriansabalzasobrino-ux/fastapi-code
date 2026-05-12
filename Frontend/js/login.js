@@ -1,3 +1,5 @@
+console.log("LOGIN JS NUEVO");
+
 const API = "https://alertas-backend.onrender.com";
 
 async function login() {
