@@ -10,19 +10,54 @@ this.innerHTML = `
     <h1>📌 Sistema de Alertas</h1>
 
     <input id="mail" type="email" placeholder="Correo electrónico">
+
     <input id="password" type="password" placeholder="Contraseña">
 
     <label>Selecciona tu rol</label>
 
     <div style="display:flex; gap:10px; margin-bottom:10px;">
-      <button class="rolBtn" data-rol="admin">Admin</button>
-      <button class="rolBtn" data-rol="docente">Docente</button>
-      <button class="rolBtn" data-rol="estudiante">Estudiante</button>
+
+      <button class="rolBtn" data-rol="admin">
+        Admin
+      </button>
+
+      <button class="rolBtn" data-rol="docente">
+        Docente
+      </button>
+
+      <button class="rolBtn" data-rol="estudiante">
+        Estudiante
+      </button>
+
     </div>
 
-    <button id="loginBtn">Iniciar sesión</button>
+    <button id="loginBtn">
+      Iniciar sesión
+    </button>
 
-    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
+    <p>
+      ¿No tienes cuenta?
+      <a href="register.html">
+        Regístrate aquí
+      </a>
+    </p>
+
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal">
+
+    <div class="modal-content">
+
+      <h2 id="modalTitle"></h2>
+
+      <p id="modalMessage"></p>
+
+      <button id="modalClose">
+        Cerrar
+      </button>
+
+    </div>
 
   </div>
 
@@ -31,74 +66,189 @@ this.innerHTML = `
 
 let selectedRol = null;
 
-// seleccionar rol
-this.querySelectorAll(".rolBtn").forEach(btn => {
-  btn.addEventListener("click", () => {
+/* =========================
+   MODAL
+========================= */
 
-    selectedRol = btn.dataset.rol;
+function showModal(title, message){
 
-    this.querySelectorAll(".rolBtn")
-      .forEach(b => b.style.background = "");
+const modal =
+document.getElementById("modal");
 
-    btn.style.background = "#4CAF50";
-  });
+document.getElementById("modalTitle")
+.innerText = title;
+
+document.getElementById("modalMessage")
+.innerText = message;
+
+modal.style.display = "flex";
+
+}
+
+function closeModal(){
+
+document.getElementById("modal")
+.style.display = "none";
+
+}
+
+setTimeout(() => {
+
+document
+.getElementById("modalClose")
+.addEventListener("click", closeModal);
+
+}, 100);
+
+/* =========================
+   SELECT ROL
+========================= */
+
+this.querySelectorAll(".rolBtn")
+.forEach(btn => {
+
+btn.addEventListener("click", () => {
+
+selectedRol = btn.dataset.rol;
+
+this.querySelectorAll(".rolBtn")
+.forEach(b => b.style.background = "");
+
+btn.style.background = "#4CAF50";
+
 });
 
-// login
-this.querySelector("#loginBtn").addEventListener("click", async () => {
+});
 
-  const mail = this.querySelector("#mail").value.trim();
-  const password = this.querySelector("#password").value.trim();
+/* =========================
+   LOGIN
+========================= */
 
-  if (!mail || !password) {
-    alert("Ingresa correo y contraseña");
-    return;
-  }
+this.querySelector("#loginBtn")
+.addEventListener("click", async () => {
 
-  if (!selectedRol) {
-    alert("Selecciona un rol");
-    return;
-  }
+const mail =
+this.querySelector("#mail")
+.value.trim();
 
-  try {
+const password =
+this.querySelector("#password")
+.value.trim();
 
-    const res = await fetch(
-      "https://alertas-backend.onrender.com/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ mail, password })
-      }
-    );
+if (!mail || !password) {
 
-    if (!res.ok) {
-      alert("Error en login");
-      return;
-    }
+showModal(
+"Error",
+"Ingresa correo y contraseña"
+);
 
-    const data = await res.json();
+return;
 
-    // 🔥 STORAGE LIMPIO
-    localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("rol", selectedRol);
-    localStorage.setItem("name", data.name);
-    localStorage.setItem("mail", mail);
+}
 
-    console.log("LOGIN OK:", {
-      mail: localStorage.getItem("mail"),
-      rol: localStorage.getItem("rol")
-    });
+if (!selectedRol) {
 
-    alert("Login correcto");
+showModal(
+"Error",
+"Selecciona un rol"
+);
 
-    window.location.href = "dashboard.html";
+return;
 
-  } catch (err) {
-    console.error(err);
-    alert("Error conectando con el servidor");
-  }
+}
+
+try {
+
+const res = await fetch(
+"https://alertas-backend.onrender.com/login",
+{
+method: "POST",
+
+headers: {
+"Content-Type": "application/json"
+},
+
+body: JSON.stringify({
+mail,
+password
+})
+
+}
+);
+
+if (!res.ok) {
+
+showModal(
+"Error",
+"Correo o contraseña incorrectos"
+);
+
+return;
+
+}
+
+const data = await res.json();
+
+/* =========================
+   STORAGE
+========================= */
+
+localStorage.setItem(
+"access_token",
+data.access_token
+);
+
+localStorage.setItem(
+"rol",
+selectedRol
+);
+
+localStorage.setItem(
+"name",
+data.name
+);
+
+localStorage.setItem(
+"mail",
+mail
+);
+
+console.log("LOGIN OK:", {
+
+mail: localStorage.getItem("mail"),
+
+rol: localStorage.getItem("rol")
+
+});
+
+/* =========================
+   SUCCESS
+========================= */
+
+showModal(
+"Éxito",
+"Has iniciado sesión correctamente"
+);
+
+setTimeout(() => {
+
+window.location.href =
+"dashboard.html";
+
+}, 1500);
+
+}
+
+catch (err) {
+
+console.error(err);
+
+showModal(
+"Error",
+"Error conectando con el servidor"
+);
+
+}
 
 });
 
@@ -106,4 +256,7 @@ this.querySelector("#loginBtn").addEventListener("click", async () => {
 
 }
 
-customElements.define("app-login", LoginComponent);
+customElements.define(
+"app-login",
+LoginComponent
+);
