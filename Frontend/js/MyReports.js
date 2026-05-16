@@ -1,7 +1,7 @@
 const API = "https://alertas-backend.onrender.com"
 
 const mail =
-sessionStorage.getItem("mail");
+localStorage.getItem("mail");
 
 console.log("MAIL LOGUEADO:", mail)
 

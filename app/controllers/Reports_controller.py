@@ -127,7 +127,7 @@ class ReportsController:
 
                 payload.append({
 
-                    "program":
+                    "program": 
                     row[0],
 
                     "risk_level":
