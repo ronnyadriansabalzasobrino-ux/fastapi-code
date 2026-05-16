@@ -56,12 +56,19 @@ class UserController:
             user = cursor.fetchone()
 
             if not user:
-                raise HTTPException(status_code=401, detail="Usuario no encontrado")
+                raise HTTPException(
+                    status_code=401,
+                    detail="Usuario no encontrado")
 
             stored_password = user[7]
 
-            if password != stored_password:
-                raise HTTPException(status_code=401, detail="contraseña incorrecta")
+            if not bcrypt.checkpw(
+                password.encode('utf-8'),
+                stored_password.encode('utf-8')
+            ):
+                raise HTTPException(
+                    status_code=401,
+                    detail="Contraseña incorrecta")
  
             token = create_token({
                 "id_user": user[0],
