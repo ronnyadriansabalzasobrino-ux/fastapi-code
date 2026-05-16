@@ -62,27 +62,52 @@ class UserController:
 
             stored_password = user[7]
 
-            if not bcrypt.checkpw(
-                password.encode('utf-8'),
-                stored_password.encode('utf-8')
-            ):
+            valid = False
+
+            if stored_password.startswith("$2b$"):
+                    valid = bcrypt.checkpw(
+                        password.encode('utf-8'),
+                        stored_password.encode('utf-8')
+                    )
+
+
+            else:
+                valid = (password == stored_password)
+
+                if valid:
+                    new_hash = bcrypt.hashpw(
+                        password.encode('utf-8'),
+                        bcrypt.gensalt()
+                    ).decode('utf-8')
+
+                    cursor.execute("""
+                        UPDATE Users
+                        SET password = %s
+                        WHERE id_user = %s
+                    """, (new_hash, user[0]))
+                    conn.commit()  
+
+            if not valid:
                 raise HTTPException(
                     status_code=401,
                     detail="Contraseña incorrecta")
- 
-            token = create_token({
-                "id_user": user[0],
-                "rol": user[6]
-            })
 
-            return {
-                "message": "Login exitoso",
-                "access_token": token,
-                "id_user": user[0],
-                "name": user[1],
-                "rol": user[6]
-            }
+            token = create_token({"id_user": user[0], "rol": user[6]})
 
+            return {"mesage": "Login exitoso",
+                    "access_token": token,
+                    "id_user": user[0],
+                    "name": user[1],
+                    "rol": user[6]
+                    } 
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=str(e)
+            )      
+                    
+
+            
         finally:
             conn.close()
 
