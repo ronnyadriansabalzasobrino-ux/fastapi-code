@@ -125,7 +125,10 @@ const program = document.getElementById("program_id")?.value
 const semester = document.getElementById("semester_id")?.value
 
 if(!program || !semester){
-alert("Selecciona programa y semestre")
+showModal(
+  "error",
+  "Selecciona programa y semestre"
+)
 return
 }
 
@@ -146,14 +149,18 @@ method:"POST",
 headers:{ "Content-Type":"application/json" },
 body: JSON.stringify(student)
 })
-alert("Estudiante creado")
+showModal(
+  "exito",
+  "Estudiante creado correctamente")
 }else{
 await fetch(API + "/students/" + id,{
 method:"PUT",
 headers:{ "Content-Type":"application/json" },
 body: JSON.stringify(student)
 })
-alert("Estudiante actualizado")
+showModal(
+  "exito",
+  "Estudiante actualizado correctamente")
 }
 
 clearForm()
@@ -161,6 +168,10 @@ loadstudents()
 
 }catch(error){
 console.error("Error guardando estudiante:", error)
+showModal(
+  "error",
+  "no se pudo guardar el estudiante"
+)
 }
 }
 
@@ -192,11 +203,19 @@ window.scrollTo(0,0)
 
 
 async function deletestudent(id){
-if(!confirm("¿Eliminar estudiante?")) return
-
+confirmModal(
+  "¿estas seguro de eliminar este estudiante?",
+  async () => {
 await fetch(API + "/students/" + id,{ method:"DELETE" })
-alert("Estudiante eliminado")
+
+showModal(
+  "elimindo",
+  "Estudiante eliminado correctamente"
+)
+
 loadstudents()
+  }
+)
 }
 
 

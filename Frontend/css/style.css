@@ -217,6 +217,13 @@ animation: modalShow 0.3s ease;
     background: #1e3c72;
 }
 
+#modalActions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+}
+
 @keyframes modalShow {
     from {
         opacity: 0;

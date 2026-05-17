@@ -3,7 +3,8 @@ const API = "https://alertas-backend.onrender.com"
 let tableInstance = null
 
 async function loadSubjects(){
-    try{
+
+try{
 
 const response = await fetch(API + "/subjects")
 const subjects = await response.json()
@@ -14,18 +15,23 @@ if(!table) return
 table.innerHTML = ""
 
 if (tableInstance) {
-    tableInstance.destroy()
- }
+tableInstance.destroy()
+}
+
 if (!Array.isArray(subjects)) return
 
 subjects.forEach(subject => {
-    table.innerHTML += `
-    <tr>
-    <td>${subject.name_subject}</td>
-    <td>${subject.credits}</td>
-    <td>${subject.program ?? ""}</td>
-    <td>
-    <button class="btn-edit"
+
+table.innerHTML += `
+<tr>
+
+<td>${subject.name_subject}</td>
+<td>${subject.credits}</td>
+<td>${subject.program ?? ""}</td>
+
+<td>
+
+<button class="btn-edit"
 onclick="editSubject(this, ${subject.id_subject})">
 Editar
 </button>
@@ -34,17 +40,22 @@ Editar
 onclick="deleteSubject(${subject.id_subject})">
 Eliminar
 </button>
+
 </td>
+
 </tr>
 `
 })
 
 tableInstance = $('#subjectsTableDisplay').DataTable()
+
 }catch(error){
-    console.error("Error materias:", error)
+console.error("Error materias:", error)
 }
 }
+
 async function saveSubject(){
+
 const id = document.getElementById("subject_id").value
 
 const subject = {
@@ -65,7 +76,12 @@ headers: {"Content-Type":"application/json"},
 body: JSON.stringify(subject)
 })
 
-alert(id === "" ? "Materia creada" : "Materia actualizada")
+showModal(
+"Correcto",
+id === ""
+? "Materia creada correctamente"
+: "Materia actualizada correctamente"
+)
 
 clearForm()
 loadSubjects()
@@ -87,16 +103,33 @@ document.getElementById("teacher_id").value = program
 document.getElementById("teacher_id").value = ""
 }
 
+window.scrollTo(0,0)
 }
 
 async function deleteSubject(id){
-if(!confirm("¿Eliminar materia?")) return
 
-await fetch(API + "/subjects/" + id,{ method:"DELETE" })
+showConfirmModal(
+"¿Eliminar materia?",
+async () => {
+
+await fetch(API + "/subjects/" + id,{
+method:"DELETE"
+})
+
+showModal(
+"Eliminado",
+"Materia eliminada correctamente"
+)
+
 loadSubjects()
+
+}
+)
+
 }
 
 function clearForm(){
+
 document.getElementById("subject_id").value=""
 document.getElementById("name").value=""
 document.getElementById("credits").value=""

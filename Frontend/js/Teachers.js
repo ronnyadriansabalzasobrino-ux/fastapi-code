@@ -18,7 +18,6 @@ if (tableInstance) tableInstance.destroy()
 
 if (!Array.isArray(teachers))return
 
-
 teachers.forEach(teacher => {
 
 table.innerHTML += `
@@ -29,6 +28,7 @@ table.innerHTML += `
 <td>${teacher.phone}</td>
 <td>${teacher.specialty}</td>
 <td>
+
 <button class="btn-edit"
 onclick="editTeacher(
 ${teacher.id_teaching},
@@ -38,12 +38,15 @@ ${teacher.id_teaching},
 '${teacher.mail}',
 '${teacher.phone}',
 '${teacher.specialty}'
-)">Editar</button>
+)">
+Editar
+</button>
 
 <button class="btn-delete"
 onclick="deleteTeacher(${teacher.id_teaching})">
 Eliminar
 </button>
+
 </td>
 </tr>
 `
@@ -70,24 +73,30 @@ specialty: document.getElementById("specialty").value
 }
 
 const url = id === ""
-?  API + "/create_Teacher/"
+? API + "/create_Teacher/"
 : API + "/update_Teacher/" + id
 
 const method = id === "" ? "POST" : "PUT"
 
 await fetch(url,{
-  method,
-  headers:{"Content-Type":"application/json"},
-  body: JSON.stringify(teacher)  
+method,
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify(teacher)
 })
 
-alert(id === "" ? "Docente creado" : "Docente actualizado")
+showModal(
+"Correcto",
+id === "" 
+? "Docente creado correctamente"
+: "Docente actualizado correctamente"
+)
 
 clearForm()
 loadTeachers()
 }
 
 function editTeacher(id,name,last_name,number,mail,phone,specialty){
+
 document.getElementById("teacher_id").value = id
 document.getElementById("name").value = name
 document.getElementById("last_name").value = last_name
@@ -95,18 +104,34 @@ document.getElementById("number_id").value = number
 document.getElementById("mail").value = mail
 document.getElementById("phone").value = phone
 document.getElementById("specialty").value = specialty
+
 window.scrollTo(0,0)
 }
 
 async function deleteTeacher(id){
-if(!confirm("¿Eliminar docente?")) return
 
-await fetch(API + "/delete_Teacher/" + id,{ method:"DELETE" })
-alert("Docente eliminado")
+showConfirmModal(
+"¿Eliminar docente?",
+async () => {
+
+await fetch(API + "/delete_Teacher/" + id,{
+method:"DELETE"
+})
+
+showModal(
+"Eliminado",
+"Docente eliminado correctamente"
+)
+
 loadTeachers()
+
+}
+)
+
 }
 
 function clearForm(){
+
 document.getElementById("teacher_id").value=""
 document.getElementById("name").value=""
 document.getElementById("last_name").value=""
@@ -116,9 +141,7 @@ document.getElementById("phone").value=""
 document.getElementById("specialty").value=""
 }
 
-// FIX window.onload
 window.addEventListener("DOMContentLoaded", loadTeachers)
-
 
 window.saveTeacher = saveTeacher
 window.clearForm = clearForm
