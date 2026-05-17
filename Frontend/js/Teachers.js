@@ -112,6 +112,7 @@ async function deleteTeacher(id){
 
 showConfirmModal(
 "¿Eliminar docente?",
+"Estás seguro de que deseas eliminar este docente?",
 async () => {
 
 await fetch(API + "/delete_Teacher/" + id,{

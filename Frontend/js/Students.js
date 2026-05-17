@@ -203,7 +203,8 @@ window.scrollTo(0,0)
 
 
 async function deletestudent(id){
-confirmModal(
+showConfirmModal(
+  "¿Eliminar estudiante?",
   "¿estas seguro de eliminar este estudiante?",
   async () => {
 await fetch(API + "/students/" + id,{ method:"DELETE" })

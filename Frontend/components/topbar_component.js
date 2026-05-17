@@ -178,3 +178,4 @@ window.location.href =
 )
 
 }
+window.logout = logout

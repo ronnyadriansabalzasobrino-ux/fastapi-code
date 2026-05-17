@@ -110,6 +110,7 @@ async function deleteSubject(id){
 
 showConfirmModal(
 "¿Eliminar materia?",
+"¿Estás seguro de que deseas eliminar esta materia?",
 async () => {
 
 await fetch(API + "/subjects/" + id,{
