@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from app.config.db_config import get_db_connection
 from app.models.Teacher_model import Teacher
 from fastapi.encoders import jsonable_encoder
+from app.services.email_service import send_email
 
 class TeacherController:
     def create_Teacher(self, Teacher: Teacher):
@@ -21,7 +22,17 @@ class TeacherController:
                 Teacher.specialty
             ))
             conn.commit()
+            import asyncio
+            asyncio.run(send_email(
+                Teacher.mail,
+                "docente registrado",
+                f"""
+                <h2>registro exitoso</h2>
+                <p> Hola {Teacher.name}, tu cuenta docente fue creada correctamente. </p>
+                """
+            ))
             return {"resultado": "Teacher creado"}
+        
         except psycopg2.Error as err:
             conn.rollback()
             print(err)
@@ -97,7 +108,20 @@ class TeacherController:
                 id_teaching
             ))
             conn.commit()
+            import asyncio
+            asyncio.run(send_email(
+                Teacher.mail,
+                "Docente actualizado",
+                f"""
+                <h2>Datos actualizados</h2>
+                <p> Hola {Teacher.name}, tus datos fueron actualizados exitosamente. </p>
+                """
+            ))
+
+
             return {"resultado": "Teacher actualizado"}
+        
+
         except psycopg2.Error as err:
             conn.rollback()
             print(err)
@@ -108,10 +132,29 @@ class TeacherController:
     def delete_Teacher(self, id_teaching: int):
         try:
             conn = get_db_connection()
+            cursor.execute(
+                "SELECT mail, name FROM Teacher WHERE id_teaching = %s",
+                (id_teaching,)
+            )
+            teacher_data = cursor.fetchone()
+            teacher_mail = teacher_data[0]
+            teacher_name = teacher_data[1]
+
             cursor = conn.cursor()
             cursor.execute("DELETE FROM Teacher WHERE id_teaching = %s", (id_teaching,))
+            
             conn.commit()
+            import asyncio
+            asyncio.run(send_email(
+                teacher_mail,
+                "Docente eliminado",
+                f"""
+                <h2>Docente eliminado</h2>
+                <p> Hola {teacher_name}, lamentamos informarte que tu cuenta ha sido eliminada. Si tienes alguna pregunta, no dudes en contactarnos. </p>
+                """
+            ))
             return {"resultado": "Teacher eliminado"}
+        
         except psycopg2.Error as err:
             conn.rollback()
             print(err)

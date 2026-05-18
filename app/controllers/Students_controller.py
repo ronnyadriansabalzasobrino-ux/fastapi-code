@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from app.config.db_config import get_db_connection
 from app.models.Students_model import students
 from fastapi.encoders import jsonable_encoder
+from app.services.email_service import send_email
 
 
 class StudentsController:
@@ -27,6 +28,22 @@ class StudentsController:
             ))
 
             conn.commit()
+            import asyncio
+            asyncio.run(send_email(
+                student.mail,
+                "estudiante registrado",
+                f"""
+                <h2>registro exitoso</h2>
+                <p>¡Hola, {student.name} {student.last_name},!</p>
+                <p>Gracias por registrarte en nuestro sistema.</p>
+                <ul>
+                  <li><b>correo:</b> {student.mail}</li>
+                  <li><b>telefono:</b> {student.phone}</li>
+                  <li><b>Program:</b> {student.id_program}</li>
+                  <li><b>semestre:</b> {student.id_semester}</li>
+                </ul>
+                """
+              ))
 
             return {"resultado": "Student creado"}
 
@@ -139,6 +156,17 @@ class StudentsController:
 
             conn.commit()
 
+            import asyncio
+            asyncio.run(send_email(
+                student.mail,
+                "Estudiante actualizado",
+                f"""
+                <h2>Datos actualizados</h2>
+
+                <p> hola {student.name}, tus datos fueron actualizados exitosamente. </p>
+                """
+            ))
+
             return {"resultado":"student actualizado"}
 
         except psycopg2.Error as err:
@@ -157,11 +185,30 @@ class StudentsController:
             cursor=conn.cursor()
 
             cursor.execute(
+                'SELECT mail FROM "students" WHERE id_student=%s', 
+                (id_student,)
+                )
+            student_data = cursor.fetchone()
+
+            student_mail = student_data[0]
+            student_name = student_data[1]
+
+            cursor.execute(
                 'DELETE FROM "students" WHERE id_student=%s',
                 (id_student,)
             )
 
             conn.commit()
+            import asyncio
+            asyncio.run(send_email(
+                student_mail,
+                "Cuenta eliminada",
+                f"""
+                <h2>Cuenta eliminada</h2>
+
+                <p> Hola {student_name}, lamentamos informarte que tu cuenta ha sido eliminada. Si tienes alguna pregunta, no dudes en contactarnos. </p>
+                """
+            ))
 
             return {"resultado":"student eliminado"}
 

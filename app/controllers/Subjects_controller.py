@@ -1,14 +1,28 @@
 import psycopg2
+import asyncio
+
 from fastapi import HTTPException
+from fastapi.encoders import jsonable_encoder
+
 from app.config.db_config import get_db_connection
 from app.models.Subjects_model import Subjects
-from fastapi.encoders import jsonable_encoder
+
+from app.services.email_service import (
+    send_email,
+    ADMIN_EMAIL
+)
 
 
 class SubjectsController:
 
+
+    # =========================
+    # CREATE SUBJECT
+    # =========================
     def create_subject(self, subject: Subjects):
+
         try:
+
             conn = get_db_connection()
             cursor = conn.cursor()
 
@@ -23,19 +37,48 @@ class SubjectsController:
             ))
 
             conn.commit()
+
+            # =========================
+            # EMAIL
+            # =========================
+
+            asyncio.run(send_email(
+                ADMIN_EMAIL,
+                "Materia creada",
+                f"""
+                <h2>Nueva materia creada</h2>
+
+                <ul>
+                    <li><b>Nombre:</b> {subject.name_subject}</li>
+                    <li><b>Créditos:</b> {subject.credits}</li>
+                    <li><b>Programa:</b> {subject.id_program}</li>
+                </ul>
+                """
+            ))
+
             return {"resultado": "Subject creada"}
 
         except psycopg2.Error as err:
+
             conn.rollback()
             print(err)
-            raise HTTPException(status_code=500, detail=str(err))
+
+            raise HTTPException(
+                status_code=500,
+                detail=str(err)
+            )
 
         finally:
             conn.close()
 
 
+    # =========================
+    # GET SUBJECT
+    # =========================
     def get_subject(self, id_subject: int):
+
         try:
+
             conn = get_db_connection()
             cursor = conn.cursor()
 
@@ -47,7 +90,11 @@ class SubjectsController:
             result = cursor.fetchone()
 
             if not result:
-                raise HTTPException(status_code=404, detail="Subject no encontrada")
+
+                raise HTTPException(
+                    status_code=404,
+                    detail="Subject no encontrada"
+                )
 
             content = {
                 "id_subject": result[0],
@@ -59,15 +106,25 @@ class SubjectsController:
             return jsonable_encoder(content)
 
         except psycopg2.Error as err:
+
             print(err)
-            raise HTTPException(status_code=500, detail="Error en base de datos")
+
+            raise HTTPException(
+                status_code=500,
+                detail="Error en base de datos"
+            )
 
         finally:
             conn.close()
 
 
+    # =========================
+    # GET ALL
+    # =========================
     def get_subjects(self):
+
         try:
+
             conn = get_db_connection()
             cursor = conn.cursor()
 
@@ -88,6 +145,7 @@ class SubjectsController:
             payload = []
 
             for row in result:
+
                 payload.append({
                     "id_subject": row[0],
                     "name_subject": row[1],
@@ -99,15 +157,25 @@ class SubjectsController:
             return jsonable_encoder(payload)
 
         except psycopg2.Error as err:
+
             print(err)
-            raise HTTPException(status_code=500, detail="Error en base de datos")
+
+            raise HTTPException(
+                status_code=500,
+                detail="Error en base de datos"
+            )
 
         finally:
             conn.close()
 
 
+    # =========================
+    # UPDATE SUBJECT
+    # =========================
     def update_subject(self, id_subject: int, subject: Subjects):
+
         try:
+
             conn = get_db_connection()
             cursor = conn.cursor()
 
@@ -126,35 +194,96 @@ class SubjectsController:
 
             conn.commit()
 
+            # =========================
+            # EMAIL
+            # =========================
+
+            asyncio.run(send_email(
+                ADMIN_EMAIL,
+                "Materia actualizada",
+                f"""
+                <h2>Materia actualizada</h2>
+
+                <p>La materia {subject.name_subject} fue actualizada.</p>
+                """
+            ))
+
             return {"resultado": "Subject actualizada"}
 
         except psycopg2.Error as err:
+
             conn.rollback()
             print(err)
-            raise HTTPException(status_code=500, detail="Error al actualizar Subject")
+
+            raise HTTPException(
+                status_code=500,
+                detail="Error al actualizar Subject"
+            )
 
         finally:
             conn.close()
 
 
+    # =========================
+    # DELETE SUBJECT
+    # =========================
     def delete_subject(self, id_subject: int):
+
         try:
+
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            cursor.execute(
-                "DELETE FROM Subject WHERE id_subject = %s",
-                (id_subject,)
-            )
+            # =========================
+            # OBTENER NOMBRE
+            # =========================
+
+            cursor.execute("""
+                SELECT name_subject
+                FROM Subject
+                WHERE id_subject=%s
+            """, (id_subject,))
+
+            result = cursor.fetchone()
+
+            subject_name = result[0] if result else "Materia"
+
+            # =========================
+            # DELETE
+            # =========================
+
+            cursor.execute("""
+                DELETE FROM Subject
+                WHERE id_subject = %s
+            """, (id_subject,))
 
             conn.commit()
+
+            # =========================
+            # EMAIL
+            # =========================
+
+            asyncio.run(send_email(
+                ADMIN_EMAIL,
+                "Materia eliminada",
+                f"""
+                <h2>Materia eliminada</h2>
+
+                <p>La materia {subject_name} fue eliminada del sistema.</p>
+                """
+            ))
 
             return {"resultado": "Subject eliminada"}
 
         except psycopg2.Error as err:
+
             conn.rollback()
             print(err)
-            raise HTTPException(status_code=500, detail="Error al eliminar Subject")
+
+            raise HTTPException(
+                status_code=500,
+                detail="Error al eliminar Subject"
+            )
 
         finally:
             conn.close()
