@@ -16,7 +16,7 @@ class AlertsController:
     # =========================
     # CREATE ALERT
     # =========================
-    def create_Alerts(self, alert: Alerts):
+    async def create_Alerts(self, alert: Alerts):
 
         try:
 
@@ -50,7 +50,7 @@ class AlertsController:
 
             if student_mail:
 
-                asyncio.run(send_email(
+                await send_email(
                     student_mail,
                     "Nueva alerta académica",
                     f"""
@@ -65,7 +65,7 @@ class AlertsController:
                         <li><b>Estado:</b> {alert.state}</li>
                     </ul>
                     """
-                ))
+                )
 
             cursor.close()
             conn.close()
@@ -201,7 +201,7 @@ class AlertsController:
     # =========================
     # UPDATE ALERT
     # =========================
-    def update_Alerts(self, id_alert: int, alert: Alerts):
+    async def update_Alerts(self, id_alert: int, alert: Alerts):
 
         try:
 
@@ -239,7 +239,7 @@ class AlertsController:
 
             if student_mail:
 
-                asyncio.run(send_email(
+                await send_email(
                     student_mail,
                     "Alerta actualizada",
                     f"""
@@ -253,7 +253,7 @@ class AlertsController:
                         <li><b>Estado:</b> {alert.state}</li>
                     </ul>
                     """
-                ))
+                )
 
             cursor.close()
             conn.close()
@@ -268,7 +268,7 @@ class AlertsController:
     # =========================
     # DELETE ALERT
     # =========================
-    def delete_Alerts(self, id_alert: int):
+    async def delete_Alerts(self, id_alert: int):
 
         try:
 
@@ -309,7 +309,7 @@ class AlertsController:
 
             if student_mail:
 
-                asyncio.run(send_email(
+                await send_email(
                     student_mail,
                     "Alerta eliminada",
                     """
@@ -317,7 +317,7 @@ class AlertsController:
 
                     <p>La alerta académica fue eliminada correctamente.</p>
                     """
-                ))
+                )
 
             cursor.close()
             conn.close()

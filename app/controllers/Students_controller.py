@@ -8,7 +8,7 @@ from app.services.email_service import send_email
 
 class StudentsController:
 
-    def create_student(self, student: students):
+    async def create_student(self, student: students):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
@@ -28,8 +28,8 @@ class StudentsController:
             ))
 
             conn.commit()
-            import asyncio
-            asyncio.run(send_email(
+            
+            await send_email(
                 student.mail,
                 "estudiante registrado",
                 f"""
@@ -43,7 +43,7 @@ class StudentsController:
                   <li><b>semestre:</b> {student.id_semester}</li>
                 </ul>
                 """
-              ))
+              )
 
             return {"resultado": "Student creado"}
 
@@ -128,7 +128,7 @@ class StudentsController:
             conn.close()
 
 
-    def update_student(self, id_student: int, student: students):
+    async def update_student(self, id_student: int, student: students):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
@@ -156,8 +156,8 @@ class StudentsController:
 
             conn.commit()
 
-            import asyncio
-            asyncio.run(send_email(
+            
+            await send_email(
                 student.mail,
                 "Estudiante actualizado",
                 f"""
@@ -165,7 +165,7 @@ class StudentsController:
 
                 <p> hola {student.name}, tus datos fueron actualizados exitosamente. </p>
                 """
-            ))
+            )
 
             return {"resultado":"student actualizado"}
 
@@ -178,7 +178,7 @@ class StudentsController:
             conn.close()
 
 
-    def delete_student(self,id_student:int):
+    async def delete_student(self,id_student:int):
 
         try:
             conn=get_db_connection()
@@ -199,8 +199,8 @@ class StudentsController:
             )
 
             conn.commit()
-            import asyncio
-            asyncio.run(send_email(
+            
+            await send_email(
                 student_mail,
                 "Cuenta eliminada",
                 f"""
@@ -208,7 +208,7 @@ class StudentsController:
 
                 <p> Hola {student_name}, lamentamos informarte que tu cuenta ha sido eliminada. Si tienes alguna pregunta, no dudes en contactarnos. </p>
                 """
-            ))
+            )
 
             return {"resultado":"student eliminado"}
 

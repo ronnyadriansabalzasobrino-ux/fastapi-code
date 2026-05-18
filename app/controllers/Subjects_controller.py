@@ -19,7 +19,7 @@ class SubjectsController:
     # =========================
     # CREATE SUBJECT
     # =========================
-    def create_subject(self, subject: Subjects):
+    async def create_subject(self, subject: Subjects):
 
         try:
 
@@ -42,7 +42,7 @@ class SubjectsController:
             # EMAIL
             # =========================
 
-            asyncio.run(send_email(
+            await send_email(
                 ADMIN_EMAIL,
                 "Materia creada",
                 f"""
@@ -54,7 +54,7 @@ class SubjectsController:
                     <li><b>Programa:</b> {subject.id_program}</li>
                 </ul>
                 """
-            ))
+            )
 
             return {"resultado": "Subject creada"}
 
@@ -75,7 +75,7 @@ class SubjectsController:
     # =========================
     # GET SUBJECT
     # =========================
-    def get_subject(self, id_subject: int):
+    async def get_subject(self, id_subject: int):
 
         try:
 
@@ -121,7 +121,7 @@ class SubjectsController:
     # =========================
     # GET ALL
     # =========================
-    def get_subjects(self):
+    async def get_subjects(self):
 
         try:
 
@@ -172,7 +172,7 @@ class SubjectsController:
     # =========================
     # UPDATE SUBJECT
     # =========================
-    def update_subject(self, id_subject: int, subject: Subjects):
+    async def update_subject(self, id_subject: int, subject: Subjects):
 
         try:
 
@@ -198,7 +198,7 @@ class SubjectsController:
             # EMAIL
             # =========================
 
-            asyncio.run(send_email(
+            await send_email(
                 ADMIN_EMAIL,
                 "Materia actualizada",
                 f"""
@@ -206,7 +206,7 @@ class SubjectsController:
 
                 <p>La materia {subject.name_subject} fue actualizada.</p>
                 """
-            ))
+            )
 
             return {"resultado": "Subject actualizada"}
 
@@ -227,7 +227,7 @@ class SubjectsController:
     # =========================
     # DELETE SUBJECT
     # =========================
-    def delete_subject(self, id_subject: int):
+    async def delete_subject(self, id_subject: int):
 
         try:
 
@@ -263,7 +263,7 @@ class SubjectsController:
             # EMAIL
             # =========================
 
-            asyncio.run(send_email(
+            await send_email(
                 ADMIN_EMAIL,
                 "Materia eliminada",
                 f"""
@@ -271,7 +271,7 @@ class SubjectsController:
 
                 <p>La materia {subject_name} fue eliminada del sistema.</p>
                 """
-            ))
+            )
 
             return {"resultado": "Subject eliminada"}
 

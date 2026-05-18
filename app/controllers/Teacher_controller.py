@@ -6,7 +6,7 @@ from fastapi.encoders import jsonable_encoder
 from app.services.email_service import send_email
 
 class TeacherController:
-    def create_Teacher(self, Teacher: Teacher):
+    async def create_Teacher(self, Teacher: Teacher):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
@@ -22,15 +22,15 @@ class TeacherController:
                 Teacher.specialty
             ))
             conn.commit()
-            import asyncio
-            asyncio.run(send_email(
+            
+            await send_email(
                 Teacher.mail,
                 "docente registrado",
                 f"""
                 <h2>registro exitoso</h2>
                 <p> Hola {Teacher.name}, tu cuenta docente fue creada correctamente. </p>
                 """
-            ))
+            )
             return {"resultado": "Teacher creado"}
         
         except psycopg2.Error as err:
@@ -90,7 +90,7 @@ class TeacherController:
         finally:
             conn.close()
 
-    def update_Teacher(self, id_teaching: int, Teacher: Teacher):
+    async def update_Teacher(self, id_teaching: int, Teacher: Teacher):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
@@ -108,15 +108,15 @@ class TeacherController:
                 id_teaching
             ))
             conn.commit()
-            import asyncio
-            asyncio.run(send_email(
+            
+            await send_email(
                 Teacher.mail,
                 "Docente actualizado",
                 f"""
                 <h2>Datos actualizados</h2>
                 <p> Hola {Teacher.name}, tus datos fueron actualizados exitosamente. </p>
                 """
-            ))
+            )
 
 
             return {"resultado": "Teacher actualizado"}
@@ -129,7 +129,7 @@ class TeacherController:
         finally:
             conn.close()
 
-    def delete_Teacher(self, id_teaching: int):
+    async def delete_Teacher(self, id_teaching: int):
         try:
             conn = get_db_connection()
             cursor.execute(
@@ -144,15 +144,15 @@ class TeacherController:
             cursor.execute("DELETE FROM Teacher WHERE id_teaching = %s", (id_teaching,))
             
             conn.commit()
-            import asyncio
-            asyncio.run(send_email(
+            
+            await send_email(
                 teacher_mail,
                 "Docente eliminado",
                 f"""
                 <h2>Docente eliminado</h2>
                 <p> Hola {teacher_name}, lamentamos informarte que tu cuenta ha sido eliminada. Si tienes alguna pregunta, no dudes en contactarnos. </p>
                 """
-            ))
+            )
             return {"resultado": "Teacher eliminado"}
         
         except psycopg2.Error as err:
