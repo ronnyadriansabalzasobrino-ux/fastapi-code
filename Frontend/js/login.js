@@ -58,6 +58,11 @@ async function login() {
     );
 
     localStorage.setItem(
+      "login_time",
+      Date.now()
+    );
+
+    localStorage.setItem(
       "rol",
       data.rol
     );
