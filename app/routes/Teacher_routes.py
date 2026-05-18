@@ -73,7 +73,7 @@ async def update_Teacher(id_Teaching: int, Teacher: Teacher):
     return result
 
 
-@router.delete("/delete_docente/{id_Teaching}")
+@router.delete("/delete_Teacher/{id_Teaching}")
 async def delete_Teacher(id_Teaching: int):
 
     teacher = nuevo_Teacher.get_Teacher(id_Teaching)
