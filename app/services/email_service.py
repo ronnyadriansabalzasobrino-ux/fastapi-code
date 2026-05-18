@@ -1,19 +1,6 @@
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+import resend
 
-conf = ConnectionConfig(
-    MAIL_USERNAME="ronnyadriansabalzasobrino@gmail.com",
-    MAIL_PASSWORD="Tbqoickvtwxpfppak",
-    MAIL_FROM="ronnyadriansabalzasobrino@gmail.com",
-
-    MAIL_SERVER="smtp.gmail.com",
-    MAIL_PORT=587,
-
-    MAIL_STARTTLS=True,
-    MAIL_SSL_TLS=False,
-
-    USE_CREDENTIALS=True,
-    VALIDATE_CERTS=False
-)
+resend.api_key = "re_LuYPymGq_3FeAPrDybj5d7rXbX2rZPAaf"
 
 ADMIN_EMAIL = "ronnyadriansabalzasobrino@gmail.com"
 
@@ -22,18 +9,17 @@ async def send_email(destinatario: str, asunto: str, contenido: str):
 
     try:
 
-        message = MessageSchema(
-            subject=asunto,
-            recipients=[destinatario],
-            body=contenido,
-            subtype="html"
-        )
+        params = {
+            "from": "onboarding@resend.dev",
+            "to": [destinatario],
+            "subject": asunto,
+            "html": contenido,
+        }
 
-        fm = FastMail(conf)
-
-        await fm.send_message(message)
+        email = resend.Emails.send(params)
 
         print("CORREO ENVIADO")
+        print(email)
 
     except Exception as e:
 
