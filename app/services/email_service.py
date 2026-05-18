@@ -1,14 +1,20 @@
-import smtplib
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+conf = ConnectionConfig(
+    MAIL_USERNAME="ronnyadriansabalzasobrino@gmail.com",
+    MAIL_PASSWORD="lwjkjylorhswjzqo",
+    MAIL_FROM="ronnyadriansabalzasobrino@gmail.com",
 
+    MAIL_SERVER="smtp.gmail.com",
+    MAIL_PORT=587,
 
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 587
+    MAIL_STARTTLS=True,
+    MAIL_SSL_TLS=False,
 
-EMAIL = "ronnyadriansabalzasobrino@gmail.com"
-PASSWORD = "lwjk jylo rhsw jzqo"
+    USE_CREDENTIALS=True,
+    VALIDATE_CERTS=False
+)
+
 
 ADMIN_EMAIL = "ronnyadriansabalzasobrino@gmail.com"
 
@@ -17,37 +23,18 @@ async def send_email(destinatario: str, asunto: str, contenido: str):
 
     try:
 
-        mensaje = MIMEMultipart()
-
-        mensaje["From"] = EMAIL
-        mensaje["To"] = destinatario
-        mensaje["Subject"] = asunto
-
-        mensaje.attach(
-            MIMEText(contenido, "html")
+        message = MessageSchema(
+            subject=asunto,
+            recipients=[destinatario],
+            body=contenido,
+            subtype="html"
         )
 
-        servidor = smtplib.SMTP(
-            SMTP_SERVER,
-            SMTP_PORT
-        )
+        fm = FastMail(conf)
 
-        servidor.starttls()
+        await fm.send_message(message)
 
-        servidor.login(
-            EMAIL,
-            PASSWORD
-        )
-
-        servidor.sendmail(
-            EMAIL,
-            destinatario,
-            mensaje.as_string()
-        )
-
-        servidor.quit()
-
-        print("Correo enviado correctamente")
+        print("CORREO ENVIADO")
 
     except Exception as e:
 
