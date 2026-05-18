@@ -3,7 +3,6 @@ from fastapi import HTTPException
 from app.config.db_config import get_db_connection
 from app.models.Students_model import students
 from fastapi.encoders import jsonable_encoder
-from app.services.email_service import send_email
 
 
 class StudentsController:
@@ -74,7 +73,6 @@ class StudentsController:
             conn.close()
 
 
-   
     def get_student(self, id_student: int):
         try:
             conn = get_db_connection()
@@ -149,20 +147,11 @@ class StudentsController:
             conn.close()
 
 
-    def delete_student(self,id_student:int):
+    def delete_student(self, id_student: int):
 
         try:
-            conn=get_db_connection()
-            cursor=conn.cursor()
-
-            cursor.execute(
-                'SELECT mail FROM "students" WHERE id_student=%s', 
-                (id_student,)
-                )
-            student_data = cursor.fetchone()
-
-            student_mail = student_data[0]
-            student_name = student_data[1]
+            conn = get_db_connection()
+            cursor = conn.cursor()
 
             cursor.execute(
                 'DELETE FROM "students" WHERE id_student=%s',

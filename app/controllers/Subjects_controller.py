@@ -1,5 +1,4 @@
 import psycopg2
-import asyncio
 
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
@@ -7,10 +6,6 @@ from fastapi.encoders import jsonable_encoder
 from app.config.db_config import get_db_connection
 from app.models.Subjects_model import Subjects
 
-from app.services.email_service import (
-    send_email,
-    ADMIN_EMAIL
-)
 
 
 class SubjectsController:

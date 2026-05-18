@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from app.config.db_config import get_db_connection
 from app.models.Teacher_model import Teacher
 from fastapi.encoders import jsonable_encoder
-from app.services.email_service import send_email
+
 
 class TeacherController:
      def create_Teacher(self, Teacher: Teacher):
