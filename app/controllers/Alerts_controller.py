@@ -1,25 +1,15 @@
 # controllers/Alerts_controller.py
-
 import psycopg2
-import asyncio
-
 from fastapi import HTTPException
-from fastapi.encoders import jsonable_encoder
-
 from app.config.db_config import get_db_connection
 from app.models.Alerts_model import Alerts
-from app.services.email_service import send_email
+from fastapi.encoders import jsonable_encoder
 
 
 class AlertsController:
-
-    # =========================
-    # CREATE ALERT
-    # =========================
-    async def create_Alerts(self, alert: Alerts):
-
+    
+    def create_Alerts(self, alert: Alerts):
         try:
-
             conn = get_db_connection()
             cursor = conn.cursor()
 
@@ -41,39 +31,10 @@ class AlertsController:
             new_id = cursor.fetchone()[0]
 
             conn.commit()
-
-            # =========================
-            # ENVIAR CORREO
-            # =========================
-
-            student_mail = self.get_student_email(alert.id_student)
-
-            if student_mail:
-
-                await send_email(
-                    student_mail,
-                    "Nueva alerta académica",
-                    f"""
-                    <h2>⚠️ Nueva alerta académica</h2>
-
-                    <p>Se ha generado una nueva alerta en el sistema.</p>
-
-                    <ul>
-                        <li><b>Tipo:</b> {alert.tipo_alert}</li>
-                        <li><b>Descripción:</b> {alert.description}</li>
-                        <li><b>Riesgo:</b> {alert.risk_level}</li>
-                        <li><b>Estado:</b> {alert.state}</li>
-                    </ul>
-                    """
-                )
-
             cursor.close()
             conn.close()
 
-            return {
-                "resultado": "Alert creada correctamente",
-                "id_alert": new_id
-            }
+            return {"resultado": "Alert creada correctamente", "id_alert": new_id}
 
         except psycopg2.Error as err:
             print(err)
@@ -81,36 +42,30 @@ class AlertsController:
 
 
     # =========================
-    # OBTENER MAIL ESTUDIANTE
+    # ✅ OBTENER EMAIL DEL ESTUDIANTE
     # =========================
     def get_student_email(self, id_student: int):
-
         conn = None
         cursor = None
-
         try:
-
             conn = get_db_connection()
             cursor = conn.cursor()
 
             cursor.execute("""
-                SELECT mail FROM students
-                WHERE id_student = %s
+                SELECT mail FROM students WHERE id_student = %s
             """, (id_student,))
 
             result = cursor.fetchone()
-
+            print("MAIL ENCONTRADO:", result)
             return result[0] if result else None
 
         except Exception as e:
-            print("Error obteniendo mail:", e)
+            print("Error obtenido mail:", e)
             return None
 
         finally:
-
             if cursor:
                 cursor.close()
-
             if conn:
                 conn.close()
 
@@ -119,20 +74,14 @@ class AlertsController:
     # GET ALL
     # =========================
     def get_Alerts(self):
-
         try:
-
             conn = get_db_connection()
             cursor = conn.cursor()
-
             cursor.execute("SELECT * FROM alerts")
-
             result = cursor.fetchall()
 
             payload = []
-
             for row in result:
-
                 payload.append({
                     "id_alert": row[0],
                     "id_student": row[1],
@@ -146,7 +95,6 @@ class AlertsController:
 
             cursor.close()
             conn.close()
-
             return jsonable_encoder(payload)
 
         except psycopg2.Error as err:
@@ -158,24 +106,14 @@ class AlertsController:
     # GET ONE
     # =========================
     def get_Alert(self, id_alert: int):
-
         try:
-
             conn = get_db_connection()
             cursor = conn.cursor()
-
-            cursor.execute(
-                "SELECT * FROM alerts WHERE id_alert=%s",
-                (id_alert,)
-            )
-
+            cursor.execute("SELECT * FROM alerts WHERE id_alert=%s", (id_alert,))
             row = cursor.fetchone()
 
             if not row:
-                raise HTTPException(
-                    status_code=404,
-                    detail="Alert no encontrada"
-                )
+                raise HTTPException(status_code=404, detail="Alert no encontrada")
 
             content = {
                 "id_alert": row[0],
@@ -190,7 +128,6 @@ class AlertsController:
 
             cursor.close()
             conn.close()
-
             return jsonable_encoder(content)
 
         except psycopg2.Error as err:
@@ -199,24 +136,17 @@ class AlertsController:
 
 
     # =========================
-    # UPDATE ALERT
+    # UPDATE
     # =========================
-    async def update_Alerts(self, id_alert: int, alert: Alerts):
-
+    def update_Alerts(self, id_alert: int, alert: Alerts):
         try:
-
             conn = get_db_connection()
             cursor = conn.cursor()
 
             cursor.execute("""
                 UPDATE alerts
-                SET id_student=%s,
-                    tipo_alert=%s,
-                    description=%s,
-                    generation_date=%s,
-                    risk_level=%s,
-                    state=%s,
-                    id_period=%s
+                SET id_student=%s, tipo_alert=%s, description=%s,
+                    generation_date=%s, risk_level=%s, state=%s, id_period=%s
                 WHERE id_alert=%s
             """,(
                 alert.id_student,
@@ -230,31 +160,6 @@ class AlertsController:
             ))
 
             conn.commit()
-
-            # =========================
-            # CORREO UPDATE
-            # =========================
-
-            student_mail = self.get_student_email(alert.id_student)
-
-            if student_mail:
-
-                await send_email(
-                    student_mail,
-                    "Alerta actualizada",
-                    f"""
-                    <h2>⚠️ Alerta actualizada</h2>
-
-                    <p>Tu alerta académica fue actualizada.</p>
-
-                    <ul>
-                        <li><b>Tipo:</b> {alert.tipo_alert}</li>
-                        <li><b>Riesgo:</b> {alert.risk_level}</li>
-                        <li><b>Estado:</b> {alert.state}</li>
-                    </ul>
-                    """
-                )
-
             cursor.close()
             conn.close()
 
@@ -266,59 +171,16 @@ class AlertsController:
 
 
     # =========================
-    # DELETE ALERT
+    # DELETE
     # =========================
-    async def delete_Alerts(self, id_alert: int):
-
+    def delete_Alerts(self, id_alert: int):
         try:
-
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            # =========================
-            # OBTENER ID STUDENT
-            # =========================
-
-            cursor.execute("""
-                SELECT id_student
-                FROM alerts
-                WHERE id_alert=%s
-            """, (id_alert,))
-
-            result = cursor.fetchone()
-
-            student_mail = None
-
-            if result:
-                student_mail = self.get_student_email(result[0])
-
-            # =========================
-            # DELETE
-            # =========================
-
-            cursor.execute("""
-                DELETE FROM alerts
-                WHERE id_alert=%s
-            """, (id_alert,))
+            cursor.execute("DELETE FROM alerts WHERE id_alert=%s", (id_alert,))
 
             conn.commit()
-
-            # =========================
-            # CORREO DELETE
-            # =========================
-
-            if student_mail:
-
-                await send_email(
-                    student_mail,
-                    "Alerta eliminada",
-                    """
-                    <h2>Alerta eliminada</h2>
-
-                    <p>La alerta académica fue eliminada correctamente.</p>
-                    """
-                )
-
             cursor.close()
             conn.close()
 

@@ -19,7 +19,7 @@ class SubjectsController:
     # =========================
     # CREATE SUBJECT
     # =========================
-    async def create_subject(self, subject: Subjects):
+    def create_subject(self, subject: Subjects):
 
         try:
 
@@ -37,25 +37,6 @@ class SubjectsController:
             ))
 
             conn.commit()
-
-            # =========================
-            # EMAIL
-            # =========================
-
-            await send_email(
-                ADMIN_EMAIL,
-                "Materia creada",
-                f"""
-                <h2>Nueva materia creada</h2>
-
-                <ul>
-                    <li><b>Nombre:</b> {subject.name_subject}</li>
-                    <li><b>Créditos:</b> {subject.credits}</li>
-                    <li><b>Programa:</b> {subject.id_program}</li>
-                </ul>
-                """
-            )
-
             return {"resultado": "Subject creada"}
 
         except psycopg2.Error as err:
@@ -75,7 +56,7 @@ class SubjectsController:
     # =========================
     # GET SUBJECT
     # =========================
-    async def get_subject(self, id_subject: int):
+    def get_subject(self, id_subject: int):
 
         try:
 
@@ -121,7 +102,7 @@ class SubjectsController:
     # =========================
     # GET ALL
     # =========================
-    async def get_subjects(self):
+    def get_subjects(self):
 
         try:
 
@@ -172,7 +153,7 @@ class SubjectsController:
     # =========================
     # UPDATE SUBJECT
     # =========================
-    async def update_subject(self, id_subject: int, subject: Subjects):
+    def update_subject(self, id_subject: int, subject: Subjects):
 
         try:
 
@@ -193,21 +174,6 @@ class SubjectsController:
             ))
 
             conn.commit()
-
-            # =========================
-            # EMAIL
-            # =========================
-
-            await send_email(
-                ADMIN_EMAIL,
-                "Materia actualizada",
-                f"""
-                <h2>Materia actualizada</h2>
-
-                <p>La materia {subject.name_subject} fue actualizada.</p>
-                """
-            )
-
             return {"resultado": "Subject actualizada"}
 
         except psycopg2.Error as err:
@@ -227,7 +193,7 @@ class SubjectsController:
     # =========================
     # DELETE SUBJECT
     # =========================
-    async def delete_subject(self, id_subject: int):
+    def delete_subject(self, id_subject: int):
 
         try:
 
@@ -258,20 +224,6 @@ class SubjectsController:
             """, (id_subject,))
 
             conn.commit()
-
-            # =========================
-            # EMAIL
-            # =========================
-
-            await send_email(
-                ADMIN_EMAIL,
-                "Materia eliminada",
-                f"""
-                <h2>Materia eliminada</h2>
-
-                <p>La materia {subject_name} fue eliminada del sistema.</p>
-                """
-            )
 
             return {"resultado": "Subject eliminada"}
 

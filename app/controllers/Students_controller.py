@@ -8,7 +8,7 @@ from app.services.email_service import send_email
 
 class StudentsController:
 
-    async def create_student(self, student: students):
+    def create_student(self, student: students):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
@@ -28,23 +28,6 @@ class StudentsController:
             ))
 
             conn.commit()
-            
-            await send_email(
-                student.mail,
-                "estudiante registrado",
-                f"""
-                <h2>registro exitoso</h2>
-                <p>¡Hola, {student.name} {student.last_name},!</p>
-                <p>Gracias por registrarte en nuestro sistema.</p>
-                <ul>
-                  <li><b>correo:</b> {student.mail}</li>
-                  <li><b>telefono:</b> {student.phone}</li>
-                  <li><b>Program:</b> {student.id_program}</li>
-                  <li><b>semestre:</b> {student.id_semester}</li>
-                </ul>
-                """
-              )
-
             return {"resultado": "Student creado"}
 
         except psycopg2.Error as err:
@@ -91,7 +74,7 @@ class StudentsController:
             conn.close()
 
 
-    # 🔥 ESTE TE FALTABA BIEN DEFINIDO
+   
     def get_student(self, id_student: int):
         try:
             conn = get_db_connection()
@@ -128,7 +111,7 @@ class StudentsController:
             conn.close()
 
 
-    async def update_student(self, id_student: int, student: students):
+    def update_student(self, id_student: int, student: students):
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
@@ -155,18 +138,6 @@ class StudentsController:
             ))
 
             conn.commit()
-
-            
-            await send_email(
-                student.mail,
-                "Estudiante actualizado",
-                f"""
-                <h2>Datos actualizados</h2>
-
-                <p> hola {student.name}, tus datos fueron actualizados exitosamente. </p>
-                """
-            )
-
             return {"resultado":"student actualizado"}
 
         except psycopg2.Error as err:
@@ -178,7 +149,7 @@ class StudentsController:
             conn.close()
 
 
-    async def delete_student(self,id_student:int):
+    def delete_student(self,id_student:int):
 
         try:
             conn=get_db_connection()
@@ -199,16 +170,6 @@ class StudentsController:
             )
 
             conn.commit()
-            
-            await send_email(
-                student_mail,
-                "Cuenta eliminada",
-                f"""
-                <h2>Cuenta eliminada</h2>
-
-                <p> Hola {student_name}, lamentamos informarte que tu cuenta ha sido eliminada. Si tienes alguna pregunta, no dudes en contactarnos. </p>
-                """
-            )
 
             return {"resultado":"student eliminado"}
 

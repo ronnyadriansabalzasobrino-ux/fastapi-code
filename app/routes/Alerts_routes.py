@@ -1,3 +1,5 @@
+# Alerts_routes.py
+
 from fastapi import APIRouter
 from app.controllers.Alerts_controller import AlertsController
 from app.models.Alerts_model import Alerts
@@ -11,29 +13,31 @@ nueva_Alerts = AlertsController()
 @router.post("/create_Alerts")
 async def create_Alerts(alert: Alerts):
 
-    # 1. CREAR ALERTA
     result = nueva_Alerts.create_Alerts(alert)
 
-    # 2. OBTENER EMAIL
     student_mail = nueva_Alerts.get_student_email(alert.id_student)
 
-    # 3. ENVIAR CORREO
     if student_mail:
-        await send_email(
-            destinatario=student_mail,
-            asunto="⚠️ Nueva alerta académica",
-            contenido=f"""
-            Hola 👋
 
-            Se ha generado una nueva alerta en tu cuenta:
+        try:
+            await send_email(
+                destinatario=student_mail,
+                asunto="⚠️ Nueva alerta académica",
+                contenido=f"""
+                <h2>Nueva alerta académica</h2>
 
-            📌 Tipo: {alert.tipo_alert}
-            📌 Descripción: {alert.description}
-            📌 Nivel de riesgo: {alert.risk_level}
+                <p><b>Tipo:</b> {alert.tipo_alert}</p>
+                <p><b>Descripción:</b> {alert.description}</p>
+                <p><b>Riesgo:</b> {alert.risk_level}</p>
+                <p><b>Estado:</b> {alert.state}</p>
 
-            Por favor revisa el sistema.
-            """
-        )
+                <hr>
+                <p>Sistema académico</p>
+                """
+            )
+
+        except Exception as e:
+            print("Error enviando correo:", e)
 
     return result
 
@@ -50,16 +54,66 @@ async def get_Alert(id_Alerts: int):
 
 @router.put("/update_Alerts/{id_Alerts}")
 async def update_Alerts(id_Alerts: int, alert: Alerts):
-    return nueva_Alerts.update_Alerts(id_Alerts, alert)
+
+    result = nueva_Alerts.update_Alerts(id_Alerts, alert)
+
+    student_mail = nueva_Alerts.get_student_email(alert.id_student)
+
+    if student_mail:
+
+        try:
+            await send_email(
+                destinatario=student_mail,
+                asunto="✏️ Alerta actualizada",
+                contenido=f"""
+                <h2>Alerta actualizada</h2>
+
+                <p><b>Tipo:</b> {alert.tipo_alert}</p>
+                <p><b>Descripción:</b> {alert.description}</p>
+                <p><b>Riesgo:</b> {alert.risk_level}</p>
+                <p><b>Estado:</b> {alert.state}</p>
+
+                <hr>
+                <p>Sistema académico</p>
+                """
+            )
+
+        except Exception as e:
+            print("Error enviando correo:", e)
+
+    return result
 
 
 @router.delete("/delete_Alerts/{id_Alerts}")
 async def delete_Alerts(id_Alerts: int):
-    return nueva_Alerts.delete_Alerts(id_Alerts)
+
+    alert = nueva_Alerts.get_Alert(id_Alerts)
+
+    result = nueva_Alerts.delete_Alerts(id_Alerts)
+
+    try:
+        await send_email(
+            destinatario="ronnyadriansabalzasobrino@gmail.com",
+            asunto="🗑️ Alerta eliminada",
+            contenido=f"""
+            <h2>Alerta eliminada</h2>
+
+            <p><b>ID:</b> {id_Alerts}</p>
+
+            <hr>
+            <p>Sistema académico</p>
+            """
+        )
+
+    except Exception as e:
+        print("Error enviando correo:", e)
+
+    return result
 
 
 @router.get("/alerts_public")
 async def alerts_public():
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -81,6 +135,7 @@ async def alerts_public():
     rows = cursor.fetchall()
 
     result = []
+
     for row in rows:
         result.append({
             "id_alert": row[0],
@@ -96,4 +151,4 @@ async def alerts_public():
     cursor.close()
     conn.close()
 
-    return result         
+    return result       
