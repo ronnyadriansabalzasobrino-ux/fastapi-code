@@ -213,6 +213,12 @@ localStorage.setItem(
 mail
 );
 
+localStorage.setItem(
+  "login_time",
+  Date.now()
+);  
+
+
 console.log("LOGIN OK:", {
 
 mail: localStorage.getItem("mail"),
