@@ -1,3 +1,4 @@
+
 class Sidebar extends HTMLElement {
 
 connectedCallback(){
@@ -81,7 +82,8 @@ this.innerHTML = `
 <aside class="sidebar">
 
   <div class="sidebar-logo">
-    <h2>🎓 School System</h2>
+    <img src="assets/logo.png" alt="Escudo Universidad">
+    <h2>School System</h2>
   </div>
 
   <ul class="sidebar-menu">

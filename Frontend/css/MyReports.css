@@ -37,6 +37,13 @@ flex-direction:column;
 margin-bottom:30px;
 }
 
+.sidebar-logo img{
+   width: 70px;
+   height: auto;
+   display: block;
+   margin: 0 auto 10px auto;
+}
+
 .sidebar-logo h2{
 font-size:26px;
 color:#2a5298;
