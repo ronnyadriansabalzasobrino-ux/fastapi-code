@@ -7,6 +7,7 @@ async function loadSubjects(){
 try{
 
 const response = await fetch(API + "/subjects")
+
 const subjects = await response.json()
 
 const table = document.querySelector("#subjectsTableDisplay tbody")
@@ -26,8 +27,13 @@ table.innerHTML += `
 <tr>
 
 <td>${subject.name_subject}</td>
+
 <td>${subject.credits}</td>
-<td>${subject.program ?? ""}</td>
+
+<td
+data-program=id="${subject.id_program}">
+${subject.program??""}
+</td>
 
 <td>
 

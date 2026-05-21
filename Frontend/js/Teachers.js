@@ -73,7 +73,7 @@ specialty: document.getElementById("specialty").value
 }
 
 const url = id === ""
-? API + "/create_Teacher/"
+? API + "/create_Teacher"
 : API + "/update_Teacher/" + id
 
 const method = id === "" ? "POST" : "PUT"
