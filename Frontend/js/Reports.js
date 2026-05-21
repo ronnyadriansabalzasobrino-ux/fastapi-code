@@ -263,24 +263,38 @@ fillColor:[227,242,253]
 })
 const blob = doc.output("blob")
 
-const render = new FileReader()
+const reader = new FileReader()
 
-reader.onloadend = async() => {
-   const base64 =
-   ReadableStream.result.split(",")[1]
+reader.onloadend = async function(){
 
-   await fetch(API + "/reports/send",
-   {
+const base64 =
+reader.result.split(",")[1]
+
+await fetch(
+
+API + "/reports/send",
+
+{
+
 method:"POST",
-headers:{"Content-Type":"application/json"},
-body: JSON.stringify({
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
 pdf:base64
+
 })
-}
-)
+
 }
 
-   reader.readAsDataURL(blob)
+)
+
+}
+
+reader.readAsDataURL(blob)
 
    doc.save("reporte_alertas.pdf")
 showModal(
