@@ -32,7 +32,7 @@ table.innerHTML += `
 
 <td
 data-program=id="${subject.id_program}">
-${subject.program??""}
+${subject.program ?? ""}
 </td>
 
 <td>
@@ -101,14 +101,8 @@ document.getElementById("subject_id").value = id
 document.getElementById("name").value = row.children[0].innerText
 document.getElementById("credits").value = row.children[1].innerText
 
-const program = row.children[2].innerText
-
-if(program !== "undefined"){
-document.getElementById("teacher_id").value = program
-}else{
-document.getElementById("teacher_id").value = ""
-}
-
+const program = row.children[2].dataset.programId
+document.getElementById("teacher_id").value=programID || ""
 window.scrollTo(0,0)
 }
 
