@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from app.controllers.Students_controller import StudentsController
 from app.models.Students_model import students
 from app.services.email_service import send_email
+from app.services.email_template import build_email
 
 router = APIRouter()
 students_controller = StudentsController()
@@ -15,19 +16,20 @@ async def create_student(student: students):
     result = students_controller.create_student(student)
 
     try:
-        await send_email(
+        html = build_email(
+            "Nuevo estudiante registrado",
+            "Se ha registrado un nuevo estudiante.",
+            f""" 
+            <b>Nombre:</b> {student.name} {student.last_name}<br>
+            <b>Email:</b> {student.mail}<br>   
+            <b>ID:</b> {student.number_id}<br>
+            """ 
+        )
+        send_email(
             destinatario="ronnyadriansabalzasobrino@gmail.com",
             asunto="👨‍🎓 Nuevo estudiante creado",
-            contenido=f"""
-            <h2>Nuevo estudiante registrado</h2>
-
-            <p><b>Nombre:</b> {student.name} {student.last_name}</p>
-            <p><b>Email:</b> {student.mail}</p>
-            <p><b>ID:</b> {student.number_id}</p>
-
-            <hr>
-            <p>Sistema académico</p>
-            """
+            contenido=html
+          
         )
 
     except Exception as e:
@@ -52,19 +54,19 @@ async def update_student(id_student: int, student: students):
     result = students_controller.update_student(id_student, student)
 
     try:
-        await send_email(
+        html = build_email(
+            "Estudiante actualizado",
+            "Se ha actualizado la información de un estudiante.",
+            f""" 
+            <b>Nombre:</b> {student.name} {student.last_name}<br>
+            <b>Email:</b> {student.mail}<br>   
+            <b>ID:</b> {student.number_id}<br>
+            """ 
+        )
+        send_email(
             destinatario="ronnyadriansabalzasobrino@gmail.com",
             asunto="✏️ Estudiante actualizado",
-            contenido=f"""
-            <h2>Estudiante actualizado</h2>
-
-            <p><b>Nombre:</b> {student.name} {student.last_name}</p>
-            <p><b>Email:</b> {student.mail}</p>
-            <p><b>ID:</b> {student.number_id}</p>
-
-            <hr>
-            <p>Sistema académico</p>
-            """
+            contenido=html
         )
 
     except Exception as e:
@@ -82,19 +84,19 @@ async def delete_student(id_student: int):
 
     try:
         if student:
-            await send_email(
+            html= build_email(
+                "Estudiante eliminado",
+                "Se ha eliminado un estudiante del sistema.",
+                f"""
+                <b>Nombre:</b> {student.get("name")} {student.get("last_name")}<br>
+                <b>Email:</b> {student.get("mail")}<br>   
+                <b>ID:</b> {id_student}<br>
+                """
+            )
+            send_email(
                 destinatario="ronnyadriansabalzasobrino@gmail.com",
                 asunto="🗑️ Estudiante eliminado",
-                contenido=f"""
-                <h2>Estudiante eliminado</h2>
-
-                <p><b>Nombre:</b> {student.get("name")} {student.get("last_name")}</p>
-                <p><b>Email:</b> {student.get("mail")}</p>
-                <p><b>ID:</b> {id_student}</p>
-
-                <hr>
-                <p>Sistema académico</p>
-                """
+                contenido=html
             )
 
     except Exception as e:

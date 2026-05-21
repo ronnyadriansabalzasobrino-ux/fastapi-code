@@ -5,7 +5,7 @@ resend.api_key = "re_LuYPymGq_3FeAPrDybj5d7rXbX2rZPAaf"
 ADMIN_EMAIL = "ronnyadriansabalzasobrino@gmail.com"
 
 
-async def send_email(destinatario: str, asunto: str, contenido: str,archivo=None,Nombre_archivo="Reporte_SAPER.pdf"):
+def send_email(destinatario: str, asunto: str, contenido: str,archivo=None,Nombre_archivo="Reporte_SAPER.pdf"):
 
 
     try:
