@@ -102,7 +102,7 @@ document.getElementById("name").value = row.children[0].innerText
 document.getElementById("credits").value = row.children[1].innerText
 
 const program = row.children[2].dataset.programId
-document.getElementById("teacher_id").value=programID || ""
+document.getElementById("teacher_id").value=programId || ""
 window.scrollTo(0,0)
 }
 
