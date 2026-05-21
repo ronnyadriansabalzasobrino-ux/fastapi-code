@@ -7,9 +7,12 @@ from fastapi.encoders import jsonable_encoder
 
 class TeacherController:
      def create_Teacher(self, Teacher: Teacher):
+        conn = None
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
+            print(Teacher.name, Teacher.last_name, Teacher.number_id, Teacher.mail, Teacher.phone, Teacher.specialty  )
+            
             cursor.execute("""
                 INSERT INTO Teacher (name, last_name, number_id, mail, phone, specialty)
                 VALUES (%s, %s, %s, %s, %s, %s)
@@ -26,11 +29,14 @@ class TeacherController:
             return {"resultado": "Teacher creado"}
         
         except psycopg2.Error as err:
-            conn.rollback()
-            print(err)
+            if conn:
+                conn.rollback()
+            print("error docente:",str(err))
+
             raise HTTPException(status_code=500, detail=str(err))
         finally:
-            conn.close()
+            if conn:
+                conn.close()
 
      def get_Teacher(self, id_teaching: int):
         try:
