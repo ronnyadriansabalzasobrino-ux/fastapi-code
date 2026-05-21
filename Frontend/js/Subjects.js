@@ -31,7 +31,7 @@ table.innerHTML += `
 <td>${subject.credits}</td>
 
 <td
-data-program=id="${subject.id_program}">
+data-program-id="${subject.id_program}">
 ${subject.program ?? ""}
 </td>
 
@@ -66,8 +66,9 @@ const id = document.getElementById("subject_id").value
 
 const subject = {
 name_subject: document.getElementById("name").value,
-credits: document.getElementById("credits").value,
-id_program: document.getElementById("teacher_id").value
+credits:parseInt(document.getElementById("credits").value),
+
+id_program: parseInt(document.getElementById("teacher_id").value)
 }
 
 const url = id === ""
@@ -101,8 +102,12 @@ document.getElementById("subject_id").value = id
 document.getElementById("name").value = row.children[0].innerText
 document.getElementById("credits").value = row.children[1].innerText
 
-const program = row.children[2].dataset.programId
-document.getElementById("teacher_id").value=programId || ""
+const programId = 
+row.children[2].dataset.programId
+
+document.getElementById("teacher_id").value=
+programId || ""
+
 window.scrollTo(0,0)
 }
 
