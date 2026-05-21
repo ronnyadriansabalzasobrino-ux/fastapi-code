@@ -1,4 +1,3 @@
-
 class Sidebar extends HTMLElement {
 
 connectedCallback(){
