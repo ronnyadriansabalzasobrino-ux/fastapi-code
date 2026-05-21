@@ -261,8 +261,36 @@ fillColor:[227,242,253]
 }
 
 })
+const blob = doc.output("blob")
 
-doc.save("Reporte_SAPER.pdf")
+const render = new FileReader()
+
+reader.onloadend = async() => {
+   const base64 =
+   ReadableStream.result.split(",")[1]
+
+   await fetch(API + "/reports/send",
+   {
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body: JSON.stringify({
+pdf:base64
+})
+}
+)
+}
+
+   reader.readAsDataURL(blob)
+
+   doc.save("reporte_alertas.pdf")
+showModal(
+   "correcto",
+   "PDF generado correctamente"
+)
+
+
+
+
 
 }
 
