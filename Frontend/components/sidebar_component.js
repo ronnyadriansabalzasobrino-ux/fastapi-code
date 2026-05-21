@@ -82,7 +82,7 @@ this.innerHTML = `
 
   <div class="sidebar-logo">
     <img src="assets/logo.png" alt="Escudo Universidad">
-    <h2>School System</h2>
+    <h2>🎓School System</h2>
   </div>
 
   <ul class="sidebar-menu">
