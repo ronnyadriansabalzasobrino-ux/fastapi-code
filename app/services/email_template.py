@@ -1,10 +1,10 @@
-def build_email(titulo: str, mensaje: str, detalle: str = "", logo_base64: str = ""):
+def build_email(titulo: str, mensaje: str, detalle: str = ""):
     return f"""
     <div style="font-family: Arial, sans-serif; background:#f4f6f9; padding:30px;">
 
         <!-- HEADER -->
         <div style="max-width:600px; margin:auto; background:#2a5298; padding:20px; border-radius:12px 12px 0 0; text-align:center;">
-           {"<img src='data:image/png;base64," + logo_base64 + "' style='width:60px; margin-bottom:10px;'>" if logo_base64 else ""}
+            <img src="assets/logo.png" style="width:60px; margin-bottom:10px;">
             <h2 style="color:white; margin:0;">School System</h2>
         </div>
 

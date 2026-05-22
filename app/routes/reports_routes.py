@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.controllers.Reports_controller import ReportsController
 from pydantic import BaseModel
-from app.services.email_service import send_email, get_logo_base64
+from app.services.email_service import send_email
 from app.services.email_template import build_email
 import base64
 
@@ -17,13 +17,10 @@ async def send_report(report: PDFReport):
         pdf_clean = report.pdf.split(",")[-1]
         pdf_bytes = base64.b64decode(pdf_clean)
 
-        logo = get_logo_base64()
-
         html = build_email(
             "📊 Reporte académico",
             "Se ha generado un nuevo reporte académico.",
-            "Se adjunta el archivo PDF correspondiente.",
-            logo
+            "Se adjunta el archivo PDF correspondiente."
         )
 
         send_email(

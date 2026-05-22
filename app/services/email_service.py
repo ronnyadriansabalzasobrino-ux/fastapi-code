@@ -1,13 +1,9 @@
 import resend
 import base64
-import os
 resend.api_key = "re_LuYPymGq_3FeAPrDybj5d7rXbX2rZPAaf"
 
 ADMIN_EMAIL = "ronnyadriansabalzasobrino@gmail.com"
-def get_logo_base64():
-    logo_path = os.paath.join(os.path.dirname(__file__), "../assets/logo.png")
-    with open(logo_path, "rb") as f:
-        return base64.b64encode(f.read()).decode('utf-8')
+
 
 def send_email(destinatario: str, asunto: str, contenido: str,archivo=None,Nombre_archivo="Reporte_SAPER.pdf"):
 
