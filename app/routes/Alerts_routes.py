@@ -5,7 +5,7 @@ from app.controllers.Alerts_controller import AlertsController
 from app.models.Alerts_model import Alerts
 from app.services.email_service import send_email
 from app.config.db_config import get_db_connection
-
+from app.services.email_template import build_email
 router = APIRouter()
 nueva_Alerts = AlertsController()
 
@@ -20,20 +20,21 @@ async def create_Alerts(alert: Alerts):
     if student_mail:
 
         try:
-            await send_email(
+            html = build_email(
+                "Nueva alerta académica",
+                "Se ha generado una nueva alerta académica para ti.",
+                f"""
+                <b>tipo_alert:</b> {alert.tipo_alert}<br>
+                <b>Descripción:</b> {alert.description}<br>
+                <b>Riesgo:</b> {alert.risk_level}<br>
+                <b>Estado:</b> {alert.state}<br>
+                """
+
+            )
+            send_email(
                 destinatario=student_mail,
                 asunto="⚠️ Nueva alerta académica",
-                contenido=f"""
-                <h2>Nueva alerta académica</h2>
-
-                <p><b>Tipo:</b> {alert.tipo_alert}</p>
-                <p><b>Descripción:</b> {alert.description}</p>
-                <p><b>Riesgo:</b> {alert.risk_level}</p>
-                <p><b>Estado:</b> {alert.state}</p>
-
-                <hr>
-                <p>Sistema académico</p>
-                """
+                contenido=html
             )
 
         except Exception as e:
@@ -62,26 +63,27 @@ async def update_Alerts(id_Alerts: int, alert: Alerts):
     if student_mail:
 
         try:
-            await send_email(
+            html = build_email(
+                "Alerta actualizada",
+                "Se ha actualizado la información de una alerta académica.",
+                f"""
+                <b>tipo_alert:</b> {alert.tipo_alert}<br>
+                <b>Descripción:</b> {alert.description}<br>
+                <b>Riesgo:</b> {alert.risk_level}<br>
+                <b>Estado:</b> {alert.state}<br>
+                """
+            )
+            send_email(
                 destinatario=student_mail,
                 asunto="✏️ Alerta actualizada",
-                contenido=f"""
-                <h2>Alerta actualizada</h2>
-
-                <p><b>Tipo:</b> {alert.tipo_alert}</p>
-                <p><b>Descripción:</b> {alert.description}</p>
-                <p><b>Riesgo:</b> {alert.risk_level}</p>
-                <p><b>Estado:</b> {alert.state}</p>
-
-                <hr>
-                <p>Sistema académico</p>
-                """
+                contenido=html
             )
 
         except Exception as e:
             print("Error enviando correo:", e)
 
     return result
+
 
 
 @router.delete("/delete_Alerts/{id_Alerts}")
@@ -92,18 +94,21 @@ async def delete_Alerts(id_Alerts: int):
     result = nueva_Alerts.delete_Alerts(id_Alerts)
 
     try:
+        html = build_email(
+            "Alerta eliminada",
+            "Se ha eliminado una alerta académica del sistema.",
+            f"""
+            <b>ID:</b> {id_Alerts}<br>
+            """
+        )
         await send_email(
             destinatario="ronnyadriansabalzasobrino@gmail.com",
             asunto="🗑️ Alerta eliminada",
-            contenido=f"""
-            <h2>Alerta eliminada</h2>
-
-            <p><b>ID:</b> {id_Alerts}</p>
-
-            <hr>
-            <p>Sistema académico</p>
-            """
+            contenido=html
         )
+
+    except Exception as e:
+        print("Error enviando correo:", e)
 
     except Exception as e:
         print("Error enviando correo:", e)

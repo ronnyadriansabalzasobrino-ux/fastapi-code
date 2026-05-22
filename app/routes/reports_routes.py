@@ -35,8 +35,6 @@ async def send_report(report: PDFReport):
     except Exception as e:
         return {"error": str(e)}
 
-    except Exception as e:
-        print("ERROR ENVIANDO CORREO:", e)
 
 reports_controller = ReportsController()
 
