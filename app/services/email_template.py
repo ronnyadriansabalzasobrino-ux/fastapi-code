@@ -1,9 +1,4 @@
-def build_email(titulo: str, mensaje: str, detalle: str = ""):
-    import base64
-    logo_path = "app/assets/logo.png"
-    with open(logo_path, "rb") as f:
-        logo_base64 = base64.b64encode(f.read()).decode('utf-8')
-        
+def build_email(titulo: str, mensaje: str, detalle: str = "", logo_base64: str = ""):
     return f"""
     <div style="font-family: Arial, sans-serif; background:#f4f6f9; padding:30px;">
 
