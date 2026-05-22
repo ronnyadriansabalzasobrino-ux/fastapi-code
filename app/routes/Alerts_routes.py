@@ -101,14 +101,11 @@ async def delete_Alerts(id_Alerts: int):
             <b>ID:</b> {id_Alerts}<br>
             """
         )
-        await send_email(
+        send_email(
             destinatario="ronnyadriansabalzasobrino@gmail.com",
             asunto="🗑️ Alerta eliminada",
             contenido=html
         )
-
-    except Exception as e:
-        print("Error enviando correo:", e)
 
     except Exception as e:
         print("Error enviando correo:", e)

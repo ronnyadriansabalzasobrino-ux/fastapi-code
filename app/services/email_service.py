@@ -25,7 +25,7 @@ def send_email(destinatario: str, asunto: str, contenido: str,archivo=None,Nombr
                     "content": pdf_base64,
                 }
             ]
-            return resend.Emails.send(params)
+        return resend.Emails.send(params)
 
     except Exception as e:
 

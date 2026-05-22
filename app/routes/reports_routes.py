@@ -27,7 +27,7 @@ async def send_report(report: PDFReport):
             asunto="Reporte académico",
             contenido=html,
             archivo=pdf_bytes,
-            nombre_archivo="reporte_academico.pdf"
+            nombre_archivo="Reporte_SAPER.pdf"
         )
 
         return {"message": "Reporte enviado por correo exitosamente."}
