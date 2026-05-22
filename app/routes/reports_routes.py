@@ -14,7 +14,7 @@ class PDFReport(BaseModel):
 async def send_report(report: PDFReport):
 
     try:
-        pdf_clean = report.pdf.split(",")[-1] if "," in report.pdf else report.pdf
+        pdf_clean = report.pdf.split(",")[-1]
         pdf_bytes = base64.b64decode(pdf_clean)
 
         html = build_email(
