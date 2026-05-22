@@ -14,7 +14,8 @@ class PDFReport(BaseModel):
 async def send_report(report: PDFReport):
 
     try:
-        pdf_bytes = base64.b64decode(report.pdf)
+        pdf_clean = report.pdf.split(",")[1]
+        pdf_bytes = base64.b64decode(pdf_clean)
 
         html = build_email(
             "📊 Reporte académico",
@@ -33,6 +34,7 @@ async def send_report(report: PDFReport):
         return {"message": "Reporte enviado por correo exitosamente."}
 
     except Exception as e:
+        print("Error enviando correo:", e)
         return {"error": str(e)}
 
 
